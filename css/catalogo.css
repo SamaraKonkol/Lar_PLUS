@@ -1,0 +1,1351 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* ==================================================
+   RESET
+================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family: "Inter", sans-serif;
+    color: #111321;
+
+    background: #ffffff;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+select {
+    cursor: pointer;
+}
+
+/* ==================================================
+   VARIÁVEIS
+================================================== */
+
+:root {
+    --roxo: #6d4aff;
+    --roxo-claro: #8168ff;
+    --roxo-hover: #5936eb;
+    --roxo-suave: #f0edff;
+
+    --preto: #070711;
+    --azul-escuro: #101229;
+
+    --branco: #ffffff;
+
+    --texto: #111321;
+    --texto-secundario: #62677a;
+
+    --cinza-claro: #f7f7fb;
+    --cinza-card: #fbfbfd;
+
+    --borda: #e6e7ef;
+    --borda-escura: rgba(255, 255, 255, 0.16);
+
+    --verde: #17a673;
+
+    --radius-pequeno: 9px;
+    --radius-medio: 14px;
+    --radius-grande: 18px;
+
+    --sombra-suave:
+        0 12px 35px rgba(24, 18, 68, 0.07);
+
+    --sombra-card:
+        0 18px 45px rgba(26, 17, 75, 0.1);
+}
+
+/* ==================================================
+   CABEÇALHO
+================================================== */
+
+.cabecalho {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin-bottom: 1%;
+
+    width: 100%;
+    min-height: 50px;
+    padding: 0 2%;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+
+    color: var(--branco);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.menu-principal {
+    justify-self: center;
+}
+
+.menu-principal ul {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.menu-principal a {
+    position: relative;
+
+    display: block;
+    padding: 26px 0 23px;
+
+    color: #f1f1f5;
+
+    font-size: 0.86rem;
+    font-weight: 500;
+
+    transition:
+        color 0.25s ease;
+}
+
+.menu-principal a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+
+    width: 0;
+    height: 2px;
+
+    border-radius: 20px;
+
+    background: var(--roxo);
+
+    transition:
+        width 0.25s ease;
+}
+
+.menu-principal a:hover {
+    color: var(--roxo-claro);
+}
+
+.menu-principal a:hover::after,
+.menu-principal a.ativo::after {
+    width: 100%;
+}
+
+.menu-principal a.ativo {
+    color: var(--roxo-claro);
+}
+
+.acoes-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.botao-favoritos {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 10px;
+
+    color: var(--branco);
+    background: transparent;
+
+    font-size: 0.86rem;
+    font-weight: 500;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.botao-favoritos:hover {
+    color: var(--roxo-claro);
+    transform: translateY(-1px);
+}
+
+.botao {
+    min-height: 40px;
+    padding: 0 21px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-pequeno);
+
+    font-size: 0.84rem;
+    font-weight: 600;
+
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        color 0.22s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+}
+
+.entrar {
+    color: var(--branco);
+
+    border: 1px solid var(--borda-escura);
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.entrar:hover {
+    color: var(--roxo-claro);
+    border-color: var(--roxo);
+    background: rgba(109, 74, 255, 0.07);
+}
+
+.cadastrar {
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c5dff,
+            #623cf3
+        );
+
+    box-shadow:
+        0 10px 28px rgba(109, 74, 255, 0.24);
+}
+
+.cadastrar:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #896fff,
+            #6b46f6
+        );
+
+    box-shadow:
+        0 14px 35px rgba(109, 74, 255, 0.35);
+}
+
+/* ==================================================
+   SEÇÃO DE BUSCA
+================================================== */
+
+.busca-imoveis {
+    position: relative;
+
+    min-height: 240px;
+
+    padding: 48px 2.7% 20px;
+
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    align-items: center;
+    gap: 44px;
+
+    color: var(--branco);
+
+
+    background:
+        radial-gradient(
+            circle at 53% 50%,
+            rgba(83, 68, 207, 0.22),
+            transparent 38%
+        ),
+        linear-gradient(
+            115deg,
+            #121326 0%,
+            #15162c 52%,
+            #16182f 100%
+        );
+}
+
+.apresentacao-busca {
+    align-self: start;
+    padding-top: 20px;
+}
+
+.apresentacao-busca h1 {
+    max-width: 300px;
+    margin-bottom: 16px;
+
+    color: var(--branco);
+
+    font-size:
+        clamp(
+            2rem,
+            3vw,
+            3.1rem
+        );
+
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    font-weight: 750;
+}
+
+.apresentacao-busca p {
+    max-width: 285px;
+
+    color: #d1d2db;
+
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+/* ==================================================
+   FILTROS
+================================================== */
+
+.filtros {
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns:
+        1.05fr
+        0.92fr
+        0.9fr
+        0.72fr
+        0.92fr;
+
+    align-items: end;
+    gap: 16px;
+
+    padding: 32px 32px 32px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.14);
+
+    border-radius: var(--radius-grande);
+
+    background: var(--branco);
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.2);
+}
+
+.campo-filtro {
+    min-width: 0;
+}
+
+.campo-filtro label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--texto);
+
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.campo-filtro select {
+    width: 100%;
+    height: 48px;
+
+    padding:
+        0 40px
+        0 14px;
+
+    color: #25283a;
+
+    border: 1px solid var(--borda);
+    border-radius: var(--radius-pequeno);
+
+    outline: none;
+
+    background-color: var(--branco);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.campo-filtro select:hover {
+    border-color: #c9c7d8;
+}
+
+.campo-filtro select:focus {
+    border-color: var(--roxo);
+
+    box-shadow:
+        0 0 0 3px rgba(109, 74, 255, 0.12);
+}
+
+.botao-buscar {
+    height: 48px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 0 22px;
+
+    border-radius: var(--radius-pequeno);
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            #7858ff,
+            #6038ec
+        );
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    box-shadow:
+        0 10px 25px rgba(109, 74, 255, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.botao-buscar::before {
+    content: "⌕";
+
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.botao-buscar:hover {
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #876cff,
+            #6842f5
+        );
+
+    box-shadow:
+        0 14px 30px rgba(109, 74, 255, 0.32);
+}
+
+/* ==================================================
+   CATEGORIAS
+================================================== */
+
+.categorias-imoveis {
+    grid-column: 1 / -1;
+
+    margin: 4px -22px 0;
+    padding: 22px 22px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    border-radius: 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #faf9ff,
+            #a59afd            
+        );
+}
+
+.categoria {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 4px 0;
+
+    color: #292b3b;
+    background: transparent;
+
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    transition:
+        color 0.2s ease;
+}
+
+.categoria::before {
+    content: "⌂";
+
+    color: var(--roxo);
+
+    font-size: 1rem;
+}
+
+.categoria:hover,
+.categoria.ativa {
+    color: var(--roxo);
+}
+
+/* ==================================================
+   CATÁLOGO
+================================================== */
+
+.catalogo {
+    padding: 28px 2.7% 70px;
+    background: var(--branco);
+}
+
+.catalogo-topo {
+    min-height: 42px;
+
+    margin-bottom: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+}
+
+.catalogo-topo > p {
+    color: var(--texto);
+
+    font-size: 0.93rem;
+    font-weight: 600;
+}
+
+.catalogo-topo strong {
+    color: var(--roxo);
+
+    font-size: 1.05rem;
+}
+
+.ordenacao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ordenacao label {
+    color: var(--texto-secundario);
+    font-size: 0.77rem;
+}
+
+.ordenacao select {
+    min-width: 145px;
+    height: 38px;
+
+    padding: 0 36px 0 13px;
+
+    color: #36384a;
+
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+
+    outline: none;
+    background: var(--branco);
+
+    font-size: 0.77rem;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.ordenacao select:focus {
+    border-color: var(--roxo);
+
+    box-shadow:
+        0 0 0 3px rgba(109, 74, 255, 0.1);
+}
+
+/* ==================================================
+   GRADE DE IMÓVEIS
+================================================== */
+
+.grade-imoveis {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    gap: 16px 14px;
+}
+
+/* ==================================================
+   CARD DO IMÓVEL
+================================================== */
+
+.card-imovel {
+    min-width: 0;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--borda);
+    border-radius: 11px;
+
+    background: var(--branco);
+
+    box-shadow:
+        0 5px 18px rgba(24, 18, 68, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.card-imovel:hover {
+    transform: translateY(-6px);
+
+    border-color:
+        rgba(109, 74, 255, 0.28);
+
+    box-shadow: var(--sombra-card);
+}
+
+.card-imagem {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 1.9 / 1;
+
+    overflow: hidden;
+
+    background: #e9e9ef;
+}
+
+.card-imagem > img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.45s ease;
+}
+
+.card-imovel:hover .card-imagem > img {
+    transform: scale(1.055);
+}
+
+.etiqueta {
+    position: absolute;
+    top: 11px;
+    left: 11px;
+
+    padding: 5px 9px;
+
+    border-radius: 7px;
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            #7a5bff,
+            #5d37eb
+        );
+
+    font-size: 0.66rem;
+    font-weight: 600;
+
+    box-shadow:
+        0 6px 16px rgba(62, 39, 176, 0.24);
+}
+
+.favoritar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.76);
+    border-radius: 50%;
+
+    color: var(--branco);
+    background: rgba(16, 17, 28, 0.36);
+
+    backdrop-filter: blur(7px);
+
+    font-size: 1.25rem;
+    line-height: 1;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.favoritar:hover {
+    transform: scale(1.08);
+
+    color: #ff5d78;
+    border-color: #ff93a5;
+    background: rgba(20, 17, 31, 0.68);
+}
+
+.favoritar.ativo {
+    color: #ff4667;
+    background: var(--branco);
+}
+
+.card-conteudo {
+    flex: 1;
+
+    padding: 12px 13px 11px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.tipo {
+    width: fit-content;
+
+    margin-bottom: 8px;
+    padding: 3px 6px;
+
+    border-radius: 5px;
+
+    color: var(--roxo);
+    background: var(--roxo-suave);
+
+    font-size: 0.59rem;
+    font-weight: 600;
+}
+
+.card-conteudo h2 {
+    overflow: hidden;
+
+    margin-bottom: 7px;
+
+    color: var(--texto);
+
+    font-size: 0.91rem;
+    line-height: 1.25;
+    font-weight: 650;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.localizacao {
+    position: relative;
+
+    overflow: hidden;
+
+    margin-bottom: 10px;
+    padding-left: 15px;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.66rem;
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.localizacao::before {
+    content: "⌖";
+
+    position: absolute;
+    left: 0;
+    top: -1px;
+
+    color: #393c50;
+
+    font-size: 0.76rem;
+}
+
+.caracteristicas {
+    margin-bottom: 13px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 11px;
+
+    color: #404355;
+}
+
+.caracteristicas li {
+    position: relative;
+
+    padding-left: 15px;
+
+    font-size: 0.64rem;
+    white-space: nowrap;
+}
+
+.caracteristicas li:nth-child(1)::before {
+    content: "▱";
+}
+
+.caracteristicas li:nth-child(2)::before {
+    content: "♨";
+}
+
+.caracteristicas li:nth-child(3)::before {
+    content: "▣";
+}
+
+.caracteristicas li::before {
+    position: absolute;
+    left: 0;
+    top: -1px;
+
+    color: #53576c;
+
+    font-size: 0.72rem;
+}
+
+.card-rodape {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.preco {
+    color: var(--roxo);
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.preco span {
+    color: var(--texto-secundario);
+
+    font-size: 0.68rem;
+    font-weight: 400;
+}
+
+.ver-detalhes {
+    min-width: 96px;
+    min-height: 32px;
+
+    padding: 0 13px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    color: var(--roxo);
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f1ff,
+            #eeebff
+        );
+
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ver-detalhes:hover {
+    transform: translateY(-1px);
+
+    color: var(--branco);
+    background: var(--roxo);
+}
+
+/* ==================================================
+   MENSAGEM SEM RESULTADOS
+================================================== */
+
+.mensagem-vazia {
+    min-height: 320px;
+
+    padding: 60px 25px;
+
+    display: grid;
+    place-items: center;
+
+    text-align: center;
+
+    border: 1px dashed #cbc9da;
+    border-radius: var(--radius-grande);
+
+    background: #fbfaff;
+}
+
+.mensagem-vazia[hidden] {
+    display: none;
+}
+
+.mensagem-vazia h2 {
+    margin-bottom: 9px;
+
+    color: var(--texto);
+
+    font-size: 1.5rem;
+}
+
+.mensagem-vazia p {
+    color: var(--texto-secundario);
+}
+
+/* ==================================================
+   PAGINAÇÃO OPCIONAL
+================================================== */
+
+.paginacao {
+    margin-top: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.paginacao button {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+
+    color: #3c3f50;
+    background: var(--branco);
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.paginacao button:hover,
+.paginacao button.ativo {
+    color: var(--branco);
+    border-color: var(--roxo);
+    background: var(--roxo);
+}
+
+/* ==================================================
+   TELAS GRANDES
+================================================== */
+
+@media (min-width: 1700px) {
+
+    .cabecalho,
+    .busca-imoveis,
+    .catalogo {
+        padding-left:
+            max(
+                2.7%,
+                calc((100vw - 1640px) / 2)
+            );
+
+        padding-right:
+            max(
+                2.7%,
+                calc((100vw - 1640px) / 2)
+            );
+    }
+}
+
+/* ==================================================
+   NOTEBOOK
+================================================== */
+
+@media (max-width: 1300px) {
+
+    .cabecalho {
+        gap: 24px;
+    }
+
+    .menu-principal ul {
+        gap: 25px;
+    }
+
+    .busca-imoveis {
+        grid-template-columns: 270px minmax(0, 1fr);
+        gap: 28px;
+    }
+
+    .filtros {
+        grid-template-columns:
+            1fr
+            1fr
+            1fr
+            0.72fr;
+    }
+
+    .botao-buscar {
+        grid-column: 4;
+    }
+
+    .categorias-imoveis {
+        grid-column: 1 / -1;
+    }
+
+    .grade-imoveis {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+    }
+}
+
+/* ==================================================
+   TABLET GRANDE
+================================================== */
+
+@media (max-width: 1050px) {
+
+    .cabecalho {
+        grid-template-columns: auto 1fr;
+    }
+
+    .menu-principal {
+        display: none;
+    }
+
+    .acoes-header {
+        justify-self: end;
+    }
+
+    .busca-imoveis {
+        grid-template-columns: 1fr;
+        gap: 28px;
+
+        padding-top: 42px;
+    }
+
+    .apresentacao-busca {
+        text-align: center;
+    }
+
+    .apresentacao-busca h1,
+    .apresentacao-busca p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .filtros {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+    .botao-buscar {
+        grid-column: auto;
+    }
+
+    .categorias-imoveis {
+        justify-content: center;
+    }
+
+    .grade-imoveis {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 20px;
+    }
+}
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 760px) {
+
+    .cabecalho {
+        min-height: 66px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .logo img {
+        width: 92px;
+    }
+
+    .botao-favoritos {
+        display: none;
+    }
+
+    .busca-imoveis {
+        padding:
+            38px 20px
+            20px;
+    }
+
+    .apresentacao-busca h1 {
+        font-size: 2.35rem;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+        gap: 13px;
+
+        padding:
+            20px 18px
+            0;
+    }
+
+    .botao-buscar {
+        width: 100%;
+    }
+
+    .categorias-imoveis {
+        margin:
+            6px -18px
+            0;
+
+        padding:
+            16px 18px;
+
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+
+        overflow-x: auto;
+    }
+
+    .categoria {
+        flex-shrink: 0;
+    }
+
+    .catalogo {
+        padding:
+            25px 20px
+            60px;
+    }
+
+    .catalogo-topo {
+        align-items: flex-start;
+    }
+
+    .ordenacao {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .grade-imoveis {
+        grid-template-columns: 1fr;
+    }
+
+    .card-imagem {
+        aspect-ratio: 2 / 1;
+    }
+}
+
+/* ==================================================
+   CELULAR
+================================================== */
+
+@media (max-width: 550px) {
+
+    .cabecalho {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .logo img {
+        width: 84px;
+    }
+
+    .entrar {
+        display: none;
+    }
+
+    .cadastrar {
+        min-height: 38px;
+        padding: 0 14px;
+
+        font-size: 0.76rem;
+    }
+
+    .busca-imoveis {
+        padding:
+            34px 16px
+            18px;
+    }
+
+    .apresentacao-busca h1 {
+        font-size: 2rem;
+    }
+
+    .apresentacao-busca p {
+        font-size: 0.88rem;
+    }
+
+    .filtros {
+        padding:
+            17px 14px
+            0;
+
+        border-radius: 14px;
+    }
+
+    .categorias-imoveis {
+        margin:
+            5px -14px
+            0;
+
+        padding:
+            15px 14px;
+
+        gap: 24px;
+    }
+
+    .catalogo {
+        padding:
+            22px 16px
+            50px;
+    }
+
+    .catalogo-topo {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .ordenacao {
+        width: 100%;
+
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .ordenacao select {
+        min-width: 160px;
+    }
+
+    .card-imagem {
+        aspect-ratio: 1.65 / 1;
+    }
+
+    .card-conteudo {
+        padding: 14px;
+    }
+
+    .card-conteudo h2 {
+        font-size: 1rem;
+    }
+
+    .localizacao {
+        font-size: 0.7rem;
+    }
+
+    .caracteristicas li {
+        font-size: 0.69rem;
+    }
+
+    .preco {
+        font-size: 1.06rem;
+    }
+}
+
+/* ==================================================
+   CELULAR PEQUENO
+================================================== */
+
+@media (max-width: 390px) {
+
+    .acoes-header {
+        gap: 5px;
+    }
+
+    .cadastrar {
+        padding: 0 11px;
+    }
+
+    .apresentacao-busca h1 {
+        font-size: 1.85rem;
+    }
+
+    .card-rodape {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ver-detalhes {
+        width: 100%;
+    }
+
+    .ordenacao {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ordenacao select {
+        width: 100%;
+    }
+}

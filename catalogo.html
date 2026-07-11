@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Imóveis | Lar+</title>
+
+    <link rel="stylesheet" href="css/catalogo.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo">
+            <img
+                src="img/Lar_PLUS.png"
+                alt="Logo da Lar+"
+            >
+        </a>
+
+        <nav class="menu-principal">
+            <ul>
+                <li>
+                    <a href="index.html">Início</a>
+                </li>
+
+                <li>
+                    <a href="imoveis.html" class="ativo">Imóveis</a>
+                </li>
+
+                <li>
+                    <a href="index.html#como-funciona">
+                        Como funciona
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#recursos">
+                        Recursos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#avaliacoes">
+                        Depoimentos
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="acoes-header">
+            <button
+                class="botao-favoritos"
+                type="button"
+            >
+                ♡ Favoritos
+            </button>
+
+            <a
+                href="login.html"
+                class="botao entrar"
+            >
+                Entrar
+            </a>
+
+            <a
+                href="cadastro.html"
+                class="botao cadastrar"
+            >
+                Criar conta
+            </a>
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="busca-imoveis">
+
+            <div class="apresentacao-busca">
+
+                <h1>
+                    Encontre o imóvel
+                    ideal para você
+                </h1>
+
+                <p>
+                    Mais controle, menos taxas.
+                    Aluguel direto com o proprietário.
+                </p>
+
+            </div>
+
+            <form class="filtros" id="form-filtros">
+
+                <div class="campo-filtro">
+                    <label for="cidade">
+                        Cidade
+                    </label>
+
+                    <select id="cidade" name="cidade">
+                        <option value="">
+                            Todas as cidades
+                        </option>
+
+                        <option value="Jaraguá do Sul">
+                            Jaraguá do Sul
+                        </option>
+
+                        <option value="Joinville">
+                            Joinville
+                        </option>
+
+                        <option value="Blumenau">
+                            Blumenau
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="faixa-preco">
+                        Faixa de aluguel
+                    </label>
+
+                    <select
+                        id="faixa-preco"
+                        name="faixa-preco"
+                    >
+                        <option value="">
+                            Todos os valores
+                        </option>
+
+                        <option value="ate-1500">
+                            Até R$ 1.500
+                        </option>
+
+                        <option value="1500-2500">
+                            R$ 1.500 a R$ 2.500
+                        </option>
+
+                        <option value="2500-4000">
+                            R$ 2.500 a R$ 4.000
+                        </option>
+
+                        <option value="acima-4000">
+                            Acima de R$ 4.000
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="tipo-imovel">
+                        Tipo de imóvel
+                    </label>
+
+                    <select
+                        id="tipo-imovel"
+                        name="tipo-imovel"
+                    >
+                        <option value="">
+                            Todos os tipos
+                        </option>
+
+                        <option value="casa">
+                            Casa
+                        </option>
+
+                        <option value="apartamento">
+                            Apartamento
+                        </option>
+
+                        <option value="kitnet">
+                            Kitnet
+                        </option>
+
+                        <option value="comercial">
+                            Comercial
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo-filtro">
+                    <label for="quartos">
+                        Quartos
+                    </label>
+
+                    <select id="quartos" name="quartos">
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option value="1">
+                            1 quarto
+                        </option>
+
+                        <option value="2">
+                            2 quartos
+                        </option>
+
+                        <option value="3">
+                            3 quartos
+                        </option>
+
+                        <option value="4">
+                            4 ou mais
+                        </option>
+                    </select>
+                </div>
+
+                <button
+                    type="submit"
+                    class="botao-buscar"
+                >
+                    Buscar imóveis
+                </button>
+
+            </form>
+
+            <div class="categorias-imoveis">
+
+                <button
+                    type="button"
+                    class="categoria ativa"
+                    data-tipo=""
+                >
+                    Todos
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-tipo="apartamento"
+                >
+                    Apartamento
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-tipo="casa"
+                >
+                    Casa
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-tipo="kitnet"
+                >
+                    Kitnet
+                </button>
+
+                <button
+                    type="button"
+                    class="categoria"
+                    data-tipo="comercial"
+                >
+                    Comercial
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="catalogo">
+
+            <div class="catalogo-topo">
+
+                <p>
+                    <strong id="quantidade-imoveis">
+                        1
+                    </strong>
+                    imóveis encontrados
+                </p>
+
+                <div class="ordenacao">
+
+                    <label for="ordenar">
+                        Ordenar por
+                    </label>
+
+                    <select id="ordenar">
+                        <option value="recentes">
+                            Mais recentes
+                        </option>
+
+                        <option value="menor-preco">
+                            Menor preço
+                        </option>
+
+                        <option value="maior-preco">
+                            Maior preço
+                        </option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="grade-imoveis" id="lista-imoveis">
+            </div>
+
+            <div
+                class="mensagem-vazia"
+                id="mensagem-vazia"
+                hidden
+            >
+                <h2>Nenhum imóvel encontrado</h2>
+
+                <p>
+                    Tente alterar os filtros da busca.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/imoveis.js"></script>
+
+</body>
+
+</html>
