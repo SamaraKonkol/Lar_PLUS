@@ -8,7 +8,9 @@ const {
 const usuariosRoutes = require("./routes/usuarios.routes");
 
 const app = express();
-const PORT = 3000;
+
+// ALTERE ESTA LINHA
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +26,7 @@ app.get("/", (req, res) => {
 
 inicializarBanco();
 
+// ALTERE ESTE CONSOLE
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
