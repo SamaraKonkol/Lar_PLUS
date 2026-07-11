@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar imóvel | Lar+</title>
+
+    <link rel="stylesheet" href="css/cadastrar-imovel.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- =========================================
+             MENU LATERAL
+        ========================================== -->
+
+        <aside class="menu-lateral">
+
+            <a href="index.html" class="logo">
+                <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
+            </a>
+
+            <nav class="navegacao-dashboard">
+
+                <span class="titulo-menu">
+                    Gestão
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <span class="icone-menu">⌂</span>
+                            Visão geral
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="meus-imoveis.html">
+                            <span class="icone-menu">▦</span>
+                            Meus imóveis
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="cadastrar-imovel.html" class="ativo">
+                            <span class="icone-menu">＋</span>
+                            Cadastrar imóvel
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">▤</span>
+                            Contratos
+                        </a>
+                    </li>
+                </ul>
+
+                <span class="titulo-menu">
+                    Financeiro
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">R$</span>
+                            Pagamentos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◷</span>
+                            Histórico
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◉</span>
+                            Reserva
+                        </a>
+                    </li>
+                </ul>
+
+                <span class="titulo-menu">
+                    Atendimento
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">⚒</span>
+                            Manutenções
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◌</span>
+                            Mensagens
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+            <a href="login.html" class="sair">
+                <span>↪</span>
+                Sair da conta
+            </a>
+
+        </aside>
+
+        <!-- =========================================
+             CONTEÚDO
+        ========================================== -->
+
+        <main class="conteudo-pagina">
+
+            <header class="cabecalho-pagina">
+
+                <button type="button" class="botao-menu-mobile" aria-label="Abrir menu">
+                    ☰
+                </button>
+
+                <div>
+                    <a href="dashboard.html" class="voltar">
+                        ← Voltar para o dashboard
+                    </a>
+
+                    <h1>Cadastrar novo imóvel</h1>
+
+                    <p>
+                        Preencha as informações para publicar seu imóvel na Lar+.
+                    </p>
+                </div>
+
+                <div class="perfil-usuario">
+
+                    <div class="avatar-usuario">
+                        CM
+                    </div>
+
+                    <div>
+                        <strong>Carlos Mendes</strong>
+                        <span>Proprietário</span>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- =========================================
+                 PROGRESSO
+            ========================================== -->
+
+            <section class="progresso-cadastro">
+
+                <div class="progresso-conteudo">
+
+                    <div class="etapa-progresso ativa">
+                        <span>1</span>
+
+                        <div>
+                            <strong>Informações</strong>
+                            <small>Dados básicos</small>
+                        </div>
+                    </div>
+
+                    <div class="linha-progresso"></div>
+
+                    <div class="etapa-progresso">
+                        <span>2</span>
+
+                        <div>
+                            <strong>Valores</strong>
+                            <small>Custos do imóvel</small>
+                        </div>
+                    </div>
+
+                    <div class="linha-progresso"></div>
+
+                    <div class="etapa-progresso">
+                        <span>3</span>
+
+                        <div>
+                            <strong>Fotos</strong>
+                            <small>Galeria do imóvel</small>
+                        </div>
+                    </div>
+
+                    <div class="linha-progresso"></div>
+
+                    <div class="etapa-progresso">
+                        <span>4</span>
+
+                        <div>
+                            <strong>Publicação</strong>
+                            <small>Revisão final</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =========================================
+                 FORMULÁRIO
+            ========================================== -->
+
+            <form class="formulario-imovel">
+
+                <!-- INFORMAÇÕES BÁSICAS -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ⌂
+                        </div>
+
+                        <div>
+                            <h2>Informações básicas</h2>
+
+                            <p>
+                                Apresente as principais informações do imóvel.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-campos">
+
+                        <div class="campo campo-grande">
+
+                            <label for="titulo">
+                                Título do anúncio
+                            </label>
+
+                            <input type="text" id="titulo" name="titulo" placeholder="Ex.: Casa moderna com piscina"
+                                required>
+
+                            <small>
+                                Use um título curto e atrativo.
+                            </small>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="tipo-imovel">
+                                Tipo de imóvel
+                            </label>
+
+                            <select id="tipo-imovel" name="tipo-imovel" required>
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="casa">
+                                    Casa
+                                </option>
+
+                                <option value="apartamento">
+                                    Apartamento
+                                </option>
+
+                                <option value="kitnet">
+                                    Kitnet
+                                </option>
+
+                                <option value="sobrado">
+                                    Sobrado
+                                </option>
+
+                                <option value="comercial">
+                                    Sala comercial
+                                </option>
+
+                                <option value="galpao">
+                                    Galpão
+                                </option>
+
+                                <option value="terreno">
+                                    Terreno
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="finalidade">
+                                Finalidade
+                            </label>
+
+                            <select id="finalidade" name="finalidade" required>
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="residencial">
+                                    Residencial
+                                </option>
+
+                                <option value="comercial">
+                                    Comercial
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <div class="campo campo-grande">
+
+                            <label for="descricao">
+                                Descrição do imóvel
+                            </label>
+
+                            <textarea id="descricao" name="descricao" rows="7"
+                                placeholder="Descreva os ambientes, diferenciais e a região..." required></textarea>
+
+                            <div class="rodape-campo">
+                                <small>
+                                    Conte os principais diferenciais do imóvel.
+                                </small>
+
+                                <span>
+                                    0/1500
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ENDEREÇO -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ⌖
+                        </div>
+
+                        <div>
+                            <h2>Endereço</h2>
+
+                            <p>
+                                Informe onde o imóvel está localizado.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-campos endereco-grid">
+
+                        <div class="campo">
+
+                            <label for="cep">
+                                CEP
+                            </label>
+
+                            <input type="text" id="cep" name="cep" placeholder="00000-000" inputmode="numeric" required>
+
+                        </div>
+
+                        <div class="campo campo-duplo">
+
+                            <label for="rua">
+                                Rua
+                            </label>
+
+                            <input type="text" id="rua" name="rua" placeholder="Nome da rua" required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="numero">
+                                Número
+                            </label>
+
+                            <input type="text" id="numero" name="numero" placeholder="123" required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="complemento">
+                                Complemento
+                            </label>
+
+                            <input type="text" id="complemento" name="complemento" placeholder="Casa, bloco, apto...">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="bairro">
+                                Bairro
+                            </label>
+
+                            <input type="text" id="bairro" name="bairro" placeholder="Bairro" required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="cidade">
+                                Cidade
+                            </label>
+
+                            <input type="text" id="cidade" name="cidade" placeholder="Cidade" required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="estado">
+                                Estado
+                            </label>
+
+                            <select id="estado" name="estado" required>
+                                <option value="">
+                                    Selecione
+                                </option>
+
+                                <option value="SC">
+                                    Santa Catarina
+                                </option>
+
+                                <option value="PR">
+                                    Paraná
+                                </option>
+
+                                <option value="RS">
+                                    Rio Grande do Sul
+                                </option>
+
+                                <option value="SP">
+                                    São Paulo
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <label class="opcao-checkbox">
+
+                        <input type="checkbox" name="ocultar-numero">
+
+                        <span>
+                            Ocultar o número exato do imóvel no anúncio público.
+                        </span>
+
+                    </label>
+
+                </section>
+
+                <!-- CARACTERÍSTICAS -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ▦
+                        </div>
+
+                        <div>
+                            <h2>Características</h2>
+
+                            <p>
+                                Informe a estrutura e os ambientes disponíveis.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-campos caracteristicas-grid">
+
+                        <div class="campo">
+
+                            <label for="quartos">
+                                Quartos
+                            </label>
+
+                            <input type="number" id="quartos" name="quartos" min="0" placeholder="0">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="suites">
+                                Suítes
+                            </label>
+
+                            <input type="number" id="suites" name="suites" min="0" placeholder="0">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="banheiros">
+                                Banheiros
+                            </label>
+
+                            <input type="number" id="banheiros" name="banheiros" min="0" placeholder="0">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="vagas">
+                                Vagas
+                            </label>
+
+                            <input type="number" id="vagas" name="vagas" min="0" placeholder="0">
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="area-total">
+                                Área total
+                            </label>
+
+                            <div class="campo-unidade">
+
+                                <input type="number" id="area-total" name="area-total" min="0" placeholder="0">
+
+                                <span>m²</span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="area-construida">
+                                Área construída
+                            </label>
+
+                            <div class="campo-unidade">
+
+                                <input type="number" id="area-construida" name="area-construida" min="0"
+                                    placeholder="0">
+
+                                <span>m²</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="subtitulo-formulario">
+
+                        <h3>Comodidades</h3>
+
+                        <p>
+                            Selecione tudo o que o imóvel oferece.
+                        </p>
+
+                    </div>
+
+                    <div class="lista-comodidades">
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="piscina">
+                            <span>Piscina</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="churrasqueira">
+                            <span>Churrasqueira</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="ar-condicionado">
+                            <span>Ar-condicionado</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="cozinha-planejada">
+                            <span>Cozinha planejada</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="area-servico">
+                            <span>Área de serviço</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="quintal">
+                            <span>Quintal</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="portao-eletronico">
+                            <span>Portão eletrônico</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="mobiliado">
+                            <span>Mobiliado</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="elevador">
+                            <span>Elevador</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="varanda">
+                            <span>Varanda</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="pet">
+                            <span>Permite animais</span>
+                        </label>
+
+                        <label class="comodidade">
+                            <input type="checkbox" name="acessibilidade">
+                            <span>Acessibilidade</span>
+                        </label>
+
+                    </div>
+
+                </section>
+
+                <!-- VALORES -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            R$
+                        </div>
+
+                        <div>
+                            <h2>Valores e despesas</h2>
+
+                            <p>
+                                Configure os custos mensais do imóvel.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-campos valores-grid">
+
+                        <div class="campo">
+
+                            <label for="valor-aluguel">
+                                Valor desejado pelo proprietário
+                            </label>
+
+                            <div class="campo-moeda">
+
+                                <span>R$</span>
+
+                                <input type="number" id="valor-aluguel" name="valor-aluguel" min="0" step="0.01"
+                                    placeholder="0,00" required>
+
+                            </div>
+
+                            <small>
+                                Valor líquido que você deseja receber.
+                            </small>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="condominio">
+                                Condomínio
+                            </label>
+
+                            <div class="campo-moeda">
+
+                                <span>R$</span>
+
+                                <input type="number" id="condominio" name="condominio" min="0" step="0.01"
+                                    placeholder="0,00">
+
+                            </div>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="iptu">
+                                IPTU mensal
+                            </label>
+
+                            <div class="campo-moeda">
+
+                                <span>R$</span>
+
+                                <input type="number" id="iptu" name="iptu" min="0" step="0.01" placeholder="0,00">
+
+                            </div>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="seguro">
+                                Seguro residencial
+                            </label>
+
+                            <div class="campo-moeda">
+
+                                <span>R$</span>
+
+                                <input type="number" id="seguro" name="seguro" min="0" step="0.01" placeholder="0,00">
+
+                            </div>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="financiamento">
+                                Parcela do financiamento
+                            </label>
+
+                            <div class="campo-moeda">
+
+                                <span>R$</span>
+
+                                <input type="number" id="financiamento" name="financiamento" min="0" step="0.01"
+                                    placeholder="0,00">
+
+                            </div>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="reserva">
+                                Reserva de emergência
+                            </label>
+
+                            <select id="reserva" name="reserva">
+                                <option value="5">
+                                    5% do aluguel
+                                </option>
+
+                                <option value="10" selected>
+                                    10% do aluguel
+                                </option>
+
+                                <option value="15">
+                                    15% do aluguel
+                                </option>
+
+                                <option value="20">
+                                    20% do aluguel
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <div class="resumo-valores">
+
+                        <div>
+
+                            <span>
+                                Valor desejado pelo proprietário
+                            </span>
+
+                            <strong>
+                                R$ 2.000,00
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Taxa Lar+ de 5%
+                            </span>
+
+                            <strong>
+                                R$ 100,00
+                            </strong>
+
+                        </div>
+
+                        <div class="valor-publicado">
+
+                            <span>
+                                Valor publicado para o inquilino
+                            </span>
+
+                            <strong>
+                                R$ 2.100,00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <p class="aviso-valores">
+                        A taxa da Lar+ será acrescentada ao valor anunciado.
+                        Você continuará recebendo o valor líquido informado.
+                    </p>
+
+                </section>
+
+                <!-- REGRAS -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ▤
+                        </div>
+
+                        <div>
+                            <h2>Regras e disponibilidade</h2>
+
+                            <p>
+                                Defina as condições para a locação.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="grade-campos">
+
+                        <div class="campo">
+
+                            <label for="disponibilidade">
+                                Disponível a partir de
+                            </label>
+
+                            <input type="date" id="disponibilidade" name="disponibilidade" required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="contrato-minimo">
+                                Contrato mínimo
+                            </label>
+
+                            <select id="contrato-minimo" name="contrato-minimo">
+                                <option value="6">
+                                    6 meses
+                                </option>
+
+                                <option value="12" selected>
+                                    12 meses
+                                </option>
+
+                                <option value="18">
+                                    18 meses
+                                </option>
+
+                                <option value="24">
+                                    24 meses
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <div class="campo campo-grande">
+
+                            <label for="regras">
+                                Regras adicionais
+                            </label>
+
+                            <textarea id="regras" name="regras" rows="5"
+                                placeholder="Ex.: Não é permitido fumar dentro do imóvel..."></textarea>
+
+                        </div>
+
+                    </div>
+
+                    <div class="opcoes-regras">
+
+                        <label class="opcao-checkbox">
+
+                            <input type="checkbox" name="aceita-animais" checked>
+
+                            <span>
+                                Aceita animais
+                            </span>
+
+                        </label>
+
+                        <label class="opcao-checkbox">
+
+                            <input type="checkbox" name="aceita-criancas" checked>
+
+                            <span>
+                                Aceita crianças
+                            </span>
+
+                        </label>
+
+                        <label class="opcao-checkbox">
+
+                            <input type="checkbox" name="permite-fumar">
+
+                            <span>
+                                Permite fumar
+                            </span>
+
+                        </label>
+
+                        <label class="opcao-checkbox">
+
+                            <input type="checkbox" name="entrada-imediata">
+
+                            <span>
+                                Entrada imediata
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </section>
+
+                <!-- FOTOS -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ◫
+                        </div>
+
+                        <div>
+                            <h2>Fotos do imóvel</h2>
+
+                            <p>
+                                Adicione imagens claras e de boa qualidade.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <label class="area-upload">
+
+                        <input type="file" name="fotos-imovel" accept="image/*" multiple>
+
+                        <span class="icone-upload">
+                            ↑
+                        </span>
+
+                        <strong>
+                            Arraste suas fotos ou clique para selecionar
+                        </strong>
+
+                        <p>
+                            PNG, JPG ou WEBP. Máximo de 10 MB por imagem.
+                        </p>
+
+                        <small>
+                            Recomendamos pelo menos 5 fotos.
+                        </small>
+
+                    </label>
+
+                    <div class="dicas-fotos">
+
+                        <div>
+                            <strong>Foto principal</strong>
+
+                            <p>
+                                Escolha uma imagem externa ou da sala.
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Boa iluminação</strong>
+
+                            <p>
+                                Prefira fotografar durante o dia.
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Ambientes organizados</strong>
+
+                            <p>
+                                Evite objetos pessoais e desorganização.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- DOCUMENTOS -->
+
+                <section class="card-formulario">
+
+                    <div class="titulo-card">
+
+                        <div class="icone-card">
+                            ▣
+                        </div>
+
+                        <div>
+                            <h2>Documentos do imóvel</h2>
+
+                            <p>
+                                Envie documentos para validação da propriedade.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="documentos-grid">
+
+                        <label class="documento-upload">
+
+                            <input type="file" name="matricula" accept=".pdf,.jpg,.jpeg,.png">
+
+                            <span>＋</span>
+
+                            <div>
+                                <strong>Matrícula do imóvel</strong>
+
+                                <p>
+                                    PDF, JPG ou PNG.
+                                </p>
+                            </div>
+
+                        </label>
+
+                        <label class="documento-upload">
+
+                            <input type="file" name="comprovante-propriedade" accept=".pdf,.jpg,.jpeg,.png">
+
+                            <span>＋</span>
+
+                            <div>
+                                <strong>Comprovante de propriedade</strong>
+
+                                <p>
+                                    Escritura ou documento equivalente.
+                                </p>
+                            </div>
+
+                        </label>
+
+                        <label class="documento-upload">
+
+                            <input type="file" name="iptu-documento" accept=".pdf,.jpg,.jpeg,.png">
+
+                            <span>＋</span>
+
+                            <div>
+                                <strong>Documento do IPTU</strong>
+
+                                <p>
+                                    Opcional durante o cadastro.
+                                </p>
+                            </div>
+
+                        </label>
+
+                    </div>
+
+                    <p class="seguranca-documentos">
+                        Seus documentos são criptografados e não serão
+                        exibidos publicamente.
+                    </p>
+
+                </section>
+
+                <!-- AÇÕES -->
+
+                <div class="acoes-formulario">
+
+                    <a href="dashboard.html" class="botao-cancelar">
+                        Cancelar
+                    </a>
+
+                    <div>
+
+                        <button type="button" class="botao-rascunho">
+                            Salvar rascunho
+                        </button>
+
+                        <button type="submit" class="botao-publicar">
+                            Publicar imóvel
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

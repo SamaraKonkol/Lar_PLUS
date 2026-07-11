@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Lar+</title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- =========================================
+             MENU LATERAL
+        ========================================== -->
+
+        <aside class="menu-lateral">
+
+            <a href="index.html" class="logo">
+                <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
+            </a>
+
+            <nav class="navegacao-dashboard">
+
+                <span class="titulo-menu">
+                    Gestão
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="dashboard.html" class="ativo">
+                            <span class="icone-menu">⌂</span>
+                            Visão geral
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="catalogo.html">
+                            <span class="icone-menu">⌕</span>
+                            Imóveis disponíveis
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="gerenciar-imoveis.html">
+                            <span class="icone-menu">▦</span>
+                            Gestão de imóveis
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="cadastrar-imovel.html">
+                            <span class="icone-menu">＋</span>
+                            Cadastrar imóvel
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">▤</span>
+                            Contratos
+                        </a>
+                    </li>
+                </ul>
+
+                <span class="titulo-menu">
+                    Financeiro
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">R$</span>
+                            Pagamentos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◷</span>
+                            Histórico
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◉</span>
+                            Reserva
+                        </a>
+                    </li>
+                </ul>
+
+                <span class="titulo-menu">
+                    Atendimento
+                </span>
+
+                <ul>
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">⚒</span>
+                            Manutenções
+
+                            <span class="contador-menu">
+                                2
+                            </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <span class="icone-menu">◌</span>
+                            Mensagens
+
+                            <span class="contador-menu">
+                                4
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+            <div class="ajuda-menu">
+
+                <span>?</span>
+
+                <div>
+                    <strong>Precisa de ajuda?</strong>
+                    <p>Fale com nosso suporte.</p>
+                </div>
+
+            </div>
+
+            <a href="login.html" class="sair">
+                <span>↪</span>
+                Sair da conta
+            </a>
+
+        </aside>
+
+        <!-- =========================================
+             CONTEÚDO
+        ========================================== -->
+
+        <main class="conteudo-dashboard">
+
+            <!-- CABEÇALHO -->
+
+            <header class="cabecalho-dashboard">
+
+                <button type="button" class="botao-menu-mobile" aria-label="Abrir menu">
+                    ☰
+                </button>
+
+                <div class="saudacao">
+
+                    <p>sábado, 11 de julho</p>
+
+                    <h1>
+                        Bom dia, Carlos!
+                    </h1>
+
+                </div>
+
+                <div class="acoes-cabecalho">
+
+                    <button type="button" class="botao-notificacao" aria-label="Notificações">
+                        ♢
+                        <span></span>
+                    </button>
+
+                    <div class="perfil-usuario">
+
+                        <div class="avatar-usuario">
+                            CM
+                        </div>
+
+                        <div class="dados-usuario">
+                            <strong>Carlos Mendes</strong>
+                            <span>Proprietário</span>
+                        </div>
+
+                        <button type="button" class="abrir-perfil" aria-label="Abrir opções do perfil">
+                            ⌄
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- BOAS-VINDAS -->
+
+            <section class="boas-vindas">
+
+                <div>
+
+                    <span class="etiqueta">
+                        Gestão simplificada
+                    </span>
+
+                    <h2>
+                        Seus imóveis trabalhando por você.
+                    </h2>
+
+                    <p>
+                        Acompanhe pagamentos, reservas, contratos e chamados
+                        de manutenção em um só lugar.
+                    </p>
+
+                </div>
+
+                <a href="cadastrar-imovel.html" class="botao-novo-imovel">
+                    <span>＋</span>
+                    Cadastrar novo imóvel
+                </a>
+
+            </section>
+
+            <!-- INDICADORES -->
+
+            <section class="indicadores">
+
+                <article class="card-indicador">
+
+                    <div class="icone-indicador roxo">
+                        ⌂
+                    </div>
+
+                    <div class="informacao-indicador">
+                        <span>Imóveis ativos</span>
+                        <strong>3</strong>
+
+                        <small class="positivo">
+                            +1 neste mês
+                        </small>
+                    </div>
+
+                </article>
+
+                <article class="card-indicador">
+
+                    <div class="icone-indicador verde">
+                        R$
+                    </div>
+
+                    <div class="informacao-indicador">
+                        <span>Receita do mês</span>
+                        <strong>R$ 8.420</strong>
+
+                        <small class="positivo">
+                            +12% em relação ao mês anterior
+                        </small>
+                    </div>
+
+                </article>
+
+                <article class="card-indicador">
+
+                    <div class="icone-indicador azul">
+                        ◉
+                    </div>
+
+                    <div class="informacao-indicador">
+                        <span>Reserva acumulada</span>
+                        <strong>R$ 6.300</strong>
+
+                        <small>
+                            Disponível para emergências
+                        </small>
+                    </div>
+
+                </article>
+
+                <article class="card-indicador">
+
+                    <div class="icone-indicador laranja">
+                        ⚒
+                    </div>
+
+                    <div class="informacao-indicador">
+                        <span>Chamados abertos</span>
+                        <strong>2</strong>
+
+                        <small class="atencao">
+                            1 chamado urgente
+                        </small>
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- GRÁFICO E PRÓXIMO REPASSE -->
+
+            <section class="linha-dashboard">
+
+                <article class="card-dashboard grafico-card">
+
+                    <div class="topo-card">
+
+                        <div>
+                            <h2>Receita dos imóveis</h2>
+                            <p>Valores recebidos nos últimos meses.</p>
+                        </div>
+
+                        <select aria-label="Período do gráfico">
+                            <option>Últimos 6 meses</option>
+                            <option>Este ano</option>
+                            <option>Últimos 12 meses</option>
+                        </select>
+
+                    </div>
+
+                    <div class="resumo-grafico">
+
+                        <strong>R$ 42.850,00</strong>
+
+                        <span>
+                            <b>+8,4%</b>
+                            no período
+                        </span>
+
+                    </div>
+
+                    <div class="grafico-falso">
+
+                        <div class="linha-horizontal linha-1"></div>
+                        <div class="linha-horizontal linha-2"></div>
+                        <div class="linha-horizontal linha-3"></div>
+                        <div class="linha-horizontal linha-4"></div>
+
+                        <div class="barras">
+
+                            <div class="grupo-barra">
+                                <div class="barra" style="height: 48%;"></div>
+                                <span>Fev</span>
+                            </div>
+
+                            <div class="grupo-barra">
+                                <div class="barra" style="height: 62%;"></div>
+                                <span>Mar</span>
+                            </div>
+
+                            <div class="grupo-barra">
+                                <div class="barra" style="height: 56%;"></div>
+                                <span>Abr</span>
+                            </div>
+
+                            <div class="grupo-barra">
+                                <div class="barra" style="height: 74%;"></div>
+                                <span>Mai</span>
+                            </div>
+
+                            <div class="grupo-barra">
+                                <div class="barra" style="height: 68%;"></div>
+                                <span>Jun</span>
+                            </div>
+
+                            <div class="grupo-barra">
+                                <div class="barra destaque" style="height: 88%;"></div>
+                                <span>Jul</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <article class="card-dashboard repasse-card">
+
+                    <div class="topo-card">
+
+                        <div>
+                            <h2>Próximo repasse</h2>
+                            <p>Previsão para sua conta.</p>
+                        </div>
+
+                        <span class="status">
+                            Agendado
+                        </span>
+
+                    </div>
+
+                    <div class="valor-repasse">
+
+                        <span>Valor previsto</span>
+
+                        <strong>
+                            R$ 3.240,00
+                        </strong>
+
+                        <small>
+                            15 de julho de 2026
+                        </small>
+
+                    </div>
+
+                    <div class="distribuicao-repasse">
+
+                        <div>
+                            <span>Aluguéis recebidos</span>
+                            <strong>R$ 5.200,00</strong>
+                        </div>
+
+                        <div>
+                            <span>Contas pagas</span>
+                            <strong>- R$ 1.440,00</strong>
+                        </div>
+
+                        <div>
+                            <span>Reserva separada</span>
+                            <strong>- R$ 420,00</strong>
+                        </div>
+
+                        <div>
+                            <span>Taxa Lar+</span>
+                            <strong>- R$ 100,00</strong>
+                        </div>
+
+                    </div>
+
+                    <a href="#" class="ver-extrato">
+                        Ver extrato completo →
+                    </a>
+
+                </article>
+
+            </section>
+
+            <!-- IMÓVEIS -->
+
+            <section class="card-dashboard secao-imoveis">
+
+                <div class="topo-card">
+
+                    <div>
+                        <h2>Meus imóveis</h2>
+                        <p>Acompanhe o desempenho das suas propriedades.</p>
+                    </div>
+
+                    <a href="#">
+                        Ver todos →
+                    </a>
+
+                </div>
+
+                <div class="lista-imoveis">
+
+                    <article class="imovel-dashboard">
+
+                        <img src="img/imoveis/casa-1.jpg" alt="Casa Alto Padrão">
+
+                        <div class="dados-imovel">
+
+                            <div>
+                                <span class="situacao ocupado">
+                                    Ocupado
+                                </span>
+
+                                <h3>Casa Alto Padrão</h3>
+
+                                <p>
+                                    Vila Nova, Jaraguá do Sul
+                                </p>
+                            </div>
+
+                            <div class="dados-financeiros-imovel">
+                                <span>Aluguel</span>
+                                <strong>R$ 2.800/mês</strong>
+                            </div>
+
+                            <div class="inquilino-imovel">
+                                <span>Inquilino</span>
+                                <strong>Mariana Souza</strong>
+                            </div>
+
+                            <a href="#" class="acao-imovel">
+                                Ver imóvel
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <article class="imovel-dashboard">
+
+                        <img src="img/imoveis/apartamento-1.jpg" alt="Apartamento moderno">
+
+                        <div class="dados-imovel">
+
+                            <div>
+                                <span class="situacao ocupado">
+                                    Ocupado
+                                </span>
+
+                                <h3>Apartamento Moderno</h3>
+
+                                <p>
+                                    Centro, Joinville
+                                </p>
+                            </div>
+
+                            <div class="dados-financeiros-imovel">
+                                <span>Aluguel</span>
+                                <strong>R$ 2.150/mês</strong>
+                            </div>
+
+                            <div class="inquilino-imovel">
+                                <span>Inquilino</span>
+                                <strong>Lucas Martins</strong>
+                            </div>
+
+                            <a href="#" class="acao-imovel">
+                                Ver imóvel
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <article class="imovel-dashboard">
+
+                        <img src="img/imoveis/casa-2.jpg" alt="Casa familiar">
+
+                        <div class="dados-imovel">
+
+                            <div>
+                                <span class="situacao disponivel">
+                                    Disponível
+                                </span>
+
+                                <h3>Casa Familiar</h3>
+
+                                <p>
+                                    Amizade, Jaraguá do Sul
+                                </p>
+                            </div>
+
+                            <div class="dados-financeiros-imovel">
+                                <span>Aluguel</span>
+                                <strong>R$ 1.950/mês</strong>
+                            </div>
+
+                            <div class="inquilino-imovel">
+                                <span>Visualizações</span>
+                                <strong>86 acessos</strong>
+                            </div>
+
+                            <a href="#" class="acao-imovel">
+                                Ver imóvel
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+            <!-- ATIVIDADES E MANUTENÇÕES -->
+
+            <section class="linha-dashboard inferior">
+
+                <article class="card-dashboard atividades-card">
+
+                    <div class="topo-card">
+
+                        <div>
+                            <h2>Atividades recentes</h2>
+                            <p>Últimas movimentações da sua conta.</p>
+                        </div>
+
+                        <a href="#">Ver histórico</a>
+
+                    </div>
+
+                    <ul class="lista-atividades">
+
+                        <li>
+
+                            <span class="icone-atividade pagamento">
+                                R$
+                            </span>
+
+                            <div>
+                                <strong>Pagamento recebido</strong>
+
+                                <p>
+                                    Aluguel da Casa Alto Padrão.
+                                </p>
+                            </div>
+
+                            <div class="valor-atividade">
+                                <strong>R$ 2.800,00</strong>
+                                <span>Hoje, 09:42</span>
+                            </div>
+
+                        </li>
+
+                        <li>
+
+                            <span class="icone-atividade contrato">
+                                ▤
+                            </span>
+
+                            <div>
+                                <strong>Contrato assinado</strong>
+
+                                <p>
+                                    Apartamento Moderno.
+                                </p>
+                            </div>
+
+                            <div class="valor-atividade">
+                                <span>Ontem, 18:20</span>
+                            </div>
+
+                        </li>
+
+                        <li>
+
+                            <span class="icone-atividade manutencao">
+                                ⚒
+                            </span>
+
+                            <div>
+                                <strong>Novo chamado de manutenção</strong>
+
+                                <p>
+                                    Vazamento na cozinha.
+                                </p>
+                            </div>
+
+                            <div class="valor-atividade">
+                                <span>Ontem, 14:05</span>
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </article>
+
+                <article class="card-dashboard chamados-card">
+
+                    <div class="topo-card">
+
+                        <div>
+                            <h2>Manutenções</h2>
+                            <p>Chamados que precisam de atenção.</p>
+                        </div>
+
+                        <a href="#">
+                            Ver todos
+                        </a>
+
+                    </div>
+
+                    <article class="chamado">
+
+                        <div class="cabecalho-chamado">
+
+                            <span class="prioridade urgente">
+                                Urgente
+                            </span>
+
+                            <span class="data-chamado">
+                                Hoje
+                            </span>
+
+                        </div>
+
+                        <h3>Vazamento na cozinha</h3>
+
+                        <p>
+                            Casa Alto Padrão — Mariana Souza
+                        </p>
+
+                        <div class="rodape-chamado">
+
+                            <span>Hidráulica</span>
+
+                            <a href="#">
+                                Ver chamado →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                    <article class="chamado">
+
+                        <div class="cabecalho-chamado">
+
+                            <span class="prioridade normal">
+                                Normal
+                            </span>
+
+                            <span class="data-chamado">
+                                10 jul.
+                            </span>
+
+                        </div>
+
+                        <h3>Tomada sem funcionamento</h3>
+
+                        <p>
+                            Apartamento Moderno — Lucas Martins
+                        </p>
+
+                        <div class="rodape-chamado">
+
+                            <span>Elétrica</span>
+
+                            <a href="#">
+                                Ver chamado →
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
