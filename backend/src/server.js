@@ -9,6 +9,8 @@ const {
 
 const usuariosRoutes = require("./routes/usuarios.routes");
 
+const imoveisRoutes = require("./routes/imoveis.routes");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -17,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/imoveis", imoveisRoutes);
 
 app.get("/", (req, res) => {
     res.json({

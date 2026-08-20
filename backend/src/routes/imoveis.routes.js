@@ -2,7 +2,7 @@ const express = require("express");
 
 const {
     criarImovel
-} = require("../controllers/imoveis.controller");
+} = require("../controllers/imoveisController");
 
 const {
     autenticarUsuario
