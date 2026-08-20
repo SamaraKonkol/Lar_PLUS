@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const {
     db
@@ -12,7 +13,8 @@ const {
     validarSenha
 } = require("../utils/validacoes");
 
-async function cadastrarUsuario(req, res) {
+async function cadastrarUsuario(req, res) 
+{
     try {
         const {
             nome,
@@ -185,6 +187,96 @@ async function cadastrarUsuario(req, res) {
     }
 }
 
+async function loginUsuario(req, res) {
+    try {
+        const {
+            email,
+            senha
+        } = req.body;
+
+        if (!email || !senha) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem:
+                    "Informe e-mail e senha."
+            });
+        }
+
+        const emailNormalizado =
+            email.trim().toLowerCase();
+
+        const usuario = db.prepare(`
+            SELECT
+                id,
+                nome,
+                sobrenome,
+                email,
+                senha_hash
+            FROM usuarios
+            WHERE email = ?
+        `).get(emailNormalizado);
+
+        if (!usuario) {
+            return res.status(401).json({
+                sucesso: false,
+                mensagem:
+                    "E-mail ou senha inválidos."
+            });
+        }
+
+        const senhaCorreta =
+            await bcrypt.compare(
+                senha,
+                usuario.senha_hash
+            );
+
+        if (!senhaCorreta) {
+            return res.status(401).json({
+                sucesso: false,
+                mensagem:
+                    "E-mail ou senha inválidos."
+            });
+        }
+
+        const token = jwt.sign(
+            {
+                id: usuario.id,
+                email: usuario.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        );
+
+        return res.status(200).json({
+            sucesso: true,
+            mensagem:
+                "Login realizado com sucesso!",
+            token,
+            usuario: {
+                id: usuario.id,
+                nome: usuario.nome,
+                sobrenome: usuario.sobrenome,
+                email: usuario.email
+            }
+        });
+
+    } catch (erro) {
+        console.error(
+            "Erro ao realizar login:",
+            erro
+        );
+
+        return res.status(500).json({
+            sucesso: false,
+            mensagem:
+                "Erro interno ao realizar login."
+        });
+    }
+}
+
 module.exports = {
-    cadastrarUsuario
+    cadastrarUsuario,
+    loginUsuario
 };

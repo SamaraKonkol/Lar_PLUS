@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 
@@ -9,7 +11,6 @@ const usuariosRoutes = require("./routes/usuarios.routes");
 
 const app = express();
 
-// ALTERE ESTA LINHA
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
@@ -26,7 +27,6 @@ app.get("/", (req, res) => {
 
 inicializarBanco();
 
-// ALTERE ESTE CONSOLE
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
