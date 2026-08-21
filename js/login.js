@@ -17,6 +17,34 @@ botaoMostrarSenha.addEventListener("click", () => {
 });
 
 
+function obterDestinoAposLogin() {
+    const parametros = new URLSearchParams(window.location.search);
+    const redirecionarPara = parametros.get("redirect");
+
+    if (!redirecionarPara) {
+        return "catalogo.html";
+    }
+
+    try {
+        const destino = decodeURIComponent(redirecionarPara);
+
+        if (
+            destino.startsWith("http://") ||
+            destino.startsWith("https://") ||
+            destino.startsWith("//")
+        ) {
+            return "catalogo.html";
+        }
+
+        return destino;
+
+    } catch (erro) {
+        console.error("Destino de login inválido:", erro);
+        return "catalogo.html";
+    }
+}
+
+
 // Fazer login
 formulario.addEventListener("submit", async (event) => {
 
@@ -50,7 +78,7 @@ formulario.addEventListener("submit", async (event) => {
 
         localStorage.setItem("token", dados.token);
 
-        window.location.href = "catalogo.html";
+        window.location.href = obterDestinoAposLogin();
 
     } catch (erro) {
 
