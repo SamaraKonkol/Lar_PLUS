@@ -1,24 +1,29 @@
 const express = require("express");
 
 const {
-    criarImovel
+    criarImovel,
+    listarImoveis,
+    buscarImovelPorId
 } = require("../controllers/imoveisController");
 
 const {
     autenticarUsuario
 } = require("../middlewares/autenticacao.middleware");
 
+const upload = require("../middlewares/upload.middleware");
+
 const router = express.Router();
 
-// rota pública para testar/listar futuramente
-router.get("/", (req, res) => {
-    res.json({
-        sucesso: true,
-        mensagem: "API de imóveis funcionando!"
-    });
-});
+router.get("/", listarImoveis);
 
-// só usuário logado pode publicar
-router.post("/", autenticarUsuario, criarImovel);
+router.get("/:id", buscarImovelPorId);
+
+router.post(
+    "/",
+    autenticarUsuario,
+    upload.array("fotos", 10),
+    criarImovel
+);
+
 
 module.exports = router;

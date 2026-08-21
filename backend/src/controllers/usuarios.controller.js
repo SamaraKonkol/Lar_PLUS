@@ -1,9 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const {
-    db
-} = require("../database/database");
+const { db } = require("../database/database");
 
 const {
     somenteNumeros,
@@ -13,8 +11,7 @@ const {
     validarSenha
 } = require("../utils/validacoes");
 
-async function cadastrarUsuario(req, res) 
-{
+async function cadastrarUsuario(req, res) {
     try {
         const {
             nome,
@@ -35,70 +32,57 @@ async function cadastrarUsuario(req, res)
         ) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Preencha todos os campos obrigatórios."
+                mensagem: "Preencha todos os campos obrigatórios."
             });
         }
 
         const nomeLimpo = nome.trim();
         const sobrenomeLimpo = sobrenome.trim();
-        const emailNormalizado =
-            email.trim().toLowerCase();
-
-        const cpfNormalizado =
-            somenteNumeros(cpf);
-
-        const telefoneNormalizado =
-            somenteNumeros(telefone);
+        const emailNormalizado = email.trim().toLowerCase();
+        const cpfNormalizado = somenteNumeros(cpf);
+        const telefoneNormalizado = somenteNumeros(telefone);
 
         if (nomeLimpo.length < 2) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe um nome válido."
+                mensagem: "Informe um nome válido."
             });
         }
 
         if (sobrenomeLimpo.length < 2) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe um sobrenome válido."
+                mensagem: "Informe um sobrenome válido."
             });
         }
 
         if (!validarEmail(emailNormalizado)) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe um e-mail válido."
+                mensagem: "Informe um e-mail válido."
             });
         }
 
         if (!validarCPF(cpfNormalizado)) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe um CPF válido."
+                mensagem: "Informe um CPF válido."
             });
         }
 
         if (!validarTelefone(telefoneNormalizado)) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe um telefone válido com DDD."
+                mensagem: "Informe um telefone válido com DDD."
             });
         }
 
-        const resultadoSenha =
-            validarSenha(senha);
+        const resultadoSenha = validarSenha(senha);
 
         if (!resultadoSenha.valida) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    resultadoSenha.mensagem
+                mensagem: resultadoSenha.mensagem
             });
         }
 
@@ -111,8 +95,7 @@ async function cadastrarUsuario(req, res)
         if (usuarioComEmail) {
             return res.status(409).json({
                 sucesso: false,
-                mensagem:
-                    "Já existe uma conta com esse e-mail."
+                mensagem: "Já existe uma conta com esse e-mail."
             });
         }
 
@@ -125,15 +108,11 @@ async function cadastrarUsuario(req, res)
         if (usuarioComCpf) {
             return res.status(409).json({
                 sucesso: false,
-                mensagem:
-                    "Já existe uma conta com esse CPF."
+                mensagem: "Já existe uma conta com esse CPF."
             });
         }
 
-        const senhaHash = await bcrypt.hash(
-            senha,
-            12
-        );
+        const senhaHash = await bcrypt.hash(senha, 12);
 
         const resultado = db.prepare(`
             INSERT INTO usuarios (
@@ -162,6 +141,7 @@ async function cadastrarUsuario(req, res)
                 email,
                 cpf,
                 telefone,
+                foto_url,
                 criado_em
             FROM usuarios
             WHERE id = ?
@@ -169,20 +149,16 @@ async function cadastrarUsuario(req, res)
 
         return res.status(201).json({
             sucesso: true,
-            mensagem:
-                "Usuário cadastrado com sucesso!",
+            mensagem: "Usuário cadastrado com sucesso!",
             usuario: usuarioCriado
         });
+
     } catch (erro) {
-        console.error(
-            "Erro ao cadastrar usuário:",
-            erro
-        );
+        console.error("Erro ao cadastrar usuário:", erro);
 
         return res.status(500).json({
             sucesso: false,
-            mensagem:
-                "Erro interno ao cadastrar usuário."
+            mensagem: "Erro interno ao cadastrar usuário."
         });
     }
 }
@@ -197,13 +173,11 @@ async function loginUsuario(req, res) {
         if (!email || !senha) {
             return res.status(400).json({
                 sucesso: false,
-                mensagem:
-                    "Informe e-mail e senha."
+                mensagem: "Informe e-mail e senha."
             });
         }
 
-        const emailNormalizado =
-            email.trim().toLowerCase();
+        const emailNormalizado = email.trim().toLowerCase();
 
         const usuario = db.prepare(`
             SELECT
@@ -211,7 +185,8 @@ async function loginUsuario(req, res) {
                 nome,
                 sobrenome,
                 email,
-                senha_hash
+                senha_hash,
+                foto_url
             FROM usuarios
             WHERE email = ?
         `).get(emailNormalizado);
@@ -219,22 +194,19 @@ async function loginUsuario(req, res) {
         if (!usuario) {
             return res.status(401).json({
                 sucesso: false,
-                mensagem:
-                    "E-mail ou senha inválidos."
+                mensagem: "E-mail ou senha inválidos."
             });
         }
 
-        const senhaCorreta =
-            await bcrypt.compare(
-                senha,
-                usuario.senha_hash
-            );
+        const senhaCorreta = await bcrypt.compare(
+            senha,
+            usuario.senha_hash
+        );
 
         if (!senhaCorreta) {
             return res.status(401).json({
                 sucesso: false,
-                mensagem:
-                    "E-mail ou senha inválidos."
+                mensagem: "E-mail ou senha inválidos."
             });
         }
 
@@ -251,32 +223,69 @@ async function loginUsuario(req, res) {
 
         return res.status(200).json({
             sucesso: true,
-            mensagem:
-                "Login realizado com sucesso!",
+            mensagem: "Login realizado com sucesso!",
             token,
             usuario: {
                 id: usuario.id,
                 nome: usuario.nome,
                 sobrenome: usuario.sobrenome,
-                email: usuario.email
+                email: usuario.email,
+                foto_url: usuario.foto_url
             }
         });
 
     } catch (erro) {
-        console.error(
-            "Erro ao realizar login:",
-            erro
-        );
+        console.error("Erro ao realizar login:", erro);
 
         return res.status(500).json({
             sucesso: false,
-            mensagem:
-                "Erro interno ao realizar login."
+            mensagem: "Erro interno ao realizar login."
+        });
+    }
+}
+
+function buscarPerfil(req, res) {
+    try {
+        const usuario_id = req.usuario.id;
+
+        const usuario = db.prepare(`
+            SELECT
+                id,
+                nome,
+                sobrenome,
+                email,
+                cpf,
+                telefone,
+                foto_url,
+                criado_em
+            FROM usuarios
+            WHERE id = ?
+        `).get(usuario_id);
+
+        if (!usuario) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: "Usuário não encontrado."
+            });
+        }
+
+        return res.status(200).json({
+            sucesso: true,
+            usuario
+        });
+
+    } catch (erro) {
+        console.error("Erro ao buscar perfil:", erro);
+
+        return res.status(500).json({
+            sucesso: false,
+            mensagem: "Erro ao buscar perfil."
         });
     }
 }
 
 module.exports = {
     cadastrarUsuario,
-    loginUsuario
+    loginUsuario,
+    buscarPerfil
 };

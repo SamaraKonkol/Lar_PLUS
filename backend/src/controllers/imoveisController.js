@@ -1,6 +1,7 @@
 const { db } = require("../database/database");
+const { uploadImagemS3 } = require("../utils/uploadS3");
 
-function criarImovel(req, res) {
+async function criarImovel(req, res) {
     try {
         const {
             titulo,
@@ -74,16 +75,43 @@ function criarImovel(req, res) {
             area || null
         );
 
+        const imovel_id = resultado.lastInsertRowid;
+
+        if (req.files && req.files.length > 0) {
+            for (let i = 0; i < req.files.length; i++) {
+                const arquivo = req.files[i];
+
+                const foto_url = await uploadImagemS3(
+                    arquivo,
+                    `imoveis/${imovel_id}`
+                );
+
+                db.prepare(`
+                    INSERT INTO imoveis_fotos (
+                        imovel_id,
+                        foto_url,
+                        ordem
+                    )
+                    VALUES (?, ?, ?)
+                `).run(
+                    imovel_id,
+                    foto_url,
+                    i + 1
+                );
+            }
+        }
+
         return res.status(201).json({
+            sucesso: true,
             mensagem: "Imóvel publicado com sucesso!",
-            imovel_id: resultado.lastInsertRowid
+            imovel_id
         });
 
     } catch (erro) {
-        console.error(erro);
+        console.error("Erro ao criar imóvel:", erro);
 
         return res.status(500).json({
-            erro: "Erro ao publicar imóvel."
+            erro: "Erro interno ao publicar imóvel."
         });
     }
 }

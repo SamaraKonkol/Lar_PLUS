@@ -8,7 +8,7 @@ const {
 } = require("./database/database");
 
 const usuariosRoutes = require("./routes/usuarios.routes");
-
+const favoritosRoutes = require("./routes/favoritos.routes");
 const imoveisRoutes = require("./routes/imoveis.routes");
 
 const app = express();
@@ -20,6 +20,7 @@ app.use(express.json());
 
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/imoveis", imoveisRoutes);
+app.use("/api/favoritos", favoritosRoutes);
 
 app.get("/", (req, res) => {
     res.json({
