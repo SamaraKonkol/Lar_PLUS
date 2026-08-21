@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Meus Favoritos | Lar+</title>
+
+    <link
+        rel="stylesheet"
+        href="css/catalogo.css"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <a href="index.html" class="logo">
+            <img
+                src="img/Lar_PLUS.png"
+                alt="Logo da Lar+"
+            >
+        </a>
+
+        <nav class="menu-principal">
+            <ul>
+                <li>
+                    <a href="index.html">
+                        Início
+                    </a>
+                </li>
+
+                <li>
+                    <a href="catalogo.html">
+                        Imóveis
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#como-funciona">
+                        Como funciona
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html#recursos">
+                        Recursos
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="acoes-header">
+
+            <div class="menu-visitante">
+
+                <a
+                    href="login.html"
+                    class="botao entrar"
+                >
+                    Entrar
+                </a>
+
+                <a
+                    href="cadastro.html"
+                    class="botao cadastrar"
+                >
+                    Criar conta
+                </a>
+
+            </div>
+
+            <div class="menu-usuario" hidden>
+
+    <a href="favoritos.html" class="botao favoritos">
+        ♡ Favoritos
+    </a>
+
+    <div class="perfil-menu">
+
+        <button
+            type="button"
+            class="perfil-header"
+            id="botao-menu-perfil"
+            aria-expanded="false"
+        >
+            <img
+                src="img/avatar-padrao.png"
+                alt="Foto de perfil"
+                class="foto-perfil-header"
+            >
+
+            <span class="nome-usuario-header">
+                Perfil
+            </span>
+
+            <span class="seta-perfil">
+                ▾
+            </span>
+        </button>
+
+        <div
+            class="dropdown-perfil"
+            id="dropdown-perfil"
+            hidden
+        >
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="editar-perfil.html">
+                Editar perfil
+            </a>
+
+            <div class="divisor-menu"></div>
+
+            <button
+                type="button"
+                id="botao-logout"
+                class="botao-logout"
+            >
+                Sair
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="busca-imoveis">
+
+            <div class="apresentacao-busca">
+
+                <h1>
+                    Meus imóveis favoritos
+                </h1>
+
+                <p>
+                    Aqui estão os imóveis que você salvou.
+                </p>
+
+            </div>
+
+        </section>
+
+        <section class="catalogo">
+
+            <div class="catalogo-topo">
+
+                <p>
+                    <strong id="quantidade-favoritos">
+                        0
+                    </strong>
+                    imóveis salvos
+                </p>
+
+            </div>
+
+            <div
+                class="grade-imoveis"
+                id="lista-favoritos"
+            >
+            </div>
+
+            <div
+                class="mensagem-vazia"
+                id="mensagem-vazia"
+                hidden
+            >
+                <h2>
+                    Você ainda não salvou nenhum imóvel
+                </h2>
+
+                <p>
+                    Explore o catálogo e salve os imóveis
+                    que mais gostar.
+                </p>
+
+                <a
+                    href="catalogo.html"
+                    class="botao-detalhes"
+                >
+                    Explorar imóveis
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/favoritos.js"></script>
+
+</body>
+
+</html>

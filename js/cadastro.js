@@ -55,7 +55,7 @@ async function cadastrarUsuario(evento) {
         botaoCadastrar.textContent = "Criando conta...";
 
         const resposta = await fetch(
-            "https://larplus-api.onrender.com/api/usuarios",
+            `${API_URL}/api/usuarios`,
             {
                 method: "POST",
                 headers: {

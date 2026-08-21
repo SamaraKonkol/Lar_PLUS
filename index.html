@@ -67,11 +67,39 @@
                     ♡ Favoritos
                 </a>
 
-                <a href="perfil.html" class="perfil-header">
-                    <img src="img/avatar-padrao.png" alt="Foto de perfil" class="foto-perfil-header">
+                <div class="perfil-menu">
 
-                    <span>Perfil</span>
-                </a>
+                    <button type="button" class="perfil-header" id="botao-menu-perfil" aria-expanded="false">
+                        <img src="img/avatar-padrao.png" alt="Foto de perfil" class="foto-perfil-header">
+
+                        <span class="nome-usuario-header">
+                            Perfil
+                        </span>
+
+                        <span class="seta-perfil">
+                            ▾
+                        </span>
+                    </button>
+
+                    <div class="dropdown-perfil" id="dropdown-perfil" hidden>
+
+                        <a href="dashboard.html">
+                            Dashboard
+                        </a>
+
+                        <a href="editar-perfil.html">
+                            Editar perfil
+                        </a>
+
+                        <div class="divisor-menu"></div>
+
+                        <button type="button" id="botao-logout" class="botao-logout">
+                            Sair
+                        </button>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -98,7 +126,7 @@
 
                 <div class="hero-botoes">
 
-                    <a href="login.html" class="botao proprietario">
+                    <a href="catalogo.html" class="botao proprietario">
                         Ver Imovéis
                     </a>
 
@@ -340,6 +368,9 @@
         </div>
 
     </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
 
 </body>
 

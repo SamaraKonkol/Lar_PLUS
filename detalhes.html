@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Casa Alto Padrão | Lar+</title>
+    <title>Detalhes do imóvel | Lar+</title>
 
     <link
         rel="stylesheet"
@@ -57,13 +57,84 @@
         </nav>
 
         <div class="acoes-header">
-            <a href="login.html" class="botao entrar">
-                Entrar
+
+            <div class="menu-visitante">
+
+                <a
+                    href="login.html"
+                    class="botao entrar"
+                >
+                    Entrar
+                </a>
+
+                <a
+                    href="cadastro.html"
+                    class="botao cadastrar"
+                >
+                    Criar conta
+                </a>
+
+            </div>
+
+           <div class="menu-usuario" hidden>
+
+    <a href="favoritos.html" class="botao favoritos">
+        ♡ Favoritos
+    </a>
+
+    <div class="perfil-menu">
+
+        <button
+            type="button"
+            class="perfil-header"
+            id="botao-menu-perfil"
+            aria-expanded="false"
+        >
+            <img
+                src="img/avatar-padrao.png"
+                alt="Foto de perfil"
+                class="foto-perfil-header"
+            >
+
+            <span class="nome-usuario-header">
+                Perfil
+            </span>
+
+            <span class="seta-perfil">
+                ▾
+            </span>
+        </button>
+
+        <div
+            class="dropdown-perfil"
+            id="dropdown-perfil"
+            hidden
+        >
+
+            <a href="dashboard.html">
+                Dashboard
             </a>
 
-            <a href="cadastro.html" class="botao cadastrar">
-                Criar conta
+            <a href="editar-perfil.html">
+                Editar perfil
             </a>
+
+            <div class="divisor-menu"></div>
+
+            <button
+                type="button"
+                id="botao-logout"
+                class="botao-logout"
+            >
+                Sair
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
         </div>
 
     </header>
@@ -72,28 +143,40 @@
 
         <section class="topo-imovel">
 
-            <a href="catalogo.html" class="voltar">
+            <a
+                href="catalogo.html"
+                class="voltar"
+            >
                 ← Voltar para imóveis
             </a>
 
             <div class="titulo-imovel">
 
                 <div>
-                    <span class="tipo-imovel">
-                        Casa
+
+                    <span
+                        class="tipo-imovel"
+                        id="tipo-imovel"
+                    >
+                        Carregando...
                     </span>
 
-                    <h1>
-                        Casa Alto Padrão
+                    <h1 id="titulo-imovel">
+                        Carregando imóvel...
                     </h1>
 
-                    <p class="endereco">
-                        Vila Nova, Jaraguá do Sul — SC
+                    <p
+                        class="endereco"
+                        id="endereco-imovel"
+                    >
+                        Carregando localização...
                     </p>
+
                 </div>
 
                 <button
                     class="botao-favoritar"
+                    id="botao-favoritar"
                     type="button"
                 >
                     ♡ Salvar imóvel
@@ -103,45 +186,25 @@
 
         </section>
 
-        <section class="galeria-imovel">
+        <section
+            class="galeria-imovel"
+            id="galeria-imovel"
+        >
 
             <div class="imagem-principal">
+
                 <img
-                    src="img/Captura de tela 2026-07-11 144919.png"
-                    alt="Fachada da Casa Alto Padrão"
+                    id="imagem-principal"
+                    src="img/imovel-sem-foto.png"
+                    alt="Foto do imóvel"
                 >
+
             </div>
 
-            <div class="imagens-secundarias">
-
-                <img
-                    src="img/Captura de tela 2026-07-11 144936.png"
-                    alt="Sala da Casa Alto Padrão"
-                >
-
-                <img
-                    src="img/Captura de tela 2026-07-11 144955.png"
-                    alt="Cozinha da Casa Alto Padrão"
-                >
-
-                <img
-                    src="img/Captura de tela 2026-07-11 145020.png"
-                    alt="Quarto da Casa Alto Padrão"
-                >
-
-                <div class="ultima-imagem">
-
-                    <img
-                        src="img/Captura de tela 2026-07-11 145103.png"
-                        alt="Área externa da Casa Alto Padrão"
-                    >
-
-                    <button type="button">
-                        Ver todas as fotos
-                    </button>
-
-                </div>
-
+            <div
+                class="imagens-secundarias"
+                id="imagens-secundarias"
+            >
             </div>
 
         </section>
@@ -153,90 +216,76 @@
                 <ul class="resumo-imovel">
 
                     <li>
-                        <strong>3</strong>
-                        <span>Quartos</span>
+                        <strong id="quartos-imovel">
+                            -
+                        </strong>
+
+                        <span>
+                            Quartos
+                        </span>
                     </li>
 
                     <li>
-                        <strong>2</strong>
-                        <span>Banheiros</span>
+                        <strong id="banheiros-imovel">
+                            -
+                        </strong>
+
+                        <span>
+                            Banheiros
+                        </span>
                     </li>
 
                     <li>
-                        <strong>2</strong>
-                        <span>Vagas</span>
+                        <strong id="vagas-imovel">
+                            -
+                        </strong>
+
+                        <span>
+                            Vagas
+                        </span>
                     </li>
 
                     <li>
-                        <strong>240 m²</strong>
-                        <span>Área total</span>
-                    </li>
+                        <strong id="area-imovel">
+                            -
+                        </strong>
 
-                    <li>
-                        <strong>1</strong>
-                        <span>Suíte</span>
+                        <span>
+                            Área total
+                        </span>
                     </li>
 
                 </ul>
 
                 <article class="bloco-informacao">
 
-                    <h2>Sobre o imóvel</h2>
+                    <h2>
+                        Sobre o imóvel
+                    </h2>
 
-                    <p>
-                        Casa moderna e espaçosa, localizada em uma região
-                        tranquila de Jaraguá do Sul. O imóvel possui ambientes
-                        bem iluminados, área externa, garagem coberta e excelente
-                        acabamento.
-                    </p>
-
-                    <p>
-                        Ideal para famílias que procuram conforto, segurança
-                        e proximidade com supermercados, escolas e serviços.
+                    <p id="descricao-imovel">
+                        Carregando descrição...
                     </p>
 
                 </article>
 
                 <article class="bloco-informacao">
 
-                    <h2>Características</h2>
-
-                    <ul class="lista-caracteristicas">
-
-                        <li>Área de serviço</li>
-                        <li>Cozinha planejada</li>
-                        <li>Garagem coberta</li>
-                        <li>Quintal</li>
-                        <li>Churrasqueira</li>
-                        <li>Portão eletrônico</li>
-                        <li>Ar-condicionado</li>
-                        <li>Permite animais</li>
-
-                    </ul>
-
-                </article>
-
-                <article class="bloco-informacao">
-
-                    <h2>Localização</h2>
+                    <h2>
+                        Localização
+                    </h2>
 
                     <div class="mapa-falso">
-                        <span>Mapa do imóvel</span>
-                        <p>Vila Nova, Jaraguá do Sul — SC</p>
+
+                        <span>
+                            Localização do imóvel
+                        </span>
+
+                        <p id="localizacao-imovel">
+                            Carregando localização...
+                        </p>
+
                     </div>
-
-                </article>
-
-                <article class="bloco-informacao">
-
-                    <h2>Regras do imóvel</h2>
-
-                    <ul class="lista-regras">
-                        <li>Animais permitidos</li>
-                        <li>Não é permitido fumar dentro do imóvel</li>
-                        <li>Contrato mínimo de 12 meses</li>
-                        <li>Disponível para entrada imediata</li>
-                    </ul>
 
                 </article>
 
@@ -245,50 +294,61 @@
             <aside class="painel-aluguel">
 
                 <div class="preco-principal">
-                    <span>Aluguel mensal</span>
 
-                    <strong>
-                        R$ 2.800,00
+                    <span>
+                        Aluguel mensal
+                    </span>
+
+                    <strong id="preco-imovel">
+                        R$ 0,00
                     </strong>
+
                 </div>
 
                 <div class="custos">
 
                     <div>
-                        <span>Aluguel</span>
-                        <strong>R$ 2.800,00</strong>
+
+                        <span>
+                            Aluguel
+                        </span>
+
+                        <strong id="valor-aluguel">
+                            R$ 0,00
+                        </strong>
+
                     </div>
 
                     <div>
-                        <span>Condomínio</span>
-                        <strong>R$ 320,00</strong>
-                    </div>
 
-                    <div>
-                        <span>IPTU</span>
-                        <strong>R$ 95,00</strong>
-                    </div>
+                        <span>
+                            Taxa Lar+ (5%)
+                        </span>
 
-                    <div>
-                        <span>Taxa Lar+ (5%)</span>
-                        <strong>R$ 140,00</strong>
+                        <strong id="taxa-lar">
+                            R$ 0,00
+                        </strong>
+
                     </div>
 
                 </div>
 
                 <div class="total-mensal">
 
-                    <span>Total mensal</span>
+                    <span>
+                        Total mensal
+                    </span>
 
-                    <strong>
-                        R$ 3.355,00
+                    <strong id="total-mensal">
+                        R$ 0,00
                     </strong>
 
                 </div>
 
                 <a
-                    href="cadastro.html"
+                    href="login.html"
                     class="botao-alugar"
+                    id="botao-alugar"
                 >
                     Quero alugar
                 </a>
@@ -296,6 +356,7 @@
                 <button
                     type="button"
                     class="botao-visita"
+                    id="botao-visita"
                 >
                     Agendar visita
                 </button>
@@ -306,14 +367,23 @@
 
                 <div class="proprietario-card">
 
-                    <div class="avatar">
-                        CM
+                    <div
+                        class="avatar"
+                        id="avatar-anunciante"
+                    >
+                        ?
                     </div>
 
                     <div>
-                        <span>Proprietário</span>
-                        <strong>Carlos M.</strong>
-                        <small>Membro desde 2026</small>
+
+                        <span>
+                            Anunciante
+                        </span>
+
+                        <strong id="nome-anunciante">
+                            Carregando...
+                        </strong>
+
                     </div>
 
                 </div>
@@ -331,12 +401,24 @@
         </p>
 
         <div>
-            <a href="#">Privacidade</a>
-            <a href="#">Termos de uso</a>
-            <a href="#">Ajuda</a>
+            <a href="#">
+                Privacidade
+            </a>
+
+            <a href="#">
+                Termos de uso
+            </a>
+
+            <a href="#">
+                Ajuda
+            </a>
         </div>
 
     </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/detalhes.js"></script>
 
 </body>
 

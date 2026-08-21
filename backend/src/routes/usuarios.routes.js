@@ -2,8 +2,13 @@ const express = require("express");
 
 const {
     cadastrarUsuario,
-    loginUsuario
+    loginUsuario,
+    buscarPerfil
 } = require("../controllers/usuarios.controller");
+
+const {
+    autenticarUsuario
+} = require("../middlewares/autenticacao.middleware");
 
 const router = express.Router();
 
@@ -14,8 +19,23 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/", cadastrarUsuario);
+router.post(
+    "/",
+    cadastrarUsuario
+);
 
-router.post("/login", loginUsuario);
+
+router.post(
+    "/login",
+    loginUsuario
+);
+
+
+router.get(
+    "/perfil",
+    autenticarUsuario,
+    buscarPerfil
+);
+
 
 module.exports = router;

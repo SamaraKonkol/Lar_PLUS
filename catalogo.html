@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Imóveis | Lar+</title>
 
@@ -19,10 +16,7 @@
     <header class="cabecalho">
 
         <a href="index.html" class="logo">
-            <img
-                src="img/Lar_PLUS.png"
-                alt="Logo da Lar+"
-            >
+            <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
         </a>
 
         <nav class="menu-principal">
@@ -56,26 +50,77 @@
         </nav>
 
         <div class="acoes-header">
-            <button
-                class="botao-favoritos"
-                type="button"
+
+            <div class="menu-visitante">
+                <a href="login.html" class="botao entrar">
+                    Entrar
+                </a>
+
+                <a href="cadastro.html" class="botao cadastrar">
+                    Criar conta
+                </a>
+            </div>
+
+           <div class="menu-usuario" hidden>
+
+    <a href="favoritos.html" class="botao favoritos">
+        ♡ Favoritos
+    </a>
+
+    <div class="perfil-menu">
+
+        <button
+            type="button"
+            class="perfil-header"
+            id="botao-menu-perfil"
+            aria-expanded="false"
+        >
+            <img
+                src="img/avatar-padrao.png"
+                alt="Foto de perfil"
+                class="foto-perfil-header"
             >
-                ♡ Favoritos
+
+            <span class="nome-usuario-header">
+                Perfil
+            </span>
+
+            <span class="seta-perfil">
+                ▾
+            </span>
+        </button>
+
+        <div
+            class="dropdown-perfil"
+            id="dropdown-perfil"
+            hidden
+        >
+
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="editar-perfil.html">
+                Editar perfil
+            </a>
+
+            <div class="divisor-menu"></div>
+
+            <button
+                type="button"
+                id="botao-logout"
+                class="botao-logout"
+            >
+                Sair
             </button>
 
-            <a
-                href="login.html"
-                class="botao entrar"
-            >
-                Entrar
-            </a>
+        </div>
 
-            <a
-                href="cadastro.html"
-                class="botao cadastrar"
-            >
-                Criar conta
-            </a>
+    </div>
+
+</div>
+            </div>
+
         </div>
 
     </header>
@@ -129,10 +174,7 @@
                         Faixa de aluguel
                     </label>
 
-                    <select
-                        id="faixa-preco"
-                        name="faixa-preco"
-                    >
+                    <select id="faixa-preco" name="faixa-preco">
                         <option value="">
                             Todos os valores
                         </option>
@@ -160,10 +202,7 @@
                         Tipo de imóvel
                     </label>
 
-                    <select
-                        id="tipo-imovel"
-                        name="tipo-imovel"
-                    >
+                    <select id="tipo-imovel" name="tipo-imovel">
                         <option value="">
                             Todos os tipos
                         </option>
@@ -214,10 +253,7 @@
                     </select>
                 </div>
 
-                <button
-                    type="submit"
-                    class="botao-buscar"
-                >
+                <button type="submit" class="botao-buscar">
                     Buscar imóveis
                 </button>
 
@@ -225,43 +261,23 @@
 
             <div class="categorias-imoveis">
 
-                <button
-                    type="button"
-                    class="categoria ativa"
-                    data-tipo=""
-                >
+                <button type="button" class="categoria ativa" data-tipo="">
                     Todos
                 </button>
 
-                <button
-                    type="button"
-                    class="categoria"
-                    data-tipo="apartamento"
-                >
+                <button type="button" class="categoria" data-tipo="apartamento">
                     Apartamento
                 </button>
 
-                <button
-                    type="button"
-                    class="categoria"
-                    data-tipo="casa"
-                >
+                <button type="button" class="categoria" data-tipo="casa">
                     Casa
                 </button>
 
-                <button
-                    type="button"
-                    class="categoria"
-                    data-tipo="kitnet"
-                >
+                <button type="button" class="categoria" data-tipo="kitnet">
                     Kitnet
                 </button>
 
-                <button
-                    type="button"
-                    class="categoria"
-                    data-tipo="comercial"
-                >
+                <button type="button" class="categoria" data-tipo="comercial">
                     Comercial
                 </button>
 
@@ -307,11 +323,7 @@
             <div class="grade-imoveis" id="lista-imoveis">
             </div>
 
-            <div
-                class="mensagem-vazia"
-                id="mensagem-vazia"
-                hidden
-            >
+            <div class="mensagem-vazia" id="mensagem-vazia" hidden>
                 <h2>Nenhum imóvel encontrado</h2>
 
                 <p>
@@ -323,8 +335,9 @@
 
     </main>
 
-    <script src="js/imoveis.js"></script>
-
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/catalogo.js"></script>
 </body>
 
 </html>

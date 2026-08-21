@@ -14,10 +14,20 @@ const router = express.Router();
 
 router.use(autenticarUsuario);
 
-router.get("/", listarFavoritos);
+router.get(
+    "/",
+    listarFavoritos
+);
 
-router.post("/:imovel_id", adicionarFavorito);
+router.post(
+    "/:imovel_id",
+    adicionarFavorito
+);
 
-router.delete("/:imovel_id", removerFavorito);
+router.delete(
+    "/:imovel_id",
+    removerFavorito
+);
+
 
 module.exports = router;

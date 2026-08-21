@@ -32,6 +32,7 @@ async function criarImovel(req, res) {
             !endereco
         ) {
             return res.status(400).json({
+                sucesso: false,
                 erro: "Preencha todos os campos obrigatórios."
             });
         }
@@ -111,11 +112,141 @@ async function criarImovel(req, res) {
         console.error("Erro ao criar imóvel:", erro);
 
         return res.status(500).json({
+            sucesso: false,
             erro: "Erro interno ao publicar imóvel."
         });
     }
 }
 
+function listarImoveis(req, res) {
+    try {
+        const imoveis = db.prepare(`
+            SELECT
+                imoveis.id,
+                imoveis.usuario_id,
+                imoveis.titulo,
+                imoveis.descricao,
+                imoveis.tipo,
+                imoveis.finalidade,
+                imoveis.valor,
+                imoveis.cidade,
+                imoveis.bairro,
+                imoveis.endereco,
+                imoveis.numero,
+                imoveis.complemento,
+                imoveis.quartos,
+                imoveis.banheiros,
+                imoveis.vagas,
+                imoveis.area,
+                imoveis.status,
+                imoveis.criado_em,
+
+                (
+                    SELECT foto_url
+                    FROM imoveis_fotos
+                    WHERE imoveis_fotos.imovel_id = imoveis.id
+                    ORDER BY ordem ASC
+                    LIMIT 1
+                ) AS foto_principal
+
+            FROM imoveis
+
+            WHERE imoveis.status = 'disponivel'
+
+            ORDER BY imoveis.criado_em DESC
+        `).all();
+
+        return res.status(200).json({
+            sucesso: true,
+            quantidade: imoveis.length,
+            imoveis
+        });
+
+    } catch (erro) {
+        console.error("Erro ao listar imóveis:", erro);
+
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Erro ao buscar imóveis."
+        });
+    }
+}
+
+function buscarImovelPorId(req, res) {
+    try {
+        const { id } = req.params;
+
+        const imovel = db.prepare(`
+            SELECT
+                imoveis.id,
+                imoveis.usuario_id,
+                imoveis.titulo,
+                imoveis.descricao,
+                imoveis.tipo,
+                imoveis.finalidade,
+                imoveis.valor,
+                imoveis.cidade,
+                imoveis.bairro,
+                imoveis.endereco,
+                imoveis.numero,
+                imoveis.complemento,
+                imoveis.quartos,
+                imoveis.banheiros,
+                imoveis.vagas,
+                imoveis.area,
+                imoveis.status,
+                imoveis.criado_em,
+                imoveis.atualizado_em,
+
+                usuarios.nome AS nome_usuario,
+                usuarios.sobrenome AS sobrenome_usuario
+
+            FROM imoveis
+
+            INNER JOIN usuarios
+                ON usuarios.id = imoveis.usuario_id
+
+            WHERE imoveis.id = ?
+        `).get(id);
+
+        if (!imovel) {
+            return res.status(404).json({
+                sucesso: false,
+                erro: "Imóvel não encontrado."
+            });
+        }
+
+        const fotos = db.prepare(`
+            SELECT
+                id,
+                foto_url,
+                ordem
+            FROM imoveis_fotos
+            WHERE imovel_id = ?
+            ORDER BY ordem ASC
+        `).all(id);
+
+        return res.status(200).json({
+            sucesso: true,
+            imovel: {
+                ...imovel,
+                fotos
+            }
+        });
+
+    } catch (erro) {
+        console.error("Erro ao buscar imóvel:", erro);
+
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Erro ao buscar imóvel."
+        });
+    }
+}
+
+
 module.exports = {
-    criarImovel
+    criarImovel,
+    listarImoveis,
+    buscarImovelPorId
 };

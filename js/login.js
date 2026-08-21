@@ -27,7 +27,7 @@ formulario.addEventListener("submit", async (event) => {
 
     try {
 
-        const resposta = await fetch("http://localhost:3000/api/usuarios/login", {
+        const resposta = await fetch(`${API_URL}/api/usuarios/login`, {
                 method: "POST",
 
                 headers: {
@@ -48,10 +48,8 @@ formulario.addEventListener("submit", async (event) => {
             return;
         }
 
-        // Salva o JWT no navegador
         localStorage.setItem("token", dados.token);
 
-        // Vai para a página de imóveis
         window.location.href = "catalogo.html";
 
     } catch (erro) {
