@@ -3,418 +3,198 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do imóvel | Lar+</title>
-
-    <link
-        rel="stylesheet"
-        href="css/detalhes.css"
-    >
+    <link rel="stylesheet" href="css/detalhes.css">
 </head>
 
 <body>
 
     <header class="cabecalho">
-
         <a href="index.html" class="logo">
-            <img
-                src="img/Lar_PLUS.png"
-                alt="Logo da Lar+"
-            >
+            <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
         </a>
 
         <nav class="menu-principal">
             <ul>
-                <li>
-                    <a href="index.html">
-                        Início
-                    </a>
-                </li>
-
-                <li>
-                    <a href="catalogo.html" class="ativo">
-                        Imóveis
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#como-funciona">
-                        Como funciona
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#recursos">
-                        Recursos
-                    </a>
-                </li>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="catalogo.html" class="ativo">Imóveis</a></li>
+                <li><a href="index.html#como-funciona">Como funciona</a></li>
+                <li><a href="index.html#recursos">Recursos</a></li>
             </ul>
         </nav>
 
         <div class="acoes-header">
-
             <div class="menu-visitante">
-
-                <a
-                    href="login.html"
-                    class="botao entrar"
-                >
-                    Entrar
-                </a>
-
-                <a
-                    href="cadastro.html"
-                    class="botao cadastrar"
-                >
-                    Criar conta
-                </a>
-
+                <a href="login.html" class="botao entrar">Entrar</a>
+                <a href="cadastro.html" class="botao cadastrar">Criar conta</a>
             </div>
 
-           <div class="menu-usuario" hidden>
+            <div class="menu-usuario" hidden>
+                <a href="favoritos.html" class="botao favoritos">♡ Favoritos</a>
 
-    <a href="favoritos.html" class="botao favoritos">
-        ♡ Favoritos
-    </a>
+                <div class="perfil-menu">
+                    <button
+                        type="button"
+                        class="perfil-header"
+                        id="botao-menu-perfil"
+                        aria-expanded="false"
+                    >
+                        <img
+                            src="img/avatar-padrao.png"
+                            alt="Foto de perfil"
+                            class="foto-perfil-header"
+                        >
+                        <span class="nome-usuario-header">Perfil</span>
+                        <span class="seta-perfil">▾</span>
+                    </button>
 
-    <div class="perfil-menu">
-
-        <button
-            type="button"
-            class="perfil-header"
-            id="botao-menu-perfil"
-            aria-expanded="false"
-        >
-            <img
-                src="img/avatar-padrao.png"
-                alt="Foto de perfil"
-                class="foto-perfil-header"
-            >
-
-            <span class="nome-usuario-header">
-                Perfil
-            </span>
-
-            <span class="seta-perfil">
-                ▾
-            </span>
-        </button>
-
-        <div
-            class="dropdown-perfil"
-            id="dropdown-perfil"
-            hidden
-        >
-
-            <a href="dashboard.html">
-                Dashboard
-            </a>
-
-            <a href="editar-perfil.html">
-                Editar perfil
-            </a>
-
-            <div class="divisor-menu"></div>
-
-            <button
-                type="button"
-                id="botao-logout"
-                class="botao-logout"
-            >
-                Sair
-            </button>
-
+                    <div class="dropdown-perfil" id="dropdown-perfil" hidden>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="editar-perfil.html">Editar perfil</a>
+                        <div class="divisor-menu"></div>
+                        <button type="button" id="botao-logout" class="botao-logout">Sair</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
-    </div>
-
-</div>
-
-        </div>
-
     </header>
 
     <main>
-
         <section class="topo-imovel">
-
-            <a
-                href="catalogo.html"
-                class="voltar"
-            >
-                ← Voltar para imóveis
-            </a>
+            <a href="catalogo.html" class="voltar">← Voltar para imóveis</a>
 
             <div class="titulo-imovel">
-
                 <div>
-
-                    <span
-                        class="tipo-imovel"
-                        id="tipo-imovel"
-                    >
-                        Carregando...
-                    </span>
-
-                    <h1 id="titulo-imovel">
-                        Carregando imóvel...
-                    </h1>
-
-                    <p
-                        class="endereco"
-                        id="endereco-imovel"
-                    >
-                        Carregando localização...
-                    </p>
-
+                    <span class="tipo-imovel" id="tipo-imovel">Carregando...</span>
+                    <h1 id="titulo-imovel">Carregando imóvel...</h1>
+                    <p class="endereco" id="endereco-imovel">Carregando localização...</p>
                 </div>
 
-                <button
-                    class="botao-favoritar"
-                    id="botao-favoritar"
-                    type="button"
-                >
+                <button class="botao-favoritar" id="botao-favoritar" type="button">
                     ♡ Salvar imóvel
                 </button>
-
             </div>
-
         </section>
 
-        <section
-            class="galeria-imovel"
-            id="galeria-imovel"
-        >
-
+        <section class="galeria-imovel" id="galeria-imovel">
             <div class="imagem-principal">
-
                 <img
                     id="imagem-principal"
                     src="img/imovel-sem-foto.png"
                     alt="Foto do imóvel"
                 >
-
             </div>
 
-            <div
-                class="imagens-secundarias"
-                id="imagens-secundarias"
-            >
-            </div>
-
+            <div class="imagens-secundarias" id="imagens-secundarias"></div>
         </section>
 
         <section class="conteudo-imovel">
-
             <div class="informacoes-imovel">
-
                 <ul class="resumo-imovel">
-
-                    <li>
-                        <strong id="quartos-imovel">
-                            -
-                        </strong>
-
-                        <span>
-                            Quartos
-                        </span>
-                    </li>
-
-                    <li>
-                        <strong id="banheiros-imovel">
-                            -
-                        </strong>
-
-                        <span>
-                            Banheiros
-                        </span>
-                    </li>
-
-                    <li>
-                        <strong id="vagas-imovel">
-                            -
-                        </strong>
-
-                        <span>
-                            Vagas
-                        </span>
-                    </li>
-
-                    <li>
-                        <strong id="area-imovel">
-                            -
-                        </strong>
-
-                        <span>
-                            Área total
-                        </span>
-                    </li>
-
+                    <li><strong id="quartos-imovel">-</strong><span>Quartos</span></li>
+                    <li><strong id="banheiros-imovel">-</strong><span>Banheiros</span></li>
+                    <li><strong id="vagas-imovel">-</strong><span>Vagas</span></li>
+                    <li><strong id="area-imovel">-</strong><span>Área total</span></li>
                 </ul>
 
                 <article class="bloco-informacao">
-
-                    <h2>
-                        Sobre o imóvel
-                    </h2>
-
-                    <p id="descricao-imovel">
-                        Carregando descrição...
-                    </p>
-
+                    <h2>Sobre o imóvel</h2>
+                    <p id="descricao-imovel">Carregando descrição...</p>
                 </article>
 
                 <article class="bloco-informacao">
-
-                    <h2>
-                        Localização
-                    </h2>
-
+                    <h2>Localização</h2>
                     <div class="mapa-falso">
-
-                        <span>
-                            Localização do imóvel
-                        </span>
-
-                        <p id="localizacao-imovel">
-                            Carregando localização...
-                        </p>
-
+                        <span>Localização do imóvel</span>
+                        <p id="localizacao-imovel">Carregando localização...</p>
                     </div>
-
                 </article>
-
             </div>
 
             <aside class="painel-aluguel">
-
                 <div class="preco-principal">
-
-                    <span>
-                        Aluguel mensal
-                    </span>
-
-                    <strong id="preco-imovel">
-                        R$ 0,00
-                    </strong>
-
+                    <span>Aluguel mensal</span>
+                    <strong id="preco-imovel">R$ 0,00</strong>
                 </div>
 
                 <div class="custos">
-
                     <div>
-
-                        <span>
-                            Aluguel
-                        </span>
-
-                        <strong id="valor-aluguel">
-                            R$ 0,00
-                        </strong>
-
+                        <span>Aluguel</span>
+                        <strong id="valor-aluguel">R$ 0,00</strong>
                     </div>
-
                     <div>
-
-                        <span>
-                            Taxa Lar+ (5%)
-                        </span>
-
-                        <strong id="taxa-lar">
-                            R$ 0,00
-                        </strong>
-
+                        <span>Taxa Lar+ (5%)</span>
+                        <strong id="taxa-lar">R$ 0,00</strong>
                     </div>
-
                 </div>
 
                 <div class="total-mensal">
-
-                    <span>
-                        Total mensal
-                    </span>
-
-                    <strong id="total-mensal">
-                        R$ 0,00
-                    </strong>
-
+                    <span>Total mensal</span>
+                    <strong id="total-mensal">R$ 0,00</strong>
                 </div>
 
-                <a
-                    href="login.html"
-                    class="botao-alugar"
-                    id="botao-alugar"
-                >
+                <button type="button" class="botao-alugar" id="botao-alugar">
                     Quero alugar
-                </a>
+                </button>
 
-                <button
-                    type="button"
-                    class="botao-visita"
-                    id="botao-visita"
-                >
+                <button type="button" class="botao-visita" id="botao-visita">
                     Agendar visita
                 </button>
 
-                <p class="aviso">
-                    Você ainda não será cobrado.
-                </p>
+                <p class="aviso">Você ainda não será cobrado.</p>
 
                 <div class="proprietario-card">
-
-                    <div
-                        class="avatar"
-                        id="avatar-anunciante"
-                    >
-                        ?
-                    </div>
-
+                    <div class="avatar" id="avatar-anunciante">?</div>
                     <div>
-
-                        <span>
-                            Anunciante
-                        </span>
-
-                        <strong id="nome-anunciante">
-                            Carregando...
-                        </strong>
-
+                        <span>Anunciante</span>
+                        <strong id="nome-anunciante">Carregando...</strong>
                     </div>
-
                 </div>
-
             </aside>
-
         </section>
-
     </main>
 
     <footer class="rodape">
-
-        <p>
-            © 2026 Lar+. Todos os direitos reservados.
-        </p>
-
+        <p>© 2026 Lar+. Todos os direitos reservados.</p>
         <div>
-            <a href="#">
-                Privacidade
-            </a>
-
-            <a href="#">
-                Termos de uso
-            </a>
-
-            <a href="#">
-                Ajuda
-            </a>
+            <a href="#">Privacidade</a>
+            <a href="#">Termos de uso</a>
+            <a href="#">Ajuda</a>
         </div>
-
     </footer>
+
+    <div class="modal-galeria" id="modal-galeria" hidden aria-hidden="true">
+        <div class="modal-galeria-backdrop" data-fechar-galeria></div>
+        <div class="modal-galeria-conteudo" role="dialog" aria-modal="true" aria-label="Galeria de fotos do imóvel">
+            <button type="button" class="modal-fechar" id="fechar-galeria" aria-label="Fechar galeria">×</button>
+            <button type="button" class="galeria-navegacao anterior" id="foto-anterior" aria-label="Foto anterior">‹</button>
+            <img id="imagem-modal-galeria" src="img/imovel-sem-foto.png" alt="Foto ampliada do imóvel">
+            <button type="button" class="galeria-navegacao proxima" id="proxima-foto" aria-label="Próxima foto">›</button>
+            <div class="contador-galeria" id="contador-galeria">1 / 1</div>
+        </div>
+    </div>
+
+    <div class="modal-visita" id="modal-visita" hidden aria-hidden="true">
+        <div class="modal-visita-backdrop" data-fechar-visita></div>
+        <div class="modal-visita-conteudo" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-visita">
+            <button type="button" class="modal-fechar" id="fechar-visita" aria-label="Fechar agendamento">×</button>
+            <h2 id="titulo-modal-visita">Agendar visita</h2>
+            <p>Escolha uma data e um horário para visitar este imóvel.</p>
+
+            <form id="form-agendar-visita">
+                <label for="data-visita">Data</label>
+                <input type="date" id="data-visita" name="data" required>
+
+                <label for="hora-visita">Horário</label>
+                <input type="time" id="hora-visita" name="hora" required>
+
+                <button type="submit" class="botao-confirmar-visita">Enviar solicitação</button>
+            </form>
+
+            <p class="mensagem-visita" id="mensagem-visita" hidden></p>
+        </div>
+    </div>
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
