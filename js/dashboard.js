@@ -49,10 +49,11 @@ function criarCardImovel(imovel) {
     const acoes = document.createElement("div");
     acoes.className = "acoes-imovel";
 
-    const ver = document.createElement("a");
-    ver.className = "botao-ver-imovel";
-    ver.href = `detalhes.html?id=${imovel.id}`;
-    ver.textContent = "Ver";
+    const editar = document.createElement("button");
+    editar.type = "button";
+    editar.className = "botao-editar-imovel";
+    editar.textContent = "Editar";
+    editar.dataset.id = imovel.id;
 
     const excluir = document.createElement("button");
     excluir.type = "button";
@@ -60,7 +61,7 @@ function criarCardImovel(imovel) {
     excluir.textContent = "Excluir";
     excluir.dataset.id = imovel.id;
 
-    acoes.append(ver, excluir);
+    acoes.append(editar, excluir);
     artigo.append(imagem, conteudo, acoes);
 
     return artigo;
@@ -200,18 +201,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 document.addEventListener("click", async event => {
-    const botao = event.target.closest(".botao-excluir-imovel");
+    const botaoExcluir = event.target.closest(".botao-excluir-imovel");
 
-    if (!botao) {
+    if (botaoExcluir) {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        await excluirImovelDashboard(botaoExcluir.dataset.id, token);
         return;
     }
 
-    const token = localStorage.getItem("token");
+    const botaoEditar = event.target.closest(".botao-editar-imovel");
 
-    if (!token) {
-        window.location.href = "login.html";
-        return;
+    if (botaoEditar) {
+        alert("A edição de imóveis está em desenvolvimento.");
     }
-
-    await excluirImovelDashboard(botao.dataset.id, token);
 });
