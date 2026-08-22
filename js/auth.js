@@ -1,3 +1,14 @@
+function estaNaPaginaInicial() {
+    const pagina = window.location.pathname
+        .split("/")
+        .pop();
+
+    return (
+        pagina === "" ||
+        pagina === "index.html"
+    );
+}
+
 async function verificarUsuarioLogado() {
     const token = localStorage.getItem("token");
 
@@ -52,6 +63,11 @@ async function verificarUsuarioLogado() {
 
         const dados = await resposta.json();
         const usuario = dados.usuario;
+
+        if (estaNaPaginaInicial()) {
+            window.location.href = "dashboard.html";
+            return usuario;
+        }
 
         if (menuVisitante) {
             menuVisitante.hidden = true;
@@ -172,6 +188,50 @@ function configurarMenuPerfil() {
             "click",
             logout
         );
+    }
+}
+
+async function protegerPagina() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return null;
+    }
+
+    try {
+        const resposta = await fetch(
+            `${API_URL}/api/usuarios/perfil`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        if (!resposta.ok) {
+            localStorage.removeItem("token");
+
+            window.location.href =
+                "login.html";
+
+            return null;
+        }
+
+        const dados = await resposta.json();
+
+        return dados.usuario;
+
+    } catch (erro) {
+        console.error(
+            "Erro ao validar sessão:",
+            erro
+        );
+
+        window.location.href =
+            "login.html";
+
+        return null;
     }
 }
 
