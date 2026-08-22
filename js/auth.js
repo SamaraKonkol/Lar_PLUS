@@ -156,15 +156,48 @@ function configurarMenuPerfil() {
 }
 
 function configurarRecursosEmDesenvolvimento() {
-    document.querySelectorAll('a[href="editar-perfil.html"]').forEach(link => {
-        link.addEventListener("click", event => {
+    document.addEventListener("click", event => {
+        const editarPerfil = event.target.closest('a[href="editar-perfil.html"]');
+        const botaoAlugar = event.target.closest("#botao-alugar");
+        const botaoVisita = event.target.closest("#botao-visita");
+
+        if (editarPerfil) {
             event.preventDefault();
+            event.stopImmediatePropagation();
             mostrarAvisoInterface(
                 "Edição de perfil",
                 "Esta função ainda está em desenvolvimento."
             );
-        });
-    });
+            return;
+        }
+
+        if (!botaoAlugar && !botaoVisita) {
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (!token) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (botaoAlugar) {
+            mostrarAvisoInterface(
+                "Locação pela Lar+",
+                "Esta função ainda está em desenvolvimento."
+            );
+            return;
+        }
+
+        mostrarAvisoInterface(
+            "Agendamento de visita",
+            "Esta função ainda está em desenvolvimento."
+        );
+    }, true);
 }
 
 async function protegerPagina() {
