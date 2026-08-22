@@ -3,6 +3,45 @@
     margin: 0 auto;
 }
 
+.etapa-progresso > span {
+    width: 42px;
+    height: 42px;
+    font-size: 0.9rem;
+}
+
+.etapa-progresso strong {
+    font-size: 0.82rem;
+}
+
+.etapa-progresso small {
+    font-size: 0.68rem;
+}
+
+.campo label {
+    font-size: 0.82rem;
+}
+
+.campo > small,
+.rodape-campo small,
+.rodape-campo span,
+.titulo-card p,
+.subtitulo-formulario p,
+.area-upload p,
+.area-upload small,
+.opcao-checkbox,
+.comodidade,
+.aviso-valores {
+    font-size: 0.72rem;
+}
+
+.titulo-card h2 {
+    font-size: 1.08rem;
+}
+
+.subtitulo-formulario h3 {
+    font-size: 0.92rem;
+}
+
 .preview-fotos {
     margin-top: 18px;
     display: grid;
@@ -35,7 +74,7 @@
     border-radius: 7px;
     color: #ffffff;
     background: rgba(8, 8, 16, 0.72);
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
