@@ -1,14 +1,3 @@
-function estaNaPaginaInicial() {
-    const pagina = window.location.pathname
-        .split("/")
-        .pop();
-
-    return (
-        pagina === "" ||
-        pagina === "index.html"
-    );
-}
-
 async function verificarUsuarioLogado() {
     const token = localStorage.getItem("token");
 
@@ -63,11 +52,6 @@ async function verificarUsuarioLogado() {
 
         const dados = await resposta.json();
         const usuario = dados.usuario;
-
-        if (estaNaPaginaInicial()) {
-            window.location.href = "dashboard.html";
-            return usuario;
-        }
 
         if (menuVisitante) {
             menuVisitante.hidden = true;
@@ -190,6 +174,7 @@ function configurarMenuPerfil() {
         );
     }
 }
+
 
 async function protegerPagina() {
     const token = localStorage.getItem("token");
