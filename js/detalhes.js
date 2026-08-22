@@ -19,6 +19,7 @@ const totalMensal = document.getElementById("total-mensal");
 const avatarAnunciante = document.getElementById("avatar-anunciante");
 const nomeAnunciante = document.getElementById("nome-anunciante");
 const botaoFavoritar = document.getElementById("botao-favoritar");
+const botaoAlugar = document.getElementById("botao-alugar");
 
 let estaFavoritado = false;
 
@@ -263,6 +264,19 @@ async function alternarFavorito() {
     await alterarFavorito("POST", true);
 }
 
+function tentarAlugar(event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    alert("A função de locação ainda está em desenvolvimento. Em breve você poderá iniciar todo o processo pela Lar+.");
+}
+
 function mostrarErro(mensagem) {
     tituloImovel.textContent = mensagem;
     tipoImovel.textContent = "";
@@ -315,4 +329,5 @@ async function iniciarDetalhes() {
 }
 
 botaoFavoritar?.addEventListener("click", alternarFavorito);
+botaoAlugar?.addEventListener("click", tentarAlugar);
 document.addEventListener("DOMContentLoaded", iniciarDetalhes);
