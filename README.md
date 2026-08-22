@@ -1,43 +1,75 @@
-#  LAR+
+# LAR+
 
-A **Lar+** é uma plataforma web de gerenciamento e divulgação de imóveis, desenvolvida como projeto pessoal com o objetivo de aplicar e aprofundar conhecimentos em desenvolvimento web Full Stack.
+A **Lar+** é uma plataforma web de divulgação, locação e gerenciamento de imóveis. O projeto está em evolução contínua e possui uma arquitetura full stack com frontend separado da API, banco de dados persistente e armazenamento de arquivos em nuvem.
 
-O sistema permite o cadastro e gerenciamento de imóveis, navegação pelo catálogo e autenticação de usuários.
+A plataforma utiliza uma única conta por usuário. Visitantes podem navegar pelo catálogo e visualizar imóveis; recursos interativos e de gerenciamento exigem autenticação.
 
-##  Funcionalidades
+## Funcionalidades atuais
 
 - Cadastro e login de usuários
-- Autenticação utilizando JWT
+- Autenticação com JWT
 - Catálogo de imóveis
 - Visualização de detalhes dos imóveis
-- Cadastro de novos imóveis
-- Gerenciamento de imóveis
-- Dashboard para gerenciamento
-- Filtros e organização do catálogo
+- Publicação de imóveis
+- Upload de fotos e documentos para Amazon S3
+- Favoritos
+- Dashboard com imóveis do usuário
+- Exclusão dos próprios imóveis
+- Filtros e ordenação no catálogo
+- Galeria de fotos
+- Localização do imóvel em mapa incorporado
 
-##  Tecnologias utilizadas
+## Funcionalidades em desenvolvimento
 
-### Front-end
+- Edição de imóveis
+- Edição de perfil e foto de usuário
+- Agendamento de visitas
+- Fluxo de locação
+- Contratos digitais
+- Carteira e meios de pagamento
+- Pagamentos pela plataforma
+- Gestão completa da locação
+- Notificações
+
+## Tecnologias
+
+### Frontend
+
 - HTML5
 - CSS3
 - JavaScript
+- GitHub Pages
 
-### Back-end
+### Backend
+
 - Node.js
 - Express.js
-- SQLite
-- JWT (JSON Web Token)
+- PostgreSQL
+- JWT
 - bcrypt
+- Multer
 - dotenv
 - CORS
+- Render
 
-##  Estrutura do projeto
+### Infraestrutura
+
+- PostgreSQL no Render para dados persistentes
+- Amazon S3 para fotos e documentos
+- IAM para controle de acesso ao S3
+
+## Estrutura principal
 
 ```text
 Lar_PLUS/
 ├── backend/
-│   ├── data/
 │   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── database/
+│   │   ├── middlewares/
+│   │   ├── routes/
+│   │   └── utils/
 │   ├── .env.example
 │   └── package.json
 ├── css/
@@ -49,19 +81,21 @@ Lar_PLUS/
 ├── cadastro.html
 ├── login.html
 ├── dashboard.html
-├── cadastrar-imovel.html
-└── gerenciar-imoveis.html
+├── favoritos.html
+└── cadastrar-imovel.html
 ```
-##  Objetivo do projeto
 
-A Lar+ foi desenvolvida para colocar em prática conceitos de desenvolvimento web, integração entre front-end e back-end, criação de APIs, autenticação e persistência de dados.
-O projeto também representa minha evolução durante a graduação em Engenharia de Software, sendo continuamente aprimorado conforme avanço nos estudos.
+## Segurança
 
-##  Segurança
+Credenciais, chaves e segredos não devem ser armazenados no repositório. As variáveis necessárias estão documentadas em `backend/.env.example` e devem ser configuradas separadamente em cada ambiente.
 
-Informações sensíveis e chaves de autenticação não são armazenadas no repositório. As configurações necessárias estão documentadas no arquivo .env.example.
+A API valida autenticação e propriedade dos recursos protegidos no backend. Arquivos privados são armazenados no Amazon S3 e servidos pela API quando necessário.
 
-##  Autora
+## Status
 
-**Samara Konkol**
-Estudante de Engenharia de Software.
+A Lar+ está em estágio de MVP funcional. A base de autenticação, publicação, catálogo, favoritos, dashboard, PostgreSQL e S3 já está integrada; os módulos de locação, contratos e pagamentos ainda estão em desenvolvimento.
+
+## Autora
+
+**Samara Konkol**  
+Engenharia de Software
