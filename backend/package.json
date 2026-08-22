@@ -4,6 +4,9 @@
   "description": "Backend da plataforma Lar+",
   "main": "src/server.js",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js"
