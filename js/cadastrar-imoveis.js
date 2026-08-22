@@ -10,14 +10,43 @@ const etapasProgresso = Array.from(document.querySelectorAll(".etapa-progresso")
 const linhasProgresso = Array.from(document.querySelectorAll(".linha-progresso"));
 
 function carregarEstilosAjustes() {
-    if (document.querySelector('link[href="css/cadastrar-imovel-ajustes.css"]')) {
-        return;
-    }
+    ["css/cadastrar-imovel-ajustes.css", "css/avisos.css"].forEach(href => {
+        if (document.querySelector(`link[href="${href}"]`)) {
+            return;
+        }
 
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "css/cadastrar-imovel-ajustes.css";
-    document.head.appendChild(link);
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        document.head.appendChild(link);
+    });
+}
+
+function mostrarAvisoGlass(titulo, mensagem, tipo = "sucesso") {
+    document.querySelector(".aviso-glass")?.remove();
+
+    const aviso = document.createElement("div");
+    aviso.className = `aviso-glass aviso-${tipo}`;
+
+    const icone = document.createElement("span");
+    icone.className = "aviso-glass-icone";
+    icone.textContent = tipo === "sucesso" ? "✓" : "!";
+
+    const conteudo = document.createElement("div");
+
+    const tituloElemento = document.createElement("strong");
+    tituloElemento.textContent = titulo;
+
+    const texto = document.createElement("p");
+    texto.textContent = mensagem;
+
+    conteudo.append(tituloElemento, texto);
+    aviso.append(icone, conteudo);
+    document.body.appendChild(aviso);
+
+    requestAnimationFrame(() => aviso.classList.add("visivel"));
+
+    return aviso;
 }
 
 function valorCampo(id) {
@@ -252,11 +281,21 @@ async function publicarImovel(event) {
             throw new Error(dados.erro || dados.mensagem || "Não foi possível publicar o imóvel.");
         }
 
-        alert("Imóvel publicado com sucesso!");
-        window.location.href = `detalhes.html?id=${dados.imovel_id}`;
+        mostrarAvisoGlass(
+            "Imóvel publicado!",
+            "Seu anúncio foi salvo com sucesso. Voltando para o dashboard..."
+        );
+
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1600);
     } catch (erro) {
         console.error("Erro ao publicar imóvel:", erro);
-        alert(erro.message || "Erro ao publicar imóvel.");
+        mostrarAvisoGlass(
+            "Não foi possível publicar",
+            erro.message || "Tente novamente em alguns instantes.",
+            "erro"
+        );
     } finally {
         botaoPublicar.disabled = false;
         botaoPublicar.textContent = textoOriginal;
