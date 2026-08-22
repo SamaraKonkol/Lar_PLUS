@@ -173,10 +173,19 @@ async function excluirImovelDashboard(id, token) {
             throw new Error(dados.erro || "Não foi possível excluir o imóvel.");
         }
 
+        mostrarAvisoInterface(
+            "Imóvel excluído",
+            "O anúncio foi removido da sua conta."
+        );
+
         await carregarMeusImoveis(token);
     } catch (erro) {
         console.error("Erro ao excluir imóvel:", erro);
-        alert(erro.message);
+        mostrarAvisoInterface(
+            "Não foi possível excluir",
+            erro.message,
+            "erro"
+        );
     }
 }
 
@@ -218,6 +227,9 @@ document.addEventListener("click", async event => {
     const botaoEditar = event.target.closest(".botao-editar-imovel");
 
     if (botaoEditar) {
-        alert("A edição de imóveis está em desenvolvimento.");
+        mostrarAvisoInterface(
+            "Edição de imóvel",
+            "Esta função ainda está em desenvolvimento."
+        );
     }
 });
