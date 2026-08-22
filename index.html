@@ -3,11 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Lar+ | Imobiliária digital</title>
-
+    <title>Lar+ | Plataforma digital de imóveis</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/header-auth.css">
 </head>
@@ -15,362 +12,192 @@
 <body>
 
     <header class="cabecalho">
-
         <a href="index.html" class="logo">
             <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
         </a>
 
         <nav class="menu-principal">
             <ul>
-                <li>
-                    <a href="index.html">Início</a>
-                </li>
-
-                <li>
-                    <a href="catalogo.html" class="ativo">Imóveis</a>
-                </li>
-
-                <li>
-                    <a href="index.html#como-funciona">
-                        Como funciona
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#recursos">
-                        Recursos
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#avaliacoes">
-                        Depoimentos
-                    </a>
-                </li>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="catalogo.html">Imóveis</a></li>
+                <li><a href="index.html#como-funciona">Como funciona</a></li>
+                <li><a href="index.html#recursos">Recursos</a></li>
             </ul>
         </nav>
 
         <div class="acoes-header">
-
             <div class="menu-visitante">
-                <a href="login.html" class="botao login">
-                    Entrar
-                </a>
-
-                <a href="cadastro.html" class="botao cadastrar">
-                    Criar conta
-                </a>
+                <a href="login.html" class="botao login">Entrar</a>
+                <a href="cadastro.html" class="botao cadastrar">Criar conta</a>
             </div>
 
             <div class="menu-usuario" hidden>
-
-                <a href="favoritos.html" class="botao favoritos">
-                    ♡ Favoritos
-                </a>
+                <a href="favoritos.html" class="botao favoritos">♡ Favoritos</a>
 
                 <div class="perfil-menu">
-
                     <button type="button" class="perfil-header" id="botao-menu-perfil" aria-expanded="false">
                         <img src="img/avatar-padrao.png" alt="Foto de perfil" class="foto-perfil-header">
-
-                        <span class="nome-usuario-header">
-                            Perfil
-                        </span>
-
-                        <span class="seta-perfil">
-                            ▾
-                        </span>
+                        <span class="nome-usuario-header">Perfil</span>
+                        <span class="seta-perfil">▾</span>
                     </button>
 
                     <div class="dropdown-perfil" id="dropdown-perfil" hidden>
-                        <a href="dashboard.html">
-                            Dashboard
-                        </a>
-
-                        <a href="editar-perfil.html">
-                            Editar perfil
-                        </a>
-
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="editar-perfil.html">Editar perfil</a>
                         <div class="divisor-menu"></div>
-
-                        <button type="button" id="botao-logout" class="botao-logout">
-                            Sair
-                        </button>
+                        <button type="button" id="botao-logout" class="botao-logout">Sair</button>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </header>
 
     <main>
-
         <section class="hero">
-
             <div class="hero-conteudo">
-
                 <h1>
-                    A imobiliária digital que
-                    <span>trabalha por você.</span>
+                    Imóveis em um só lugar.
+                    <span>Mais autonomia para você.</span>
                 </h1>
 
                 <p>
-                    Alugue com segurança, administre tudo online e receba
-                    seu aluguel sem burocracia. Mais transparência,
-                    menos taxas e mais tranquilidade.
+                    Encontre, publique e acompanhe imóveis pela mesma conta.
+                    A Lar+ reúne catálogo, favoritos e gerenciamento em uma
+                    experiência digital simples e transparente.
                 </p>
 
                 <div class="hero-botoes">
-
-                    <a href="catalogo.html" class="botao proprietario">
-                        Ver Imóveis
-                    </a>
-
-                    <a href="login.html" class="botao inquilino">
-                        Começar
-                    </a>
-
+                    <a href="catalogo.html" class="botao proprietario">Ver imóveis</a>
+                    <a href="cadastro.html" class="botao inquilino">Criar conta</a>
                 </div>
 
                 <ul class="hero-beneficios">
-                    <li>100% digital</li>
-                    <li>Seguro e transparente</li>
-                    <li>Tudo em um só lugar</li>
+                    <li>Uma única conta</li>
+                    <li>Catálogo aberto</li>
+                    <li>Gestão digital</li>
                 </ul>
-
             </div>
 
             <div class="hero-imagem">
-                <img src="img/casa.png" alt="Casa moderna administrada pela Lar+">
+                <img src="img/casa.png" alt="Casa moderna na plataforma Lar+">
             </div>
-
         </section>
 
         <section class="recursos" id="recursos">
-
             <div class="recursos-conteudo">
-
-                <h2>
-                    Tudo o que você precisa para gerir seu imóvel
-                </h2>
+                <h2>Uma base preparada para toda a jornada da locação</h2>
 
                 <ul class="lista-recursos">
-
                     <li class="recurso">
                         <img src="img/icone-financeiro.svg" alt="">
-
-                        <strong>Gestão financeira</strong>
-
-                        <p>
-                            Pagamentos automáticos e reserva de emergência.
-                        </p>
+                        <strong>Publicação de imóveis</strong>
+                        <p>Cadastre informações, valores, comodidades, fotos e documentos.</p>
                     </li>
 
                     <li class="recurso">
                         <img src="img/icon/local-na-rede-internet.png" alt="">
-
-                        <strong>Contratos digitais</strong>
-
-                        <p>
-                            Assinatura online e documentos seguros.
-                        </p>
+                        <strong>Catálogo e detalhes</strong>
+                        <p>Navegue pelos anúncios, consulte informações e visualize a localização.</p>
                     </li>
 
                     <li class="recurso">
                         <img src="img/icon/manutencao.png" alt="">
-
-                        <strong>Manutenção</strong>
-
-                        <p>
-                            Solicitações e acompanhamento.
-                        </p>
+                        <strong>Gerenciamento</strong>
+                        <p>Acompanhe seus anúncios pelo dashboard da sua conta.</p>
                     </li>
 
                     <li class="recurso">
                         <img src="img/icon/locatario.png" alt="">
-
-                        <strong>Inquilinos</strong>
-
-                        <p>
-                            Seleção, aprovação e comunicação.
-                        </p>
+                        <strong>Favoritos</strong>
+                        <p>Salve os imóveis de interesse e acesse sua seleção quando quiser.</p>
                     </li>
 
                     <li class="recurso">
                         <img src="img/icon/relatorio.png" alt="">
-
-                        <strong>Relatórios</strong>
-
-                        <p>
-                            Dashboards completos e transparentes.
-                        </p>
+                        <strong>Próximos módulos</strong>
+                        <p>Locação, contratos, carteira e pagamentos estão no roadmap da plataforma.</p>
                     </li>
-
                 </ul>
-
-                <a href="#" class="ver-mais">
-                    Ver todos os recursos →
-                </a>
-
             </div>
 
             <div class="dashboard-imagem">
-                <img src="img/exemplo.png" alt="Painel de gestão financeira da Lar+">
+                <img src="img/exemplo.png" alt="Exemplo de painel da Lar+">
             </div>
-
         </section>
 
         <section class="como-funciona" id="como-funciona">
-
             <div class="titulo-secao">
                 <h2>Como funciona?</h2>
-                <p>Simples, rápido e 100% digital.</p>
+                <p>Uma conta, diferentes possibilidades.</p>
             </div>
 
             <div class="como-funciona-layout">
-
                 <div class="etapas">
-
                     <article class="etapa">
                         <span class="numero">1</span>
                         <img src="img/icone-cadastro.svg" alt="">
-                        <h3>Cadastro</h3>
-                        <p>
-                            O proprietário cadastra o imóvel e configura as contas.
-                        </p>
+                        <h3>Crie sua conta</h3>
+                        <p>Cadastre-se uma única vez para acessar os recursos da plataforma.</p>
                     </article>
 
                     <article class="etapa">
                         <span class="numero">2</span>
                         <img src="img/icon/lugar.png" alt="">
-                        <h3>Inquilino encontra</h3>
-                        <p>
-                            O inquilino se interessa, envia os documentos
-                            e aguarda a aprovação.
-                        </p>
+                        <h3>Encontre imóveis</h3>
+                        <p>Navegue pelo catálogo, abra os detalhes e salve seus favoritos.</p>
                     </article>
 
                     <article class="etapa">
                         <span class="numero">3</span>
                         <img src="img/icon/contrato.png" alt="">
-                        <h3>Contrato digital</h3>
-                        <p>
-                            Proprietário e inquilino assinam o contrato digitalmente.
-                        </p>
+                        <h3>Publique</h3>
+                        <p>Use a mesma conta para anunciar e administrar seus próprios imóveis.</p>
                     </article>
 
                     <article class="etapa">
                         <span class="numero">4</span>
                         <img src="img/icon/forma-de-pagamento.png" alt="">
-                        <h3>Pagamento pela plataforma</h3>
-                        <p>
-                            O inquilino paga e a Lar+ realiza a distribuição
-                            automática do valor.
-                        </p>
+                        <h3>Gerencie</h3>
+                        <p>Acompanhe seus anúncios e sua conta pelo dashboard.</p>
                     </article>
 
                     <article class="etapa">
                         <span class="numero">5</span>
                         <img src="img/icon/mao.png" alt="">
-                        <h3>Você recebe</h3>
-                        <p>
-                            O saldo restante é enviado diretamente para sua conta.
-                        </p>
+                        <h3>Evolução contínua</h3>
+                        <p>Contratos, locação e pagamentos serão integrados aos próximos módulos.</p>
                     </article>
-
                 </div>
 
                 <aside class="chamada-cadastro">
-
                     <h2>
-                        Menos taxas.<br>
+                        Menos barreiras.<br>
                         Mais controle.<br>
-                        Mais tranquilidade.
+                        Tudo conectado.
                     </h2>
 
-                    <p>
-                        Experimente gratuitamente por 7 dias.
-                    </p>
+                    <p>Crie sua conta e comece pela experiência que já está disponível.</p>
 
-                    <a href="cadastro.html" class="botao criar-conta">
-                        Criar minha conta
-                    </a>
-
+                    <a href="cadastro.html" class="botao criar-conta">Criar minha conta</a>
                 </aside>
-
             </div>
-
-            <section class="avaliacoes" id="avaliacoes">
-
-                <div class="avaliacoes-topo">
-                    <div>
-                        <h2>O que nossos clientes dizem</h2>
-                        <p>Experiências de quem administra seus imóveis pela Lar+.</p>
-                    </div>
-                </div>
-
-                <div class="carrossel-comentarios">
-
-                    <article class="card-comentario">
-
-                        <div class="estrelas" aria-label="Avaliação de cinco estrelas">
-                            ★★★★★
-                        </div>
-
-                        <p>
-                            “Finalmente uma plataforma que tira o peso da
-                            administração do aluguel das minhas costas.”
-                        </p>
-
-                        <div class="autor">
-                            <div class="avatar-autor">
-                                CM
-                            </div>
-
-                            <div>
-                                <strong>Carlos M.</strong>
-                                <span>Proprietário de 3 imóveis</span>
-                            </div>
-                        </div>
-
-                    </article>
-
-                </div>
-
-            </section>
-
         </section>
-
     </main>
 
     <footer class="rodape">
-
         <div class="pagamentos">
-
-            <p>Pagamento 100% seguro</p>
-
-            <div class="bandeiras">
-                <img src="img/icon/logotipo-visa.png" alt="Visa">
-                <img src="img/mastercard.svg" alt="Mastercard">
-                <img src="img/pix.svg" alt="Pix">
-            </div>
-
+            <p>Lar+ em desenvolvimento contínuo</p>
         </div>
 
         <div class="informacoes-seguranca">
-            <p>Seus dados protegidos com criptografia</p>
-            <p>Conformidade com a LGPD</p>
-            <p>Suporte especializado</p>
+            <p>Autenticação protegida</p>
+            <p>Dados persistidos em PostgreSQL</p>
+            <p>Arquivos armazenados em nuvem</p>
         </div>
-
     </footer>
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
-
 </body>
 
 </html>
