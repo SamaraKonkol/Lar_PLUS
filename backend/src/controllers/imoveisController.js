@@ -1,4 +1,6 @@
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
 const { db } = require("../database/database");
+const s3 = require("../config/s3");
 const { uploadImagemS3 } = require("../utils/uploadS3");
 
 function paraNumero(valor, padrao = 0) {
@@ -8,6 +10,19 @@ function paraNumero(valor, padrao = 0) {
 
 function paraBooleano(valor) {
     return valor === true || valor === "true" || valor === "1" || valor === "on" ? 1 : 0;
+}
+
+function urlFotoPublica(req, fotoId) {
+    if (!fotoId) {
+        return null;
+    }
+
+    return `${req.protocol}://${req.get("host")}/api/imoveis/fotos/${fotoId}`;
+}
+
+function obterChaveS3(url) {
+    const caminho = new URL(url).pathname.replace(/^\//, "");
+    return decodeURIComponent(caminho);
 }
 
 async function salvarArquivos(imovelId, files) {
@@ -254,6 +269,44 @@ async function criarImovel(req, res) {
     }
 }
 
+async function exibirFoto(req, res) {
+    try {
+        const foto = db.prepare(`
+            SELECT foto_url
+            FROM imoveis_fotos
+            WHERE id = ?
+        `).get(req.params.fotoId);
+
+        if (!foto) {
+            return res.status(404).end();
+        }
+
+        const resposta = await s3.send(
+            new GetObjectCommand({
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: obterChaveS3(foto.foto_url)
+            })
+        );
+
+        if (resposta.ContentType) {
+            res.setHeader("Content-Type", resposta.ContentType);
+        }
+
+        res.setHeader("Cache-Control", "public, max-age=3600");
+
+        if (typeof resposta.Body?.pipe === "function") {
+            resposta.Body.pipe(res);
+            return;
+        }
+
+        const bytes = await resposta.Body.transformToByteArray();
+        return res.send(Buffer.from(bytes));
+    } catch (erro) {
+        console.error("Erro ao exibir foto:", erro);
+        return res.status(500).end();
+    }
+}
+
 function listarImoveis(req, res) {
     try {
         const imoveis = db.prepare(`
@@ -277,21 +330,26 @@ function listarImoveis(req, res) {
                 imoveis.status,
                 imoveis.criado_em,
                 (
-                    SELECT foto_url
+                    SELECT id
                     FROM imoveis_fotos
                     WHERE imoveis_fotos.imovel_id = imoveis.id
                     ORDER BY ordem ASC
                     LIMIT 1
-                ) AS foto_principal
+                ) AS foto_principal_id
             FROM imoveis
             WHERE imoveis.status = 'disponivel'
             ORDER BY imoveis.criado_em DESC
         `).all();
 
+        const resultado = imoveis.map(imovel => ({
+            ...imovel,
+            foto_principal: urlFotoPublica(req, imovel.foto_principal_id)
+        }));
+
         return res.status(200).json({
             sucesso: true,
-            quantidade: imoveis.length,
-            imoveis
+            quantidade: resultado.length,
+            imoveis: resultado
         });
     } catch (erro) {
         console.error("Erro ao listar imóveis:", erro);
@@ -342,11 +400,14 @@ function buscarImovelPorId(req, res) {
         }
 
         const fotos = db.prepare(`
-            SELECT id, foto_url, ordem
+            SELECT id, ordem
             FROM imoveis_fotos
             WHERE imovel_id = ?
             ORDER BY ordem ASC
-        `).all(id);
+        `).all(id).map(foto => ({
+            ...foto,
+            foto_url: urlFotoPublica(req, foto.id)
+        }));
 
         const comodidades = db.prepare(`
             SELECT nome
@@ -375,6 +436,7 @@ function buscarImovelPorId(req, res) {
 
 module.exports = {
     criarImovel,
+    exibirFoto,
     listarImoveis,
     buscarImovelPorId
 };
