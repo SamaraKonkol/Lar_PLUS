@@ -3,13 +3,27 @@ const botaoCadastrar = document.querySelector(".botao-cadastrar");
 
 formulario.addEventListener("submit", cadastrarUsuario);
 
+async function lerResposta(resposta) {
+    const texto = await resposta.text();
+
+    if (!texto) {
+        return {};
+    }
+
+    try {
+        return JSON.parse(texto);
+    } catch {
+        return {
+            mensagem: texto
+        };
+    }
+}
+
 async function cadastrarUsuario(evento) {
     evento.preventDefault();
 
     const senha = document.querySelector("#senha").value;
-
-    const confirmarSenha =
-        document.querySelector("#confirmar-senha").value;
+    const confirmarSenha = document.querySelector("#confirmar-senha").value;
 
     if (senha !== confirmarSenha) {
         alert("As senhas não são iguais.");
@@ -30,16 +44,9 @@ async function cadastrarUsuario(evento) {
     }
 
     if (!validarSenha(senha)) {
-        alert(
-            "A senha deve possuir pelo menos 8 caracteres, uma letra e um número."
-        );
+        alert("A senha deve possuir pelo menos 8 caracteres, uma letra e um número.");
         return;
     }
-
-
-    const tipoUsuario = document.querySelector(
-        'input[name="tipo-usuario"]:checked'
-    );
 
     const dadosUsuario = {
         nome: document.querySelector("#nome").value,
@@ -54,38 +61,31 @@ async function cadastrarUsuario(evento) {
         botaoCadastrar.disabled = true;
         botaoCadastrar.textContent = "Criando conta...";
 
-        const resposta = await fetch(
-            `${API_URL}/api/usuarios`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(dadosUsuario)
-            }
-        );
+        const resposta = await fetch(`${API_URL}/api/usuarios`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dadosUsuario)
+        });
 
-        const resultado = await resposta.json();
+        const resultado = await lerResposta(resposta);
 
         if (!resposta.ok) {
-            alert(
+            const mensagem =
                 resultado.mensagem ||
                 resultado.erro ||
-                "Não foi possível cadastrar o usuário."
-            );
+                `Não foi possível cadastrar o usuário. Código ${resposta.status}.`;
 
+            console.error("Erro no cadastro:", resposta.status, resultado);
+            alert(mensagem);
             return;
         }
 
         alert("Conta criada com sucesso!");
-
-        console.log("Usuário criado:", resultado.usuario);
-        console.log("Objetivo escolhido:", tipoUsuario.value);
-
         window.location.href = "login.html";
     } catch (erro) {
         console.error("Erro ao cadastrar:", erro);
-
         alert("Não foi possível conectar ao servidor.");
     } finally {
         botaoCadastrar.disabled = false;
@@ -142,51 +142,30 @@ function validarCPF(cpf) {
 function validarTelefone(telefone) {
     const telefoneLimpo = somenteNumeros(telefone);
 
-    return (
-        telefoneLimpo.length === 10 ||
-        telefoneLimpo.length === 11
-    );
+    return telefoneLimpo.length === 10 || telefoneLimpo.length === 11;
 }
 
 function validarSenha(senha) {
-    return (
-        senha.length >= 8 &&
-        /[A-Za-z]/.test(senha) &&
-        /\d/.test(senha)
-    );
+    return senha.length >= 8 && /[A-Za-z]/.test(senha) && /\d/.test(senha);
 }
 
-// ==========================================
-// MOSTRAR E OCULTAR SENHAS
-// ==========================================
-
 const botaoSenha = document.querySelector("#mostrarSenha");
-const botaoConfirmarSenha = document.querySelector(
-    "#mostrarConfirmarSenha"
-);
+const botaoConfirmarSenha = document.querySelector("#mostrarConfirmarSenha");
 
 function configurarBotaoSenha(botao, input, icone) {
     if (!botao || !input || !icone) {
-        console.error("Elemento do campo de senha não encontrado.");
         return;
     }
 
     botao.addEventListener("click", () => {
         const estaOculta = input.type === "password";
 
-        input.type = estaOculta
-            ? "text"
-            : "password";
-
-        icone.src = estaOculta
-            ? "img/icon/olho.png"
-            : "img/icon/olho (1).png";
+        input.type = estaOculta ? "text" : "password";
+        icone.src = estaOculta ? "img/icon/olho.png" : "img/icon/olho (1).png";
 
         botao.setAttribute(
             "aria-label",
-            estaOculta
-                ? "Ocultar senha"
-                : "Mostrar senha"
+            estaOculta ? "Ocultar senha" : "Mostrar senha"
         );
     });
 }
