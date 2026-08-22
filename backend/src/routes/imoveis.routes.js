@@ -4,7 +4,9 @@ const {
     criarImovel,
     exibirFoto,
     listarImoveis,
-    buscarImovelPorId
+    listarMeusImoveis,
+    buscarImovelPorId,
+    excluirImovel
 } = require("../controllers/imoveisController");
 
 const {
@@ -16,6 +18,7 @@ const upload = require("../middlewares/upload.middleware");
 const router = express.Router();
 
 router.get("/", listarImoveis);
+router.get("/meus", autenticarUsuario, listarMeusImoveis);
 router.get("/fotos/:fotoId", exibirFoto);
 router.get("/:id", buscarImovelPorId);
 
@@ -30,5 +33,7 @@ router.post(
     ]),
     criarImovel
 );
+
+router.delete("/:id", autenticarUsuario, excluirImovel);
 
 module.exports = router;
