@@ -22,6 +22,19 @@ const botaoFavoritar = document.getElementById("botao-favoritar");
 const botaoAlugar = document.getElementById("botao-alugar");
 
 let estaFavoritado = false;
+let fotosAtuais = [];
+let indiceFotoAtual = 0;
+
+function carregarEstilosGaleria() {
+    if (document.querySelector('link[href="css/galeria-fotos.css"]')) {
+        return;
+    }
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "css/galeria-fotos.css";
+    document.head.appendChild(link);
+}
 
 function formatarPreco(valor) {
     return Number(valor).toLocaleString("pt-BR", {
@@ -42,24 +55,114 @@ function criarIniciais(nome, sobrenome) {
     return `${nome?.charAt(0) || ""}${sobrenome?.charAt(0) || ""}`.toUpperCase();
 }
 
+function atualizarGaleriaModal() {
+    const imagem = document.querySelector(".galeria-modal-imagem");
+    const contador = document.querySelector(".galeria-modal-contador");
+
+    if (!imagem || fotosAtuais.length === 0) {
+        return;
+    }
+
+    imagem.src = fotosAtuais[indiceFotoAtual].foto_url;
+    imagem.alt = `${tituloImovel.textContent} - foto ${indiceFotoAtual + 1}`;
+
+    if (contador) {
+        contador.textContent = `${indiceFotoAtual + 1} / ${fotosAtuais.length}`;
+    }
+}
+
+function fecharGaleria() {
+    const modal = document.querySelector(".galeria-modal");
+
+    if (!modal) {
+        return;
+    }
+
+    modal.classList.remove("aberta");
+    document.body.classList.remove("galeria-aberta");
+
+    setTimeout(() => modal.remove(), 220);
+}
+
+function abrirGaleria(indice = 0) {
+    if (fotosAtuais.length === 0) {
+        return;
+    }
+
+    document.querySelector(".galeria-modal")?.remove();
+    indiceFotoAtual = Math.max(0, Math.min(indice, fotosAtuais.length - 1));
+
+    const modal = document.createElement("div");
+    modal.className = "galeria-modal";
+
+    const fechar = document.createElement("button");
+    fechar.type = "button";
+    fechar.className = "galeria-modal-fechar";
+    fechar.textContent = "×";
+
+    const anterior = document.createElement("button");
+    anterior.type = "button";
+    anterior.className = "galeria-modal-anterior";
+    anterior.textContent = "‹";
+
+    const proxima = document.createElement("button");
+    proxima.type = "button";
+    proxima.className = "galeria-modal-proxima";
+    proxima.textContent = "›";
+
+    const imagem = document.createElement("img");
+    imagem.className = "galeria-modal-imagem";
+
+    const contador = document.createElement("span");
+    contador.className = "galeria-modal-contador";
+
+    fechar.addEventListener("click", fecharGaleria);
+    anterior.addEventListener("click", () => {
+        indiceFotoAtual = (indiceFotoAtual - 1 + fotosAtuais.length) % fotosAtuais.length;
+        atualizarGaleriaModal();
+    });
+    proxima.addEventListener("click", () => {
+        indiceFotoAtual = (indiceFotoAtual + 1) % fotosAtuais.length;
+        atualizarGaleriaModal();
+    });
+    modal.addEventListener("click", event => {
+        if (event.target === modal) {
+            fecharGaleria();
+        }
+    });
+
+    modal.append(fechar, anterior, imagem, proxima, contador);
+    document.body.appendChild(modal);
+    document.body.classList.add("galeria-aberta");
+
+    requestAnimationFrame(() => modal.classList.add("aberta"));
+    atualizarGaleriaModal();
+}
+
 function carregarGaleria(fotos, titulo) {
-    if (!fotos || fotos.length === 0) {
+    fotosAtuais = Array.isArray(fotos) ? fotos : [];
+
+    if (fotosAtuais.length === 0) {
         imagemPrincipal.src = "img/imovel-sem-foto.png";
         imagemPrincipal.alt = `Imóvel ${titulo}`;
         imagensSecundarias.innerHTML = "";
         return;
     }
 
-    imagemPrincipal.src = fotos[0].foto_url;
+    imagemPrincipal.src = fotosAtuais[0].foto_url;
     imagemPrincipal.alt = titulo;
+    imagemPrincipal.style.cursor = "pointer";
+    imagemPrincipal.onclick = () => abrirGaleria(0);
     imagemPrincipal.onerror = () => {
         imagemPrincipal.src = "img/imovel-sem-foto.png";
     };
 
     imagensSecundarias.innerHTML = "";
 
-    fotos.slice(1, 5).forEach((foto, indice, lista) => {
-        if (indice === lista.length - 1 && fotos.length > 5) {
+    fotosAtuais.slice(1, 5).forEach((foto, indice, lista) => {
+        const indiceReal = indice + 1;
+
+        if (indice === lista.length - 1 && fotosAtuais.length > 5) {
             const container = document.createElement("div");
             container.classList.add("ultima-imagem");
 
@@ -69,8 +172,13 @@ function carregarGaleria(fotos, titulo) {
 
             const botao = document.createElement("button");
             botao.type = "button";
-            botao.textContent = `Ver todas as fotos (${fotos.length})`;
+            botao.textContent = `Ver todas as fotos (${fotosAtuais.length})`;
+            botao.addEventListener("click", event => {
+                event.stopPropagation();
+                abrirGaleria(indiceReal);
+            });
 
+            container.addEventListener("click", () => abrirGaleria(indiceReal));
             container.appendChild(imagem);
             container.appendChild(botao);
             imagensSecundarias.appendChild(container);
@@ -80,7 +188,9 @@ function carregarGaleria(fotos, titulo) {
         const imagem = document.createElement("img");
         imagem.src = foto.foto_url;
         imagem.alt = titulo;
+        imagem.style.cursor = "pointer";
         imagem.onerror = () => imagem.remove();
+        imagem.addEventListener("click", () => abrirGaleria(indiceReal));
         imagensSecundarias.appendChild(imagem);
     });
 }
@@ -240,9 +350,7 @@ async function alterarFavorito(metodo, estadoFinal) {
         }
 
         if (!resposta.ok) {
-            throw new Error(
-                dados.erro || dados.mensagem || "Não foi possível atualizar o favorito."
-            );
+            throw new Error(dados.erro || dados.mensagem || "Não foi possível atualizar o favorito.");
         }
 
         estaFavoritado = estadoFinal;
@@ -262,19 +370,6 @@ async function alternarFavorito() {
     }
 
     await alterarFavorito("POST", true);
-}
-
-function tentarAlugar(event) {
-    event.preventDefault();
-
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    alert("A função de locação ainda está em desenvolvimento. Em breve você poderá iniciar todo o processo pela Lar+.");
 }
 
 function mostrarErro(mensagem) {
@@ -319,6 +414,8 @@ async function carregarImovel() {
 }
 
 async function iniciarDetalhes() {
+    carregarEstilosGaleria();
+
     const carregou = await carregarImovel();
 
     if (!carregou) {
@@ -329,5 +426,36 @@ async function iniciarDetalhes() {
 }
 
 botaoFavoritar?.addEventListener("click", alternarFavorito);
-botaoAlugar?.addEventListener("click", tentarAlugar);
+
+botaoAlugar?.addEventListener("click", event => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return;
+    }
+
+    event.preventDefault();
+    alert("A função de locação ainda está em desenvolvimento.");
+});
+
+document.addEventListener("keydown", event => {
+    if (!document.querySelector(".galeria-modal")) {
+        return;
+    }
+
+    if (event.key === "Escape") {
+        fecharGaleria();
+    }
+
+    if (event.key === "ArrowLeft") {
+        indiceFotoAtual = (indiceFotoAtual - 1 + fotosAtuais.length) % fotosAtuais.length;
+        atualizarGaleriaModal();
+    }
+
+    if (event.key === "ArrowRight") {
+        indiceFotoAtual = (indiceFotoAtual + 1) % fotosAtuais.length;
+        atualizarGaleriaModal();
+    }
+});
+
 document.addEventListener("DOMContentLoaded", iniciarDetalhes);
