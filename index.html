@@ -9,13 +9,14 @@
     <title>Lar+ | Imobiliária digital</title>
 
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/header-auth.css">
 </head>
 
 <body>
 
     <header class="cabecalho">
 
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
             <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
         </a>
 
@@ -61,6 +62,46 @@
                 </a>
             </div>
 
+            <div class="menu-usuario" hidden>
+
+                <a href="favoritos.html" class="botao favoritos">
+                    ♡ Favoritos
+                </a>
+
+                <div class="perfil-menu">
+
+                    <button type="button" class="perfil-header" id="botao-menu-perfil" aria-expanded="false">
+                        <img src="img/avatar-padrao.png" alt="Foto de perfil" class="foto-perfil-header">
+
+                        <span class="nome-usuario-header">
+                            Perfil
+                        </span>
+
+                        <span class="seta-perfil">
+                            ▾
+                        </span>
+                    </button>
+
+                    <div class="dropdown-perfil" id="dropdown-perfil" hidden>
+                        <a href="dashboard.html">
+                            Dashboard
+                        </a>
+
+                        <a href="editar-perfil.html">
+                            Editar perfil
+                        </a>
+
+                        <div class="divisor-menu"></div>
+
+                        <button type="button" id="botao-logout" class="botao-logout">
+                            Sair
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </header>
@@ -85,7 +126,7 @@
                 <div class="hero-botoes">
 
                     <a href="catalogo.html" class="botao proprietario">
-                        Ver Imovéis
+                        Ver Imóveis
                     </a>
 
                     <a href="login.html" class="botao inquilino">
@@ -262,7 +303,7 @@
 
             </div>
 
-            <section class="avaliacoes">
+            <section class="avaliacoes" id="avaliacoes">
 
                 <div class="avaliacoes-topo">
                     <div>
