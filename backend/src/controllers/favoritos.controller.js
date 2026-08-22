@@ -1,130 +1,99 @@
 const { db } = require("../database/database");
 
-function adicionarFavorito(req, res) {
+async function adicionarFavorito(req, res) {
     try {
         const usuario_id = req.usuario.id;
         const { imovel_id } = req.params;
 
-        const imovel = db.prepare(`
-            SELECT id
-            FROM imoveis
-            WHERE id = ?
-        `).get(imovel_id);
+        const imovel = await db.query(
+            "SELECT id FROM imoveis WHERE id = $1",
+            [imovel_id]
+        );
 
-        if (!imovel) {
-            return res.status(404).json({
-                erro: "Imóvel não encontrado."
-            });
+        if (imovel.rowCount === 0) {
+            return res.status(404).json({ erro: "Imóvel não encontrado." });
         }
 
-        const favoritoExistente = db.prepare(`
+        const favoritoExistente = await db.query(`
             SELECT id
             FROM favoritos
-            WHERE usuario_id = ?
-            AND imovel_id = ?
-        `).get(usuario_id, imovel_id);
+            WHERE usuario_id = $1 AND imovel_id = $2
+        `, [usuario_id, imovel_id]);
 
-        if (favoritoExistente) {
-            return res.status(409).json({
-                erro: "Este imóvel já está nos favoritos."
-            });
+        if (favoritoExistente.rowCount > 0) {
+            return res.status(409).json({ erro: "Este imóvel já está nos favoritos." });
         }
 
-        db.prepare(`
-            INSERT INTO favoritos (
-                usuario_id,
-                imovel_id
-            )
-            VALUES (?, ?)
-        `).run(usuario_id, imovel_id);
+        await db.query(`
+            INSERT INTO favoritos (usuario_id, imovel_id)
+            VALUES ($1, $2)
+        `, [usuario_id, imovel_id]);
 
         return res.status(201).json({
             sucesso: true,
             mensagem: "Imóvel adicionado aos favoritos!"
         });
-
     } catch (erro) {
         console.error(erro);
-
-        return res.status(500).json({
-            erro: "Erro ao adicionar favorito."
-        });
+        return res.status(500).json({ erro: "Erro ao adicionar favorito." });
     }
 }
 
-
-function removerFavorito(req, res) {
+async function removerFavorito(req, res) {
     try {
         const usuario_id = req.usuario.id;
         const { imovel_id } = req.params;
 
-        const resultado = db.prepare(`
+        const resultado = await db.query(`
             DELETE FROM favoritos
-            WHERE usuario_id = ?
-            AND imovel_id = ?
-        `).run(usuario_id, imovel_id);
+            WHERE usuario_id = $1 AND imovel_id = $2
+        `, [usuario_id, imovel_id]);
 
-        if (resultado.changes === 0) {
-            return res.status(404).json({
-                erro: "Favorito não encontrado."
-            });
+        if (resultado.rowCount === 0) {
+            return res.status(404).json({ erro: "Favorito não encontrado." });
         }
 
         return res.json({
             sucesso: true,
             mensagem: "Imóvel removido dos favoritos."
         });
-
     } catch (erro) {
         console.error(erro);
-
-        return res.status(500).json({
-            erro: "Erro ao remover favorito."
-        });
+        return res.status(500).json({ erro: "Erro ao remover favorito." });
     }
 }
 
-
-function listarFavoritos(req, res) {
+async function listarFavoritos(req, res) {
     try {
-        const usuario_id = req.usuario.id;
-
-        const favoritos = db.prepare(`
+        const resultado = await db.query(`
             SELECT
-                imoveis.*,
-
+                i.*,
                 (
-                    SELECT foto_url
-                    FROM imoveis_fotos
-                    WHERE imoveis_fotos.imovel_id = imoveis.id
-                    ORDER BY ordem ASC
+                    SELECT f.id
+                    FROM imoveis_fotos f
+                    WHERE f.imovel_id = i.id
+                    ORDER BY f.ordem ASC
                     LIMIT 1
-                ) AS foto_principal
+                ) AS foto_principal_id
+            FROM favoritos fav
+            INNER JOIN imoveis i ON i.id = fav.imovel_id
+            WHERE fav.usuario_id = $1
+            ORDER BY fav.criado_em DESC
+        `, [req.usuario.id]);
 
-            FROM favoritos
+        const favoritos = resultado.rows.map(imovel => ({
+            ...imovel,
+            foto_principal: imovel.foto_principal_id
+                ? `${req.protocol}://${req.get("host")}/api/imoveis/fotos/${imovel.foto_principal_id}`
+                : null
+        }));
 
-            INNER JOIN imoveis
-                ON imoveis.id = favoritos.imovel_id
-
-            WHERE favoritos.usuario_id = ?
-
-            ORDER BY favoritos.criado_em DESC
-        `).all(usuario_id);
-
-        return res.json({
-            sucesso: true,
-            favoritos
-        });
-
+        return res.json({ sucesso: true, favoritos });
     } catch (erro) {
         console.error(erro);
-
-        return res.status(500).json({
-            erro: "Erro ao buscar favoritos."
-        });
+        return res.status(500).json({ erro: "Erro ao buscar favoritos." });
     }
 }
-
 
 module.exports = {
     adicionarFavorito,
