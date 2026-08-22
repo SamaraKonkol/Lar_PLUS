@@ -3,223 +3,110 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard | Lar+</title>
-
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
 
     <header class="cabecalho">
-
         <a href="index.html" class="logo">
             <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
         </a>
 
         <nav class="menu-principal">
             <ul>
-                <li>
-                    <a href="index.html">
-                        Início
-                    </a>
-                </li>
-
-                <li>
-                    <a href="catalogo.html">
-                        Imóveis
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#como-funciona">
-                        Como funciona
-                    </a>
-                </li>
-
-                <li>
-                    <a href="index.html#recursos">
-                        Recursos
-                    </a>
-                </li>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="catalogo.html">Imóveis</a></li>
+                <li><a href="index.html#como-funciona">Como funciona</a></li>
+                <li><a href="index.html#recursos">Recursos</a></li>
             </ul>
         </nav>
 
         <div class="acoes-header">
-
             <div class="menu-visitante">
-                <a href="login.html" class="botao entrar">
-                    Entrar
-                </a>
-
-                <a href="cadastro.html" class="botao cadastrar">
-                    Criar conta
-                </a>
+                <a href="login.html" class="botao entrar">Entrar</a>
+                <a href="cadastro.html" class="botao cadastrar">Criar conta</a>
             </div>
 
             <div class="menu-usuario" hidden>
-
-                <a href="favoritos.html" class="botao favoritos">
-                    ♡ Favoritos
-                </a>
+                <a href="favoritos.html" class="botao favoritos">♡ Favoritos</a>
 
                 <div class="perfil-menu">
-
                     <button type="button" class="perfil-header" id="botao-menu-perfil" aria-expanded="false">
                         <img src="img/avatar-padrao.png" alt="Foto de perfil" class="foto-perfil-header">
-
-                        <span class="nome-usuario-header">
-                            Perfil
-                        </span>
-
-                        <span class="seta-perfil">
-                            ▾
-                        </span>
+                        <span class="nome-usuario-header">Perfil</span>
+                        <span class="seta-perfil">▾</span>
                     </button>
 
                     <div class="dropdown-perfil" id="dropdown-perfil" hidden>
-                        <a href="dashboard.html">
-                            Dashboard
-                        </a>
-
-                        <a href="editar-perfil.html">
-                            Editar perfil
-                        </a>
-
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="editar-perfil.html">Editar perfil</a>
                         <div class="divisor-menu"></div>
-
-                        <button type="button" id="botao-logout" class="botao-logout">
-                            Sair
-                        </button>
-
+                        <button type="button" id="botao-logout" class="botao-logout">Sair</button>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </header>
 
     <main class="dashboard">
-
         <section class="boas-vindas">
-
             <div>
-                <span class="subtitulo">
-                    Minha conta
-                </span>
-
-                <h1>
-                    Olá,
-                    <span id="nome-dashboard">
-                        usuário
-                    </span>!
-                </h1>
-
-                <p>
-                    Gerencie seus imóveis e sua conta
-                    em um só lugar.
-                </p>
+                <span class="subtitulo">Minha conta</span>
+                <h1>Olá, <span id="nome-dashboard">usuário</span>!</h1>
+                <p>Gerencie seus imóveis e sua conta em um só lugar.</p>
             </div>
 
-            <a href="publicar-imovel.html" class="botao-publicar">
-                + Publicar imóvel
-            </a>
-
+            <a href="cadastrar-imovel.html" class="botao-publicar">+ Publicar imóvel</a>
         </section>
 
         <section class="resumo-dashboard">
-
             <article class="card-resumo">
                 <span>Meus imóveis</span>
-
-                <strong id="total-meus-imoveis">
-                    0
-                </strong>
-
-                <a href="#meus-imoveis">
-                    Ver imóveis
-                </a>
+                <strong id="total-meus-imoveis">0</strong>
+                <a href="#meus-imoveis">Ver imóveis</a>
             </article>
 
             <article class="card-resumo">
                 <span>Favoritos</span>
-
-                <strong id="total-favoritos">
-                    0
-                </strong>
-
-                <a href="favoritos.html">
-                    Ver favoritos
-                </a>
+                <strong id="total-favoritos">0</strong>
+                <a href="favoritos.html">Ver favoritos</a>
             </article>
 
             <article class="card-resumo">
                 <span>Minha conta</span>
-
-                <strong>
-                    Perfil
-                </strong>
-
-                <a href="editar-perfil.html">
-                    Editar perfil
-                </a>
+                <strong>Perfil</strong>
+                <a href="editar-perfil.html">Editar perfil</a>
             </article>
-
         </section>
 
         <section class="secao-meus-imoveis" id="meus-imoveis">
-
             <div class="secao-topo">
-
                 <div>
-                    <span class="subtitulo">
-                        Anúncios
-                    </span>
-
-                    <h2>
-                        Meus imóveis
-                    </h2>
+                    <span class="subtitulo">Anúncios</span>
+                    <h2>Meus imóveis</h2>
                 </div>
 
-                <a href="publicar-imovel.html" class="botao-secundario">
-                    + Novo imóvel
-                </a>
-
+                <a href="cadastrar-imovel.html" class="botao-secundario">+ Novo imóvel</a>
             </div>
 
             <div class="lista-meus-imoveis" id="lista-meus-imoveis">
-                <p class="carregando">
-                    Carregando seus imóveis...
-                </p>
+                <p class="carregando">Carregando seus imóveis...</p>
             </div>
 
             <div class="dashboard-vazio" id="dashboard-vazio" hidden>
-                <h3>
-                    Você ainda não publicou nenhum imóvel
-                </h3>
-
-                <p>
-                    Publique seu primeiro imóvel na Lar+.
-                </p>
-
-                <a href="publicar-imovel.html" class="botao-publicar">
-                    Publicar imóvel
-                </a>
+                <h3>Você ainda não publicou nenhum imóvel</h3>
+                <p>Publique seu primeiro imóvel na Lar+.</p>
+                <a href="cadastrar-imovel.html" class="botao-publicar">Publicar imóvel</a>
             </div>
-
         </section>
-
     </main>
 
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
-
 </body>
 
 </html>
