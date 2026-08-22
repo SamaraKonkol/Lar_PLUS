@@ -1,0 +1,61 @@
+.progresso-conteudo {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+}
+
+.preview-fotos {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.preview-foto {
+    position: relative;
+    min-height: 120px;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: #f5f6fa;
+}
+
+.preview-foto img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.preview-foto span {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    max-width: calc(100% - 16px);
+    padding: 5px 8px;
+    overflow: hidden;
+    border-radius: 7px;
+    color: #ffffff;
+    background: rgba(8, 8, 16, 0.72);
+    font-size: 0.58rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.area-upload.com-arquivos {
+    min-height: 150px;
+    border-color: var(--roxo);
+    background: #faf8ff;
+}
+
+.area-upload.com-arquivos .icone-upload {
+    background: #e9e3ff;
+}
+
+@media (max-width: 900px) {
+    .progresso-conteudo {
+        overflow-x: auto;
+    }
+
+    .linha-progresso {
+        min-width: 60px;
+    }
+}
