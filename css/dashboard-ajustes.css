@@ -1,0 +1,12 @@
+.boas-vindas-centralizada {
+    justify-content: center;
+    text-align: center;
+}
+
+.boas-vindas-centralizada > div {
+    width: 100%;
+}
+
+.boas-vindas-centralizada p {
+    margin: 0 auto;
+}
