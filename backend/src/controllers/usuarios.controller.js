@@ -13,23 +13,9 @@ const {
 
 async function cadastrarUsuario(req, res) {
     try {
-        const {
-            nome,
-            sobrenome,
-            email,
-            cpf,
-            telefone,
-            senha
-        } = req.body;
+        const { nome, sobrenome, email, cpf, telefone, senha } = req.body;
 
-        if (
-            !nome ||
-            !sobrenome ||
-            !email ||
-            !cpf ||
-            !telefone ||
-            !senha
-        ) {
+        if (!nome || !sobrenome || !email || !cpf || !telefone || !senha) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: "Preencha todos os campos obrigatórios."
@@ -43,116 +29,69 @@ async function cadastrarUsuario(req, res) {
         const telefoneNormalizado = somenteNumeros(telefone);
 
         if (nomeLimpo.length < 2) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe um nome válido."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um nome válido." });
         }
 
         if (sobrenomeLimpo.length < 2) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe um sobrenome válido."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um sobrenome válido." });
         }
 
         if (!validarEmail(emailNormalizado)) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe um e-mail válido."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um e-mail válido." });
         }
 
         if (!validarCPF(cpfNormalizado)) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe um CPF válido."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um CPF válido." });
         }
 
         if (!validarTelefone(telefoneNormalizado)) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe um telefone válido com DDD."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um telefone válido com DDD." });
         }
 
         const resultadoSenha = validarSenha(senha);
 
         if (!resultadoSenha.valida) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: resultadoSenha.mensagem
-            });
+            return res.status(400).json({ sucesso: false, mensagem: resultadoSenha.mensagem });
         }
 
-        const usuarioComEmail = db.prepare(`
-            SELECT id
-            FROM usuarios
-            WHERE email = ?
-        `).get(emailNormalizado);
+        const emailExistente = await db.query(
+            "SELECT id FROM usuarios WHERE email = $1",
+            [emailNormalizado]
+        );
 
-        if (usuarioComEmail) {
-            return res.status(409).json({
-                sucesso: false,
-                mensagem: "Já existe uma conta com esse e-mail."
-            });
+        if (emailExistente.rowCount > 0) {
+            return res.status(409).json({ sucesso: false, mensagem: "Já existe uma conta com esse e-mail." });
         }
 
-        const usuarioComCpf = db.prepare(`
-            SELECT id
-            FROM usuarios
-            WHERE cpf = ?
-        `).get(cpfNormalizado);
+        const cpfExistente = await db.query(
+            "SELECT id FROM usuarios WHERE cpf = $1",
+            [cpfNormalizado]
+        );
 
-        if (usuarioComCpf) {
-            return res.status(409).json({
-                sucesso: false,
-                mensagem: "Já existe uma conta com esse CPF."
-            });
+        if (cpfExistente.rowCount > 0) {
+            return res.status(409).json({ sucesso: false, mensagem: "Já existe uma conta com esse CPF." });
         }
 
         const senhaHash = await bcrypt.hash(senha, 12);
 
-        const resultado = db.prepare(`
-            INSERT INTO usuarios (
-                nome,
-                sobrenome,
-                email,
-                cpf,
-                telefone,
-                senha_hash
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        `).run(
+        const resultado = await db.query(`
+            INSERT INTO usuarios (nome, sobrenome, email, cpf, telefone, senha_hash)
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING id, nome, sobrenome, email, cpf, telefone, foto_url, criado_em
+        `, [
             nomeLimpo,
             sobrenomeLimpo,
             emailNormalizado,
             cpfNormalizado,
             telefoneNormalizado,
             senhaHash
-        );
-
-        const usuarioCriado = db.prepare(`
-            SELECT
-                id,
-                nome,
-                sobrenome,
-                email,
-                cpf,
-                telefone,
-                foto_url,
-                criado_em
-            FROM usuarios
-            WHERE id = ?
-        `).get(resultado.lastInsertRowid);
+        ]);
 
         return res.status(201).json({
             sucesso: true,
             mensagem: "Usuário cadastrado com sucesso!",
-            usuario: usuarioCriado
+            usuario: resultado.rows[0]
         });
-
     } catch (erro) {
         console.error("Erro ao cadastrar usuário:", erro);
 
@@ -165,60 +104,36 @@ async function cadastrarUsuario(req, res) {
 
 async function loginUsuario(req, res) {
     try {
-        const {
-            email,
-            senha
-        } = req.body;
+        const { email, senha } = req.body;
 
         if (!email || !senha) {
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: "Informe e-mail e senha."
-            });
+            return res.status(400).json({ sucesso: false, mensagem: "Informe e-mail e senha." });
         }
 
         const emailNormalizado = email.trim().toLowerCase();
 
-        const usuario = db.prepare(`
-            SELECT
-                id,
-                nome,
-                sobrenome,
-                email,
-                senha_hash,
-                foto_url
+        const resultado = await db.query(`
+            SELECT id, nome, sobrenome, email, senha_hash, foto_url
             FROM usuarios
-            WHERE email = ?
-        `).get(emailNormalizado);
+            WHERE email = $1
+        `, [emailNormalizado]);
+
+        const usuario = resultado.rows[0];
 
         if (!usuario) {
-            return res.status(401).json({
-                sucesso: false,
-                mensagem: "E-mail ou senha inválidos."
-            });
+            return res.status(401).json({ sucesso: false, mensagem: "E-mail ou senha inválidos." });
         }
 
-        const senhaCorreta = await bcrypt.compare(
-            senha,
-            usuario.senha_hash
-        );
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha_hash);
 
         if (!senhaCorreta) {
-            return res.status(401).json({
-                sucesso: false,
-                mensagem: "E-mail ou senha inválidos."
-            });
+            return res.status(401).json({ sucesso: false, mensagem: "E-mail ou senha inválidos." });
         }
 
         const token = jwt.sign(
-            {
-                id: usuario.id,
-                email: usuario.email
-            },
+            { id: usuario.id, email: usuario.email },
             process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
+            { expiresIn: "1d" }
         );
 
         return res.status(200).json({
@@ -233,7 +148,6 @@ async function loginUsuario(req, res) {
                 foto_url: usuario.foto_url
             }
         });
-
     } catch (erro) {
         console.error("Erro ao realizar login:", erro);
 
@@ -244,36 +158,21 @@ async function loginUsuario(req, res) {
     }
 }
 
-function buscarPerfil(req, res) {
+async function buscarPerfil(req, res) {
     try {
-        const usuario_id = req.usuario.id;
-
-        const usuario = db.prepare(`
-            SELECT
-                id,
-                nome,
-                sobrenome,
-                email,
-                cpf,
-                telefone,
-                foto_url,
-                criado_em
+        const resultado = await db.query(`
+            SELECT id, nome, sobrenome, email, cpf, telefone, foto_url, criado_em
             FROM usuarios
-            WHERE id = ?
-        `).get(usuario_id);
+            WHERE id = $1
+        `, [req.usuario.id]);
+
+        const usuario = resultado.rows[0];
 
         if (!usuario) {
-            return res.status(404).json({
-                sucesso: false,
-                mensagem: "Usuário não encontrado."
-            });
+            return res.status(404).json({ sucesso: false, mensagem: "Usuário não encontrado." });
         }
 
-        return res.status(200).json({
-            sucesso: true,
-            usuario
-        });
-
+        return res.status(200).json({ sucesso: true, usuario });
     } catch (erro) {
         console.error("Erro ao buscar perfil:", erro);
 
