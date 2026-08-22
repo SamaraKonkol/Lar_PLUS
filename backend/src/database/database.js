@@ -1,13 +1,14 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === "production"
-        ? { rejectUnauthorized: false }
-        : false
+    connectionString: process.env.DATABASE_URL
 });
 
 async function inicializarBanco() {
+    if (!process.env.DATABASE_URL) {
+        throw new Error("DATABASE_URL não configurada.");
+    }
+
     await pool.query(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id SERIAL PRIMARY KEY,
