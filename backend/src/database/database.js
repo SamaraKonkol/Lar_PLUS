@@ -1,37 +1,16 @@
-const Database = require("better-sqlite3");
-const path = require("path");
+const { Pool } = require("pg");
 
-const caminhoBanco = path.join(
-    __dirname,
-    "../../data/larplus.db"
-);
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : false
+});
 
-const db = new Database(caminhoBanco);
-
-db.pragma("journal_mode = WAL");
-db.pragma("foreign_keys = ON");
-
-function adicionarColunaSeNaoExistir(tabela, coluna, definicao) {
-    const colunas = db
-        .prepare(`PRAGMA table_info(${tabela})`)
-        .all();
-
-    const existe = colunas.some(
-        item => item.name === coluna
-    );
-
-    if (!existe) {
-        db.exec(`
-            ALTER TABLE ${tabela}
-            ADD COLUMN ${coluna} ${definicao};
-        `);
-    }
-}
-
-function inicializarBanco() {
-    db.exec(`
+async function inicializarBanco() {
+    await pool.query(`
         CREATE TABLE IF NOT EXISTS usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             nome TEXT NOT NULL,
             sobrenome TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
@@ -39,27 +18,17 @@ function inicializarBanco() {
             telefone TEXT NOT NULL,
             senha_hash TEXT NOT NULL,
             foto_url TEXT,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    adicionarColunaSeNaoExistir(
-        "usuarios",
-        "foto_url",
-        "TEXT"
-    );
-
-    console.log("Tabela de usuários pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            usuario_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
             titulo TEXT NOT NULL,
             descricao TEXT NOT NULL,
             tipo TEXT NOT NULL,
             finalidade TEXT NOT NULL DEFAULT 'aluguel',
-            valor REAL NOT NULL,
+            valor NUMERIC(12,2) NOT NULL,
             cep TEXT,
             estado TEXT,
             cidade TEXT NOT NULL,
@@ -67,137 +36,83 @@ function inicializarBanco() {
             endereco TEXT NOT NULL,
             numero TEXT,
             complemento TEXT,
-            ocultar_numero INTEGER NOT NULL DEFAULT 0,
+            ocultar_numero BOOLEAN NOT NULL DEFAULT FALSE,
             quartos INTEGER DEFAULT 0,
             suites INTEGER DEFAULT 0,
             banheiros INTEGER DEFAULT 0,
             vagas INTEGER DEFAULT 0,
-            area REAL,
-            area_construida REAL,
+            area NUMERIC(12,2),
+            area_construida NUMERIC(12,2),
             status TEXT NOT NULL DEFAULT 'disponivel',
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (usuario_id)
-                REFERENCES usuarios(id)
-                ON DELETE CASCADE
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            atualizado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    adicionarColunaSeNaoExistir("imoveis", "cep", "TEXT");
-    adicionarColunaSeNaoExistir("imoveis", "estado", "TEXT");
-    adicionarColunaSeNaoExistir("imoveis", "ocultar_numero", "INTEGER NOT NULL DEFAULT 0");
-    adicionarColunaSeNaoExistir("imoveis", "suites", "INTEGER DEFAULT 0");
-    adicionarColunaSeNaoExistir("imoveis", "area_construida", "REAL");
-
-    console.log("Tabela de imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis_valores (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imovel_id INTEGER NOT NULL UNIQUE,
-            condominio REAL NOT NULL DEFAULT 0,
-            iptu REAL NOT NULL DEFAULT 0,
-            seguro REAL NOT NULL DEFAULT 0,
-            financiamento REAL NOT NULL DEFAULT 0,
+            id SERIAL PRIMARY KEY,
+            imovel_id INTEGER NOT NULL UNIQUE REFERENCES imoveis(id) ON DELETE CASCADE,
+            condominio NUMERIC(12,2) NOT NULL DEFAULT 0,
+            iptu NUMERIC(12,2) NOT NULL DEFAULT 0,
+            seguro NUMERIC(12,2) NOT NULL DEFAULT 0,
+            financiamento NUMERIC(12,2) NOT NULL DEFAULT 0,
             reserva_percentual INTEGER NOT NULL DEFAULT 10,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            atualizado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    console.log("Tabela de valores dos imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis_regras (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imovel_id INTEGER NOT NULL UNIQUE,
+            id SERIAL PRIMARY KEY,
+            imovel_id INTEGER NOT NULL UNIQUE REFERENCES imoveis(id) ON DELETE CASCADE,
             disponibilidade TEXT,
             contrato_minimo INTEGER NOT NULL DEFAULT 12,
             regras_adicionais TEXT,
-            aceita_animais INTEGER NOT NULL DEFAULT 1,
-            aceita_criancas INTEGER NOT NULL DEFAULT 1,
-            permite_fumar INTEGER NOT NULL DEFAULT 0,
-            entrada_imediata INTEGER NOT NULL DEFAULT 0,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE
+            aceita_animais BOOLEAN NOT NULL DEFAULT TRUE,
+            aceita_criancas BOOLEAN NOT NULL DEFAULT TRUE,
+            permite_fumar BOOLEAN NOT NULL DEFAULT FALSE,
+            entrada_imediata BOOLEAN NOT NULL DEFAULT FALSE,
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            atualizado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    console.log("Tabela de regras dos imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis_comodidades (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imovel_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            imovel_id INTEGER NOT NULL REFERENCES imoveis(id) ON DELETE CASCADE,
             nome TEXT NOT NULL,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE,
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             UNIQUE (imovel_id, nome)
         );
-    `);
 
-    console.log("Tabela de comodidades dos imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis_fotos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imovel_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            imovel_id INTEGER NOT NULL REFERENCES imoveis(id) ON DELETE CASCADE,
             foto_url TEXT NOT NULL,
             ordem INTEGER NOT NULL DEFAULT 1,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    console.log("Tabela de fotos dos imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS imoveis_documentos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imovel_id INTEGER NOT NULL,
+            id SERIAL PRIMARY KEY,
+            imovel_id INTEGER NOT NULL REFERENCES imoveis(id) ON DELETE CASCADE,
             tipo TEXT NOT NULL,
             arquivo_url TEXT NOT NULL,
             nome_original TEXT,
             status TEXT NOT NULL DEFAULT 'pendente',
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
         );
-    `);
 
-    console.log("Tabela de documentos dos imóveis pronta!");
-
-    db.exec(`
         CREATE TABLE IF NOT EXISTS favoritos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            usuario_id INTEGER NOT NULL,
-            imovel_id INTEGER NOT NULL,
-            criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (usuario_id)
-                REFERENCES usuarios(id)
-                ON DELETE CASCADE,
-            FOREIGN KEY (imovel_id)
-                REFERENCES imoveis(id)
-                ON DELETE CASCADE,
+            id SERIAL PRIMARY KEY,
+            usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+            imovel_id INTEGER NOT NULL REFERENCES imoveis(id) ON DELETE CASCADE,
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             UNIQUE (usuario_id, imovel_id)
         );
     `);
 
-    console.log("Tabela de favoritos pronta!");
+    console.log("PostgreSQL pronto!");
 }
 
 module.exports = {
-    db,
+    db: pool,
     inicializarBanco
 };
