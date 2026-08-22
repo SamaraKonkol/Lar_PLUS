@@ -1,0 +1,129 @@
+.menu-visitante,
+.menu-usuario {
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-visitante:not([hidden]),
+.menu-usuario:not([hidden]) {
+    display: flex;
+}
+
+.menu-visitante[hidden],
+.menu-usuario[hidden] {
+    display: none !important;
+}
+
+.favoritos {
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.favoritos:hover {
+    color: #896fff;
+    border-color: #6d4aff;
+    background: rgba(109, 74, 255, 0.08);
+}
+
+.perfil-menu {
+    position: relative;
+}
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 9px;
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.perfil-header:hover {
+    background: rgba(109, 74, 255, 0.12);
+}
+
+.foto-perfil-header {
+    width: 38px;
+    height: 38px;
+    border: 2px solid rgba(137, 111, 255, 0.7);
+    border-radius: 50%;
+    object-fit: cover;
+    background: rgba(109, 74, 255, 0.14);
+}
+
+.nome-usuario-header {
+    max-width: 130px;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.seta-perfil {
+    color: #b9b7c8;
+    font-size: 11px;
+    transition: transform 0.2s ease;
+}
+
+.perfil-header[aria-expanded="true"] .seta-perfil {
+    transform: rotate(180deg);
+}
+
+.dropdown-perfil {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 1000;
+    width: 210px;
+    padding: 8px;
+    border: 1px solid #e8e8f0;
+    border-radius: 14px;
+    color: #111111;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(24, 18, 68, 0.18);
+}
+
+.dropdown-perfil[hidden] {
+    display: none;
+}
+
+.dropdown-perfil a,
+.botao-logout {
+    width: 100%;
+    display: block;
+    padding: 11px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    text-align: left;
+    color: #151622;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-perfil a:hover {
+    color: #6d4aff;
+    background: #f0edff;
+}
+
+.divisor-menu {
+    height: 1px;
+    margin: 6px 0;
+    background: #e8e8f0;
+}
+
+.botao-logout {
+    color: #df5268;
+}
+
+.botao-logout:hover {
+    background: #fff0f3;
+}
