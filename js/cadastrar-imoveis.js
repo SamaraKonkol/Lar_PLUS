@@ -4,6 +4,21 @@ const campoDescricao = document.getElementById("descricao");
 const contadorDescricao = campoDescricao?.closest(".campo")?.querySelector(".rodape-campo span");
 const campoValor = document.getElementById("valor-aluguel");
 const resumoValores = document.querySelectorAll(".resumo-valores strong");
+const inputFotos = document.querySelector('[name="fotos-imovel"]');
+const areaUpload = document.querySelector(".area-upload");
+const etapasProgresso = Array.from(document.querySelectorAll(".etapa-progresso"));
+const linhasProgresso = Array.from(document.querySelectorAll(".linha-progresso"));
+
+function carregarEstilosAjustes() {
+    if (document.querySelector('link[href="css/cadastrar-imovel-ajustes.css"]')) {
+        return;
+    }
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "css/cadastrar-imovel-ajustes.css";
+    document.head.appendChild(link);
+}
 
 function valorCampo(id) {
     return document.getElementById(id)?.value?.trim() || "";
@@ -95,7 +110,7 @@ function montarFormData() {
     formData.append("entrada_imediata", marcado("entrada-imediata"));
     formData.append("comodidades", JSON.stringify(obterComodidades()));
 
-    const fotos = document.querySelector('[name="fotos-imovel"]')?.files || [];
+    const fotos = inputFotos?.files || [];
 
     Array.from(fotos).slice(0, 10).forEach(foto => {
         formData.append("fotos", foto);
@@ -106,6 +121,95 @@ function montarFormData() {
     adicionarArquivo(formData, '[name="iptu-documento"]', "iptu_documento");
 
     return formData;
+}
+
+function renderizarPreviewFotos() {
+    if (!inputFotos || !areaUpload) {
+        return;
+    }
+
+    document.querySelector(".preview-fotos")?.remove();
+
+    const arquivos = Array.from(inputFotos.files || []).slice(0, 10);
+
+    if (arquivos.length === 0) {
+        areaUpload.classList.remove("com-arquivos");
+        return;
+    }
+
+    areaUpload.classList.add("com-arquivos");
+
+    const titulo = areaUpload.querySelector("strong");
+    const texto = areaUpload.querySelector("p");
+
+    if (titulo) {
+        titulo.textContent = `${arquivos.length} ${arquivos.length === 1 ? "foto selecionada" : "fotos selecionadas"}`;
+    }
+
+    if (texto) {
+        texto.textContent = "Clique novamente para trocar ou adicionar outras imagens.";
+    }
+
+    const preview = document.createElement("div");
+    preview.className = "preview-fotos";
+
+    arquivos.forEach(arquivo => {
+        const item = document.createElement("div");
+        item.className = "preview-foto";
+
+        const imagem = document.createElement("img");
+        imagem.src = URL.createObjectURL(arquivo);
+        imagem.alt = arquivo.name;
+        imagem.addEventListener("load", () => URL.revokeObjectURL(imagem.src), { once: true });
+
+        const nome = document.createElement("span");
+        nome.textContent = arquivo.name;
+
+        item.appendChild(imagem);
+        item.appendChild(nome);
+        preview.appendChild(item);
+    });
+
+    areaUpload.insertAdjacentElement("afterend", preview);
+}
+
+function atualizarProgresso() {
+    if (etapasProgresso.length === 0) {
+        return;
+    }
+
+    const secoes = Array.from(document.querySelectorAll(".formulario-imovel .card-formulario"));
+
+    if (secoes.length === 0) {
+        return;
+    }
+
+    const pontoReferencia = window.scrollY + 240;
+    let etapaAtual = 0;
+
+    secoes.forEach((secao, indice) => {
+        if (secao.offsetTop <= pontoReferencia) {
+            etapaAtual = indice;
+        }
+    });
+
+    const mapaEtapas = [0, 3, 5, 7];
+    let etapaVisual = 0;
+
+    mapaEtapas.forEach((indiceSecao, indiceEtapa) => {
+        if (etapaAtual >= indiceSecao) {
+            etapaVisual = indiceEtapa;
+        }
+    });
+
+    etapasProgresso.forEach((etapa, indice) => {
+        etapa.classList.toggle("ativa", indice === etapaVisual);
+        etapa.classList.toggle("concluida", indice < etapaVisual);
+    });
+
+    linhasProgresso.forEach((linha, indice) => {
+        linha.classList.toggle("concluida", indice < etapaVisual);
+    });
 }
 
 async function publicarImovel(event) {
@@ -185,10 +289,15 @@ async function iniciarCadastroImovel() {
 
 campoValor?.addEventListener("input", atualizarResumoValores);
 campoDescricao?.addEventListener("input", atualizarContadorDescricao);
+inputFotos?.addEventListener("change", renderizarPreviewFotos);
 formularioImovel?.addEventListener("submit", publicarImovel);
+window.addEventListener("scroll", atualizarProgresso, { passive: true });
 
 document.addEventListener("DOMContentLoaded", () => {
+    carregarEstilosAjustes();
     atualizarResumoValores();
     atualizarContadorDescricao();
+    renderizarPreviewFotos();
+    atualizarProgresso();
     iniciarCadastroImovel();
 });
