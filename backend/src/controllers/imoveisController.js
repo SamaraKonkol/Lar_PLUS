@@ -9,7 +9,7 @@ function paraNumero(valor, padrao = 0) {
 }
 
 function paraBooleano(valor) {
-    return valor === true || valor === "true" || valor === "1" || valor === "on" ? 1 : 0;
+    return valor === true || valor === "true" || valor === "1" || valor === "on";
 }
 
 function urlFotoPublica(req, fotoId) {
@@ -30,15 +30,13 @@ async function excluirArquivoS3(url) {
         return;
     }
 
-    await s3.send(
-        new DeleteObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: obterChaveS3(url)
-        })
-    );
+    await s3.send(new DeleteObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: obterChaveS3(url)
+    }));
 }
 
-async function salvarArquivos(imovelId, files) {
+async function salvarArquivos(client, imovelId, files) {
     const fotos = files?.fotos || [];
 
     for (let i = 0; i < fotos.length; i++) {
@@ -47,14 +45,10 @@ async function salvarArquivos(imovelId, files) {
             `imoveis/${imovelId}/fotos`
         );
 
-        db.prepare(`
-            INSERT INTO imoveis_fotos (
-                imovel_id,
-                foto_url,
-                ordem
-            )
-            VALUES (?, ?, ?)
-        `).run(imovelId, fotoUrl, i + 1);
+        await client.query(`
+            INSERT INTO imoveis_fotos (imovel_id, foto_url, ordem)
+            VALUES ($1, $2, $3)
+        `, [imovelId, fotoUrl, i + 1]);
     }
 
     const documentos = [
@@ -75,24 +69,20 @@ async function salvarArquivos(imovelId, files) {
             `imoveis/${imovelId}/documentos`
         );
 
-        db.prepare(`
+        await client.query(`
             INSERT INTO imoveis_documentos (
                 imovel_id,
                 tipo,
                 arquivo_url,
                 nome_original
             )
-            VALUES (?, ?, ?, ?)
-        `).run(
-            imovelId,
-            tipo,
-            arquivoUrl,
-            arquivo.originalname
-        );
+            VALUES ($1, $2, $3, $4)
+        `, [imovelId, tipo, arquivoUrl, arquivo.originalname]);
     }
 }
 
 async function criarImovel(req, res) {
+    const client = await db.connect();
     let imovelId = null;
 
     try {
@@ -131,22 +121,16 @@ async function criarImovel(req, res) {
             comodidades
         } = req.body;
 
-        if (
-            !titulo ||
-            !descricao ||
-            !tipo ||
-            !valor ||
-            !cidade ||
-            !bairro ||
-            !endereco
-        ) {
+        if (!titulo || !descricao || !tipo || !valor || !cidade || !bairro || !endereco) {
             return res.status(400).json({
                 sucesso: false,
                 erro: "Preencha todos os campos obrigatórios."
             });
         }
 
-        const inserirImovel = db.prepare(`
+        await client.query("BEGIN");
+
+        const resultadoImovel = await client.query(`
             INSERT INTO imoveis (
                 usuario_id,
                 titulo,
@@ -169,10 +153,12 @@ async function criarImovel(req, res) {
                 area,
                 area_construida
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `);
-
-        const resultado = inserirImovel.run(
+            VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                $11, $12, $13, $14, $15, $16, $17, $18, $19, $20
+            )
+            RETURNING id
+        `, [
             req.usuario.id,
             titulo.trim(),
             descricao.trim(),
@@ -193,11 +179,11 @@ async function criarImovel(req, res) {
             paraNumero(vagas),
             area ? paraNumero(area) : null,
             area_construida ? paraNumero(area_construida) : null
-        );
+        ]);
 
-        imovelId = Number(resultado.lastInsertRowid);
+        imovelId = resultadoImovel.rows[0].id;
 
-        db.prepare(`
+        await client.query(`
             INSERT INTO imoveis_valores (
                 imovel_id,
                 condominio,
@@ -206,17 +192,17 @@ async function criarImovel(req, res) {
                 financiamento,
                 reserva_percentual
             )
-            VALUES (?, ?, ?, ?, ?, ?)
-        `).run(
+            VALUES ($1, $2, $3, $4, $5, $6)
+        `, [
             imovelId,
             paraNumero(condominio),
             paraNumero(iptu),
             paraNumero(seguro),
             paraNumero(financiamento),
             paraNumero(reserva_percentual, 10)
-        );
+        ]);
 
-        db.prepare(`
+        await client.query(`
             INSERT INTO imoveis_regras (
                 imovel_id,
                 disponibilidade,
@@ -227,8 +213,8 @@ async function criarImovel(req, res) {
                 permite_fumar,
                 entrada_imediata
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `).run(
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        `, [
             imovelId,
             disponibilidade || null,
             paraNumero(contrato_minimo, 12),
@@ -237,7 +223,7 @@ async function criarImovel(req, res) {
             paraBooleano(aceita_criancas),
             paraBooleano(permite_fumar),
             paraBooleano(entrada_imediata)
-        );
+        ]);
 
         let listaComodidades = [];
 
@@ -249,19 +235,16 @@ async function criarImovel(req, res) {
             }
         }
 
-        const inserirComodidade = db.prepare(`
-            INSERT OR IGNORE INTO imoveis_comodidades (
-                imovel_id,
-                nome
-            )
-            VALUES (?, ?)
-        `);
-
         for (const nome of listaComodidades) {
-            inserirComodidade.run(imovelId, nome);
+            await client.query(`
+                INSERT INTO imoveis_comodidades (imovel_id, nome)
+                VALUES ($1, $2)
+                ON CONFLICT (imovel_id, nome) DO NOTHING
+            `, [imovelId, nome]);
         }
 
-        await salvarArquivos(imovelId, req.files);
+        await salvarArquivos(client, imovelId, req.files);
+        await client.query("COMMIT");
 
         return res.status(201).json({
             sucesso: true,
@@ -269,37 +252,35 @@ async function criarImovel(req, res) {
             imovel_id: imovelId
         });
     } catch (erro) {
+        await client.query("ROLLBACK");
         console.error("Erro ao criar imóvel:", erro);
-
-        if (imovelId) {
-            db.prepare("DELETE FROM imoveis WHERE id = ?").run(imovelId);
-        }
 
         return res.status(500).json({
             sucesso: false,
             erro: "Erro interno ao publicar imóvel."
         });
+    } finally {
+        client.release();
     }
 }
 
 async function exibirFoto(req, res) {
     try {
-        const foto = db.prepare(`
-            SELECT foto_url
-            FROM imoveis_fotos
-            WHERE id = ?
-        `).get(req.params.fotoId);
+        const resultado = await db.query(
+            "SELECT foto_url FROM imoveis_fotos WHERE id = $1",
+            [req.params.fotoId]
+        );
+
+        const foto = resultado.rows[0];
 
         if (!foto) {
             return res.status(404).end();
         }
 
-        const resposta = await s3.send(
-            new GetObjectCommand({
-                Bucket: process.env.AWS_BUCKET_NAME,
-                Key: obterChaveS3(foto.foto_url)
-            })
-        );
+        const resposta = await s3.send(new GetObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: obterChaveS3(foto.foto_url)
+        }));
 
         if (resposta.ContentType) {
             res.setHeader("Content-Type", resposta.ContentType);
@@ -320,230 +301,213 @@ async function exibirFoto(req, res) {
     }
 }
 
-function listarImoveis(req, res) {
+async function listarImoveis(req, res) {
     try {
-        const imoveis = db.prepare(`
+        const resultado = await db.query(`
             SELECT
-                imoveis.id,
-                imoveis.usuario_id,
-                imoveis.titulo,
-                imoveis.descricao,
-                imoveis.tipo,
-                imoveis.finalidade,
-                imoveis.valor,
-                imoveis.cidade,
-                imoveis.bairro,
-                imoveis.endereco,
-                imoveis.numero,
-                imoveis.complemento,
-                imoveis.quartos,
-                imoveis.banheiros,
-                imoveis.vagas,
-                imoveis.area,
-                imoveis.status,
-                imoveis.criado_em,
+                i.id,
+                i.usuario_id,
+                i.titulo,
+                i.descricao,
+                i.tipo,
+                i.finalidade,
+                i.valor,
+                i.cidade,
+                i.bairro,
+                i.endereco,
+                i.numero,
+                i.complemento,
+                i.quartos,
+                i.banheiros,
+                i.vagas,
+                i.area,
+                i.status,
+                i.criado_em,
                 (
-                    SELECT id
-                    FROM imoveis_fotos
-                    WHERE imoveis_fotos.imovel_id = imoveis.id
-                    ORDER BY ordem ASC
+                    SELECT f.id
+                    FROM imoveis_fotos f
+                    WHERE f.imovel_id = i.id
+                    ORDER BY f.ordem ASC
                     LIMIT 1
                 ) AS foto_principal_id
-            FROM imoveis
-            WHERE imoveis.status = 'disponivel'
-            ORDER BY imoveis.criado_em DESC
-        `).all();
+            FROM imoveis i
+            WHERE i.status = 'disponivel'
+            ORDER BY i.criado_em DESC
+        `);
 
-        const resultado = imoveis.map(imovel => ({
+        const imoveis = resultado.rows.map(imovel => ({
             ...imovel,
             foto_principal: urlFotoPublica(req, imovel.foto_principal_id)
         }));
 
         return res.status(200).json({
             sucesso: true,
-            quantidade: resultado.length,
-            imoveis: resultado
+            quantidade: imoveis.length,
+            imoveis
         });
     } catch (erro) {
         console.error("Erro ao listar imóveis:", erro);
 
-        return res.status(500).json({
-            sucesso: false,
-            erro: "Erro ao buscar imóveis."
-        });
+        return res.status(500).json({ sucesso: false, erro: "Erro ao buscar imóveis." });
     }
 }
 
-function listarMeusImoveis(req, res) {
+async function listarMeusImoveis(req, res) {
     try {
-        const imoveis = db.prepare(`
+        const resultado = await db.query(`
             SELECT
-                imoveis.id,
-                imoveis.titulo,
-                imoveis.tipo,
-                imoveis.valor,
-                imoveis.cidade,
-                imoveis.bairro,
-                imoveis.status,
-                imoveis.criado_em,
+                i.id,
+                i.titulo,
+                i.tipo,
+                i.valor,
+                i.cidade,
+                i.bairro,
+                i.status,
+                i.criado_em,
                 (
-                    SELECT id
-                    FROM imoveis_fotos
-                    WHERE imoveis_fotos.imovel_id = imoveis.id
-                    ORDER BY ordem ASC
+                    SELECT f.id
+                    FROM imoveis_fotos f
+                    WHERE f.imovel_id = i.id
+                    ORDER BY f.ordem ASC
                     LIMIT 1
                 ) AS foto_principal_id
-            FROM imoveis
-            WHERE imoveis.usuario_id = ?
-            ORDER BY imoveis.criado_em DESC
-        `).all(req.usuario.id);
+            FROM imoveis i
+            WHERE i.usuario_id = $1
+            ORDER BY i.criado_em DESC
+        `, [req.usuario.id]);
 
-        const resultado = imoveis.map(imovel => ({
+        const imoveis = resultado.rows.map(imovel => ({
             ...imovel,
             foto_principal: urlFotoPublica(req, imovel.foto_principal_id)
         }));
 
         return res.status(200).json({
             sucesso: true,
-            quantidade: resultado.length,
-            imoveis: resultado
+            quantidade: imoveis.length,
+            imoveis
         });
     } catch (erro) {
         console.error("Erro ao listar imóveis do usuário:", erro);
 
-        return res.status(500).json({
-            sucesso: false,
-            erro: "Erro ao buscar seus imóveis."
-        });
+        return res.status(500).json({ sucesso: false, erro: "Erro ao buscar seus imóveis." });
     }
 }
 
-function buscarImovelPorId(req, res) {
+async function buscarImovelPorId(req, res) {
     try {
-        const { id } = req.params;
-
-        const imovel = db.prepare(`
+        const resultado = await db.query(`
             SELECT
-                imoveis.*,
-                usuarios.nome AS nome_usuario,
-                usuarios.sobrenome AS sobrenome_usuario,
-                imoveis_valores.condominio,
-                imoveis_valores.iptu,
-                imoveis_valores.seguro,
-                imoveis_valores.financiamento,
-                imoveis_valores.reserva_percentual,
-                imoveis_regras.disponibilidade,
-                imoveis_regras.contrato_minimo,
-                imoveis_regras.regras_adicionais,
-                imoveis_regras.aceita_animais,
-                imoveis_regras.aceita_criancas,
-                imoveis_regras.permite_fumar,
-                imoveis_regras.entrada_imediata
-            FROM imoveis
-            INNER JOIN usuarios
-                ON usuarios.id = imoveis.usuario_id
-            LEFT JOIN imoveis_valores
-                ON imoveis_valores.imovel_id = imoveis.id
-            LEFT JOIN imoveis_regras
-                ON imoveis_regras.imovel_id = imoveis.id
-            WHERE imoveis.id = ?
-        `).get(id);
+                i.*,
+                u.nome AS nome_usuario,
+                u.sobrenome AS sobrenome_usuario,
+                v.condominio,
+                v.iptu,
+                v.seguro,
+                v.financiamento,
+                v.reserva_percentual,
+                r.disponibilidade,
+                r.contrato_minimo,
+                r.regras_adicionais,
+                r.aceita_animais,
+                r.aceita_criancas,
+                r.permite_fumar,
+                r.entrada_imediata
+            FROM imoveis i
+            INNER JOIN usuarios u ON u.id = i.usuario_id
+            LEFT JOIN imoveis_valores v ON v.imovel_id = i.id
+            LEFT JOIN imoveis_regras r ON r.imovel_id = i.id
+            WHERE i.id = $1
+        `, [req.params.id]);
+
+        const imovel = resultado.rows[0];
 
         if (!imovel) {
-            return res.status(404).json({
-                sucesso: false,
-                erro: "Imóvel não encontrado."
-            });
+            return res.status(404).json({ sucesso: false, erro: "Imóvel não encontrado." });
         }
 
-        const fotos = db.prepare(`
+        const fotosResultado = await db.query(`
             SELECT id, ordem
             FROM imoveis_fotos
-            WHERE imovel_id = ?
+            WHERE imovel_id = $1
             ORDER BY ordem ASC
-        `).all(id).map(foto => ({
+        `, [req.params.id]);
+
+        const comodidadesResultado = await db.query(`
+            SELECT nome
+            FROM imoveis_comodidades
+            WHERE imovel_id = $1
+            ORDER BY nome ASC
+        `, [req.params.id]);
+
+        const fotos = fotosResultado.rows.map(foto => ({
             ...foto,
             foto_url: urlFotoPublica(req, foto.id)
         }));
-
-        const comodidades = db.prepare(`
-            SELECT nome
-            FROM imoveis_comodidades
-            WHERE imovel_id = ?
-            ORDER BY nome ASC
-        `).all(id).map(item => item.nome);
 
         return res.status(200).json({
             sucesso: true,
             imovel: {
                 ...imovel,
                 fotos,
-                comodidades
+                comodidades: comodidadesResultado.rows.map(item => item.nome)
             }
         });
     } catch (erro) {
         console.error("Erro ao buscar imóvel:", erro);
 
-        return res.status(500).json({
-            sucesso: false,
-            erro: "Erro ao buscar imóvel."
-        });
+        return res.status(500).json({ sucesso: false, erro: "Erro ao buscar imóvel." });
     }
 }
 
 async function excluirImovel(req, res) {
-    try {
-        const { id } = req.params;
+    const client = await db.connect();
 
-        const imovel = db.prepare(`
+    try {
+        const resultadoImovel = await client.query(`
             SELECT id
             FROM imoveis
-            WHERE id = ? AND usuario_id = ?
-        `).get(id, req.usuario.id);
+            WHERE id = $1 AND usuario_id = $2
+        `, [req.params.id, req.usuario.id]);
 
-        if (!imovel) {
+        if (resultadoImovel.rowCount === 0) {
             return res.status(404).json({
                 sucesso: false,
                 erro: "Imóvel não encontrado ou você não possui permissão para excluí-lo."
             });
         }
 
-        const fotos = db.prepare(`
-            SELECT foto_url
-            FROM imoveis_fotos
-            WHERE imovel_id = ?
-        `).all(id);
+        const fotos = await client.query(
+            "SELECT foto_url FROM imoveis_fotos WHERE imovel_id = $1",
+            [req.params.id]
+        );
 
-        const documentos = db.prepare(`
-            SELECT arquivo_url
-            FROM imoveis_documentos
-            WHERE imovel_id = ?
-        `).all(id);
+        const documentos = await client.query(
+            "SELECT arquivo_url FROM imoveis_documentos WHERE imovel_id = $1",
+            [req.params.id]
+        );
 
-        for (const foto of fotos) {
-            await excluirArquivoS3(foto.foto_url);
-        }
+        await client.query("BEGIN");
+        await client.query("DELETE FROM imoveis WHERE id = $1", [req.params.id]);
+        await client.query("COMMIT");
 
-        for (const documento of documentos) {
-            await excluirArquivoS3(documento.arquivo_url);
-        }
+        const arquivos = [
+            ...fotos.rows.map(item => item.foto_url),
+            ...documentos.rows.map(item => item.arquivo_url)
+        ];
 
-        db.prepare(`
-            DELETE FROM imoveis
-            WHERE id = ? AND usuario_id = ?
-        `).run(id, req.usuario.id);
+        await Promise.allSettled(arquivos.map(excluirArquivoS3));
 
         return res.status(200).json({
             sucesso: true,
             mensagem: "Imóvel excluído com sucesso."
         });
     } catch (erro) {
+        await client.query("ROLLBACK").catch(() => {});
         console.error("Erro ao excluir imóvel:", erro);
 
-        return res.status(500).json({
-            sucesso: false,
-            erro: "Erro interno ao excluir imóvel."
-        });
+        return res.status(500).json({ sucesso: false, erro: "Erro ao excluir imóvel." });
+    } finally {
+        client.release();
     }
 }
 
