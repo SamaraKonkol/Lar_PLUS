@@ -6,6 +6,9 @@ const campoValor = document.getElementById("valor-aluguel");
 const resumoValores = document.querySelectorAll(".resumo-valores strong");
 const inputFotos = document.querySelector('[name="fotos-imovel"]');
 const areaUpload = document.querySelector(".area-upload");
+const limiteFotos = 10;
+const tamanhoMaximoFoto = 10 * 1024 * 1024;
+let fotosSelecionadas = [];
 const etapasProgresso = Array.from(document.querySelectorAll(".etapa-progresso"));
 const linhasProgresso = Array.from(document.querySelectorAll(".linha-progresso"));
 
@@ -139,9 +142,7 @@ function montarFormData() {
     formData.append("entrada_imediata", marcado("entrada-imediata"));
     formData.append("comodidades", JSON.stringify(obterComodidades()));
 
-    const fotos = inputFotos?.files || [];
-
-    Array.from(fotos).slice(0, 10).forEach(foto => {
+    fotosSelecionadas.forEach(foto => {
         formData.append("fotos", foto);
     });
 
@@ -152,6 +153,74 @@ function montarFormData() {
     return formData;
 }
 
+function chaveArquivo(arquivo) {
+    return `${arquivo.name}-${arquivo.size}-${arquivo.lastModified}`;
+}
+
+function adicionarFotosSelecionadas() {
+    if (!inputFotos) {
+        return;
+    }
+
+    const novasFotos = Array.from(inputFotos.files || []);
+    const chavesSelecionadas = new Set(fotosSelecionadas.map(chaveArquivo));
+    let formatoInvalido = false;
+    let tamanhoExcedido = false;
+    let limiteAtingido = false;
+
+    novasFotos.forEach(foto => {
+        if (!foto.type.startsWith("image/")) {
+            formatoInvalido = true;
+            return;
+        }
+
+        if (foto.size > tamanhoMaximoFoto) {
+            tamanhoExcedido = true;
+            return;
+        }
+
+        const chave = chaveArquivo(foto);
+
+        if (chavesSelecionadas.has(chave)) {
+            return;
+        }
+
+        if (fotosSelecionadas.length >= limiteFotos) {
+            limiteAtingido = true;
+            return;
+        }
+
+        fotosSelecionadas.push(foto);
+        chavesSelecionadas.add(chave);
+    });
+
+    inputFotos.value = "";
+    renderizarPreviewFotos();
+
+    const avisos = [];
+
+    if (formatoInvalido) {
+        avisos.push("Alguns arquivos não eram imagens e foram ignorados.");
+    }
+
+    if (tamanhoExcedido) {
+        avisos.push("Cada foto pode ter no máximo 10 MB.");
+    }
+
+    if (limiteAtingido) {
+        avisos.push("Você pode adicionar no máximo 10 fotos.");
+    }
+
+    if (avisos.length > 0) {
+        mostrarAvisoGlass("Confira as fotos", avisos.join(" "), "erro");
+    }
+}
+
+function removerFotoSelecionada(indice) {
+    fotosSelecionadas.splice(indice, 1);
+    renderizarPreviewFotos();
+}
+
 function renderizarPreviewFotos() {
     if (!inputFotos || !areaUpload) {
         return;
@@ -159,43 +228,56 @@ function renderizarPreviewFotos() {
 
     document.querySelector(".preview-fotos")?.remove();
 
-    const arquivos = Array.from(inputFotos.files || []).slice(0, 10);
+    const titulo = areaUpload.querySelector("strong");
+    const texto = areaUpload.querySelector("p");
 
-    if (arquivos.length === 0) {
+    if (fotosSelecionadas.length === 0) {
         areaUpload.classList.remove("com-arquivos");
+
+        if (titulo) {
+            titulo.textContent = "Arraste suas fotos ou clique para selecionar";
+        }
+
+        if (texto) {
+            texto.textContent = "PNG, JPG ou WEBP. Máximo de 10 MB por imagem.";
+        }
+
         return;
     }
 
     areaUpload.classList.add("com-arquivos");
 
-    const titulo = areaUpload.querySelector("strong");
-    const texto = areaUpload.querySelector("p");
-
     if (titulo) {
-        titulo.textContent = `${arquivos.length} ${arquivos.length === 1 ? "foto selecionada" : "fotos selecionadas"}`;
+        titulo.textContent = `${fotosSelecionadas.length}/${limiteFotos} ${fotosSelecionadas.length === 1 ? "foto selecionada" : "fotos selecionadas"}`;
     }
 
     if (texto) {
-        texto.textContent = "Clique novamente para trocar ou adicionar outras imagens.";
+        texto.textContent = "Clique novamente para adicionar fotos de outra pasta.";
     }
 
     const preview = document.createElement("div");
     preview.className = "preview-fotos";
 
-    arquivos.forEach(arquivo => {
+    fotosSelecionadas.forEach((arquivo, indice) => {
         const item = document.createElement("div");
         item.className = "preview-foto";
 
         const imagem = document.createElement("img");
         imagem.src = URL.createObjectURL(arquivo);
-        imagem.alt = arquivo.name;
+        imagem.alt = `Prévia de ${arquivo.name}`;
         imagem.addEventListener("load", () => URL.revokeObjectURL(imagem.src), { once: true });
 
         const nome = document.createElement("span");
         nome.textContent = arquivo.name;
 
-        item.appendChild(imagem);
-        item.appendChild(nome);
+        const botaoRemover = document.createElement("button");
+        botaoRemover.type = "button";
+        botaoRemover.className = "botao-remover-foto";
+        botaoRemover.setAttribute("aria-label", `Remover ${arquivo.name}`);
+        botaoRemover.textContent = "×";
+        botaoRemover.addEventListener("click", () => removerFotoSelecionada(indice));
+
+        item.append(imagem, nome, botaoRemover);
         preview.appendChild(item);
     });
 
@@ -328,7 +410,7 @@ async function iniciarCadastroImovel() {
 
 campoValor?.addEventListener("input", atualizarResumoValores);
 campoDescricao?.addEventListener("input", atualizarContadorDescricao);
-inputFotos?.addEventListener("change", renderizarPreviewFotos);
+inputFotos?.addEventListener("change", adicionarFotosSelecionadas);
 formularioImovel?.addEventListener("submit", publicarImovel);
 window.addEventListener("scroll", atualizarProgresso, { passive: true });
 
