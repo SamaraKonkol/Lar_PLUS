@@ -104,7 +104,7 @@ async function carregarMeusImoveis(token) {
         });
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }
@@ -164,7 +164,7 @@ async function excluirImovelDashboard(id, token) {
         const dados = await resposta.json();
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = obterToken();
     const nomeDashboard = document.getElementById("nome-dashboard");
 
     if (nomeDashboard) {
@@ -213,7 +213,7 @@ document.addEventListener("click", async event => {
     const botaoExcluir = event.target.closest(".botao-excluir-imovel");
 
     if (botaoExcluir) {
-        const token = localStorage.getItem("token");
+        const token = obterToken();
 
         if (!token) {
             window.location.href = "login.html";

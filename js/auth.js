@@ -1,5 +1,21 @@
+function obterToken() {
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
+}
+
+function salvarToken(token, manterConectado = false) {
+    removerToken();
+
+    const armazenamento = manterConectado ? localStorage : sessionStorage;
+    armazenamento.setItem("token", token);
+}
+
+function removerToken() {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+}
+
 async function verificarUsuarioLogado() {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
     const menuVisitante = document.querySelector(".menu-visitante");
     const menuUsuario = document.querySelector(".menu-usuario");
     const fotoPerfil = document.querySelector(".foto-perfil-header");
@@ -18,15 +34,15 @@ async function verificarUsuarioLogado() {
     }
 
     try {
-        const resposta = await fetch(`${API_URL}/api/usuarios/perfil`, {
+        const resposta = await fetch(API_URL + "/api/usuarios/perfil", {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: "Bearer " + token
             }
         });
 
         if (!resposta.ok) {
-            localStorage.removeItem("token");
+            removerToken();
 
             if (menuVisitante) {
                 menuVisitante.hidden = false;
@@ -51,7 +67,7 @@ async function verificarUsuarioLogado() {
         }
 
         if (fotoPerfil) {
-            fotoPerfil.src = usuario.foto_url || "img/avatar-padrao.png";
+            fotoPerfil.src = usuario.foto_url || "img/avatar-padrao.svg";
         }
 
         if (nomeUsuario) {
@@ -80,11 +96,11 @@ function mostrarAvisoInterface(titulo, mensagem, tipo = "sucesso", duracao = 320
     document.querySelector(".aviso-glass")?.remove();
 
     const aviso = document.createElement("div");
-    aviso.className = `aviso-glass aviso-${tipo}`;
+    aviso.className = "aviso-glass aviso-" + tipo;
 
     const icone = document.createElement("span");
     icone.className = "aviso-glass-icone";
-    icone.textContent = tipo === "erro" ? "!" : "i";
+    icone.textContent = tipo === "erro" ? "!" : "✓";
 
     const conteudo = document.createElement("div");
     const tituloElemento = document.createElement("strong");
@@ -110,7 +126,7 @@ function mostrarAvisoInterface(titulo, mensagem, tipo = "sucesso", duracao = 320
 }
 
 function logout() {
-    localStorage.removeItem("token");
+    removerToken();
     window.location.href = "index.html";
 }
 
@@ -157,25 +173,14 @@ function configurarMenuPerfil() {
 
 function configurarRecursosEmDesenvolvimento() {
     document.addEventListener("click", event => {
-        const editarPerfil = event.target.closest('a[href="editar-perfil.html"]');
         const botaoAlugar = event.target.closest("#botao-alugar");
         const botaoVisita = event.target.closest("#botao-visita");
-
-        if (editarPerfil) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            mostrarAvisoInterface(
-                "Edição de perfil",
-                "Esta função ainda está em desenvolvimento."
-            );
-            return;
-        }
 
         if (!botaoAlugar && !botaoVisita) {
             return;
         }
 
-        const token = localStorage.getItem("token");
+        const token = obterToken();
 
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -201,7 +206,7 @@ function configurarRecursosEmDesenvolvimento() {
 }
 
 async function protegerPagina() {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         window.location.href = "login.html";
@@ -209,14 +214,14 @@ async function protegerPagina() {
     }
 
     try {
-        const resposta = await fetch(`${API_URL}/api/usuarios/perfil`, {
+        const resposta = await fetch(API_URL + "/api/usuarios/perfil", {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: "Bearer " + token
             }
         });
 
         if (!resposta.ok) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return null;
         }

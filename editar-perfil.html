@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar perfil | Lar+</title>
+    <link rel="stylesheet" href="css/editar-perfil.css">
+    <link rel="stylesheet" href="css/header-auth.css">
+</head>
+
+<body>
+    <header class="cabecalho">
+        <a href="index.html" class="logo">
+            <img src="img/Lar_PLUS.png" alt="Logo da Lar+">
+        </a>
+
+        <nav class="menu-principal">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="catalogo.html">Imóveis</a></li>
+            </ul>
+        </nav>
+
+        <div class="acoes-header">
+            <div class="menu-visitante" hidden>
+                <a href="login.html" class="botao entrar">Entrar</a>
+                <a href="cadastro.html" class="botao cadastrar">Criar conta</a>
+            </div>
+
+            <div class="menu-usuario">
+                <a href="favoritos.html" class="botao favoritos">♡ Favoritos</a>
+
+                <div class="perfil-menu">
+                    <button type="button" class="perfil-header" id="botao-menu-perfil" aria-expanded="false">
+                        <img src="img/avatar-padrao.svg" alt="Foto de perfil" class="foto-perfil-header">
+                        <span class="nome-usuario-header">Perfil</span>
+                        <span class="seta-perfil">▾</span>
+                    </button>
+
+                    <div class="dropdown-perfil" id="dropdown-perfil" hidden>
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="editar-perfil.html" aria-current="page">Editar perfil</a>
+                        <div class="divisor-menu"></div>
+                        <button type="button" id="botao-logout" class="botao-logout">Sair</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pagina-perfil">
+        <div class="topo-pagina">
+            <div>
+                <a href="dashboard.html" class="voltar">← Voltar para o dashboard</a>
+                <span class="etiqueta">Minha conta</span>
+                <h1>Editar perfil</h1>
+                <p>Atualize seus dados pessoais e a foto exibida na Lar+.</p>
+            </div>
+        </div>
+
+        <form class="formulario-perfil">
+            <aside class="secao-foto">
+                <div class="foto-container">
+                    <img src="img/avatar-padrao.svg" alt="Prévia da foto de perfil" id="foto-perfil-preview">
+                </div>
+
+                <h2>Foto de perfil</h2>
+                <p>Use uma imagem nítida em JPG, PNG ou WEBP, com até 10 MB.</p>
+
+                <label for="foto-perfil" class="botao-foto">Escolher nova foto</label>
+                <input type="file" id="foto-perfil" name="foto" accept="image/jpeg,image/png,image/webp">
+
+                <span class="nome-arquivo" id="nome-arquivo-foto">Nenhuma nova foto selecionada</span>
+            </aside>
+
+            <section class="secao-dados">
+                <div class="titulo-secao">
+                    <div>
+                        <span class="etiqueta">Dados pessoais</span>
+                        <h2>Suas informações</h2>
+                    </div>
+                    <p><span aria-hidden="true">*</span> Campos obrigatórios</p>
+                </div>
+
+                <div class="grade-campos">
+                    <div class="campo">
+                        <label for="nome">Nome <span aria-hidden="true">*</span></label>
+                        <input type="text" id="nome" name="nome" autocomplete="given-name" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="sobrenome">Sobrenome <span aria-hidden="true">*</span></label>
+                        <input type="text" id="sobrenome" name="sobrenome" autocomplete="family-name" required>
+                    </div>
+
+                    <div class="campo campo-largo">
+                        <label for="email">E-mail <span aria-hidden="true">*</span></label>
+                        <input type="email" id="email" name="email" autocomplete="email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefone">Telefone <span aria-hidden="true">*</span></label>
+                        <input type="tel" id="telefone" name="telefone" inputmode="numeric" autocomplete="tel" maxlength="15" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" name="cpf" readonly>
+                        <small>O CPF não pode ser alterado.</small>
+                    </div>
+                </div>
+
+                <div class="acoes-formulario">
+                    <a href="dashboard.html" class="botao-cancelar">Cancelar</a>
+                    <button type="submit" class="botao-salvar">Salvar alterações</button>
+                </div>
+            </section>
+        </form>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/editar-perfil.js"></script>
+</body>
+
+</html>

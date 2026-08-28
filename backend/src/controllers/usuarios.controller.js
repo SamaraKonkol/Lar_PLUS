@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const { db } = require("../database/database");
+const { uploadImagemS3 } = require("../utils/uploadS3");
 
 const {
     somenteNumeros,
@@ -105,6 +106,7 @@ async function cadastrarUsuario(req, res) {
 async function loginUsuario(req, res) {
     try {
         const { email, senha } = req.body;
+        const manterConectado = req.body.manterConectado === true;
 
         if (!email || !senha) {
             return res.status(400).json({ sucesso: false, mensagem: "Informe e-mail e senha." });
@@ -133,7 +135,7 @@ async function loginUsuario(req, res) {
         const token = jwt.sign(
             { id: usuario.id, email: usuario.email },
             process.env.JWT_SECRET,
-            { expiresIn: "1d" }
+            { expiresIn: manterConectado ? "30d" : "12h" }
         );
 
         return res.status(200).json({
@@ -183,8 +185,102 @@ async function buscarPerfil(req, res) {
     }
 }
 
+async function editarPerfil(req, res) {
+    try {
+        const { nome, sobrenome, email, telefone } = req.body;
+
+        if (!nome || !sobrenome || !email || !telefone) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: "Preencha todos os campos obrigatórios."
+            });
+        }
+
+        const nomeLimpo = nome.trim();
+        const sobrenomeLimpo = sobrenome.trim();
+        const emailNormalizado = email.trim().toLowerCase();
+        const telefoneNormalizado = somenteNumeros(telefone);
+
+        if (nomeLimpo.length < 2) {
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um nome válido." });
+        }
+
+        if (sobrenomeLimpo.length < 2) {
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um sobrenome válido." });
+        }
+
+        if (!validarEmail(emailNormalizado)) {
+            return res.status(400).json({ sucesso: false, mensagem: "Informe um e-mail válido." });
+        }
+
+        if (!validarTelefone(telefoneNormalizado)) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: "Informe um telefone válido com DDD."
+            });
+        }
+
+        const emailExistente = await db.query(
+            "SELECT id FROM usuarios WHERE email = $1 AND id <> $2",
+            [emailNormalizado, req.usuario.id]
+        );
+
+        if (emailExistente.rowCount > 0) {
+            return res.status(409).json({
+                sucesso: false,
+                mensagem: "Já existe uma conta com esse e-mail."
+            });
+        }
+
+        const perfilAtual = await db.query(
+            "SELECT foto_url FROM usuarios WHERE id = $1",
+            [req.usuario.id]
+        );
+
+        if (perfilAtual.rowCount === 0) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: "Usuário não encontrado."
+            });
+        }
+
+        let fotoUrl = perfilAtual.rows[0].foto_url;
+
+        if (req.file) {
+            fotoUrl = await uploadImagemS3(req.file, "perfis");
+        }
+
+        const resultado = await db.query(
+            "UPDATE usuarios SET nome = $1, sobrenome = $2, email = $3, telefone = $4, foto_url = $5 " +
+            "WHERE id = $6 RETURNING id, nome, sobrenome, email, cpf, telefone, foto_url, criado_em",
+            [
+                nomeLimpo,
+                sobrenomeLimpo,
+                emailNormalizado,
+                telefoneNormalizado,
+                fotoUrl,
+                req.usuario.id
+            ]
+        );
+
+        return res.status(200).json({
+            sucesso: true,
+            mensagem: "Perfil atualizado com sucesso!",
+            usuario: resultado.rows[0]
+        });
+    } catch (erro) {
+        console.error("Erro ao editar perfil:", erro);
+
+        return res.status(500).json({
+            sucesso: false,
+            mensagem: "Erro interno ao editar perfil."
+        });
+    }
+}
+
 module.exports = {
     cadastrarUsuario,
     loginUsuario,
-    buscarPerfil
+    buscarPerfil,
+    editarPerfil
 };

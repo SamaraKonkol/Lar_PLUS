@@ -69,7 +69,7 @@ function renderizarFavoritos(favoritos) {
 }
 
 async function carregarFavoritos() {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         window.location.href = "login.html";
@@ -85,7 +85,7 @@ async function carregarFavoritos() {
         });
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }
@@ -114,7 +114,7 @@ async function carregarFavoritos() {
 }
 
 async function removerFavorito(imovelId, botao) {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         window.location.href = "login.html";
@@ -134,7 +134,7 @@ async function removerFavorito(imovelId, botao) {
         const dados = await resposta.json();
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }

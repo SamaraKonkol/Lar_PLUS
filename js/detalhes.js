@@ -287,7 +287,7 @@ function atualizarBotaoFavorito() {
 }
 
 async function verificarFavorito() {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token || !imovelId) {
         estaFavoritado = false;
@@ -303,7 +303,7 @@ async function verificarFavorito() {
         });
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             estaFavoritado = false;
             atualizarBotaoFavorito();
             return;
@@ -324,7 +324,7 @@ async function verificarFavorito() {
 }
 
 async function alterarFavorito(metodo, estadoFinal) {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         window.location.href = "login.html";
@@ -344,7 +344,7 @@ async function alterarFavorito(metodo, estadoFinal) {
         const dados = await resposta.json();
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }
@@ -428,7 +428,7 @@ async function iniciarDetalhes() {
 botaoFavoritar?.addEventListener("click", alternarFavorito);
 
 botaoAlugar?.addEventListener("click", event => {
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         return;

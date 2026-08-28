@@ -1,65 +1,52 @@
 const formulario = document.querySelector(".formulario-login");
-
 const campoEmail = document.querySelector("#email");
 const campoSenha = document.querySelector("#senha");
+const campoManterConectado = document.querySelector('[name="lembrar"]');
 const botaoMostrarSenha = document.querySelector(".mostrar-senha");
+const botaoEntrar = document.querySelector(".botao-entrar");
 
-
-// Mostrar / esconder senha
-botaoMostrarSenha.addEventListener("click", () => {
-
-    if (campoSenha.type === "password") {
-        campoSenha.type = "text";
-    } else {
-        campoSenha.type = "password";
-    }
-
+botaoMostrarSenha?.addEventListener("click", () => {
+    const mostrar = campoSenha.type === "password";
+    campoSenha.type = mostrar ? "text" : "password";
+    botaoMostrarSenha.setAttribute("aria-label", mostrar ? "Ocultar senha" : "Mostrar senha");
 });
 
-
-// Fazer login
-formulario.addEventListener("submit", async (event) => {
-
+formulario?.addEventListener("submit", async event => {
     event.preventDefault();
 
     const email = campoEmail.value.trim();
     const senha = campoSenha.value;
+    const manterConectado = Boolean(campoManterConectado?.checked);
+    const textoOriginal = botaoEntrar.textContent;
 
     try {
+        botaoEntrar.disabled = true;
+        botaoEntrar.textContent = "Entrando...";
 
-        const resposta = await fetch(`${API_URL}/api/usuarios/login`, {
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    email,
-                    senha
-                })
-            }
-        );
+        const resposta = await fetch(API_URL + "/api/usuarios/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                senha,
+                manterConectado
+            })
+        });
 
         const dados = await resposta.json();
 
         if (!resposta.ok) {
-            alert(dados.mensagem || "E-mail ou senha inválidos.");
-            return;
+            throw new Error(dados.mensagem || "E-mail ou senha inválidos.");
         }
 
-        localStorage.setItem("token", dados.token);
-
+        salvarToken(dados.token, manterConectado);
         window.location.href = "catalogo.html";
-
     } catch (erro) {
-
-        console.error("Erro no login:", erro);
-
-        alert(
-            "Não foi possível conectar ao servidor. Verifique se o backend está ligado."
-        );
-
+        alert(erro.message || "Não foi possível conectar ao servidor.");
+    } finally {
+        botaoEntrar.disabled = false;
+        botaoEntrar.textContent = textoOriginal;
     }
-
 });

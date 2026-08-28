@@ -21,7 +21,7 @@ const upload = multer({
             "image/png"
         ];
 
-        if (file.fieldname === "fotos") {
+        if (file.fieldname === "fotos" || file.fieldname === "foto") {
             if (!imagensPermitidas.includes(file.mimetype)) {
                 return cb(new Error("Formato inválido para foto."));
             }

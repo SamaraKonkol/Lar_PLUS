@@ -326,7 +326,7 @@ function atualizarProgresso() {
 async function publicarImovel(event) {
     event.preventDefault();
 
-    const token = localStorage.getItem("token");
+    const token = obterToken();
 
     if (!token) {
         window.location.href = "login.html";
@@ -354,7 +354,7 @@ async function publicarImovel(event) {
         const dados = await resposta.json();
 
         if (resposta.status === 401 || resposta.status === 403) {
-            localStorage.removeItem("token");
+            removerToken();
             window.location.href = "login.html";
             return;
         }
