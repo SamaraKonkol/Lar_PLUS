@@ -247,7 +247,7 @@ async function editarPerfil(req, res) {
         let fotoUrl = perfilAtual.rows[0].foto_url;
 
         if (req.file) {
-            fotoUrl = await uploadImagemS3(req.file, "perfis");
+            fotoUrl = await uploadImagemS3(req.file, "imoveis/perfis");
         }
 
         const resultado = await db.query(

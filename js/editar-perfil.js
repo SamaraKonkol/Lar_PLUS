@@ -6,17 +6,23 @@ const campoTelefone = document.getElementById("telefone");
 const campoCpf = document.getElementById("cpf");
 const campoFoto = document.getElementById("foto-perfil");
 const previewFoto = document.getElementById("foto-perfil-preview");
+const nomeArquivoFoto = document.getElementById("nome-arquivo-foto");
+const botaoAjustarRecorte = document.getElementById("botao-ajustar-recorte");
+const botaoSalvar = document.querySelector(".botao-salvar");
+const modalRecorte = document.getElementById("modal-recorte");
+const botaoFecharModal = document.getElementById("fechar-modal-recorte");
+const botaoCancelarRecorte = document.getElementById("cancelar-recorte");
+const botaoConfirmarRecorte = document.getElementById("confirmar-recorte");
 const canvasFoto = document.getElementById("foto-canvas");
 const contextoFoto = canvasFoto?.getContext("2d");
-const controlesFoto = document.getElementById("controles-foto");
 const controleZoom = document.getElementById("zoom-foto");
 const botaoCentralizarFoto = document.getElementById("botao-centralizar-foto");
-const nomeArquivoFoto = document.getElementById("nome-arquivo-foto");
-const botaoSalvar = document.querySelector(".botao-salvar");
 
-let arquivoFotoSelecionado = null;
+let fotoPerfilAtualUrl = "img/avatar-padrao.svg";
 let imagemEdicao = null;
-let urlImagemEdicao = null;
+let urlImagemOriginal = null;
+let fotoRecortada = null;
+let urlPreviewRecortada = null;
 let escalaBase = 1;
 let nivelZoom = 1;
 let deslocamentoX = 0;
@@ -24,6 +30,7 @@ let deslocamentoY = 0;
 let arrastandoFoto = false;
 let ultimoPontoX = 0;
 let ultimoPontoY = 0;
+let estadoConfirmado = null;
 
 function somenteNumerosPerfil(valor) {
     return String(valor || "").replace(/\D/g, "");
@@ -52,10 +59,21 @@ function formatarTelefonePerfil(valor) {
         .replace(/(\d{5})(\d)/, "$1-$2");
 }
 
-function liberarUrlImagemEdicao() {
-    if (urlImagemEdicao) {
-        URL.revokeObjectURL(urlImagemEdicao);
-        urlImagemEdicao = null;
+function aplicarFallbackImagem(imagem) {
+    if (!imagem) {
+        return;
+    }
+
+    imagem.addEventListener("error", () => {
+        if (!imagem.src.endsWith("/img/avatar-padrao.svg")) {
+            imagem.src = "img/avatar-padrao.svg";
+        }
+    });
+}
+
+function liberarUrl(url) {
+    if (url) {
+        URL.revokeObjectURL(url);
     }
 }
 
@@ -75,7 +93,7 @@ function limitarDeslocamentoFoto() {
 }
 
 function desenharFotoEditada() {
-    if (!imagemEdicao || !canvasFoto || !contextoFoto) {
+    if (!imagemEdicao || !contextoFoto) {
         return;
     }
 
@@ -87,7 +105,6 @@ function desenharFotoEditada() {
     const posicaoX = (canvasFoto.width - larguraDesenhada) / 2 + deslocamentoX;
     const posicaoY = (canvasFoto.height - alturaDesenhada) / 2 + deslocamentoY;
 
-    contextoFoto.clearRect(0, 0, canvasFoto.width, canvasFoto.height);
     contextoFoto.fillStyle = "#f0edff";
     contextoFoto.fillRect(0, 0, canvasFoto.width, canvasFoto.height);
     contextoFoto.drawImage(
@@ -99,42 +116,78 @@ function desenharFotoEditada() {
     );
 }
 
+function abrirModalRecorte() {
+    if (!imagemEdicao) {
+        return;
+    }
+
+    estadoConfirmado = {
+        nivelZoom,
+        deslocamentoX,
+        deslocamentoY
+    };
+
+    modalRecorte.hidden = false;
+    document.body.classList.add("modal-aberto");
+    requestAnimationFrame(desenharFotoEditada);
+}
+
+function fecharModalRecorte() {
+    modalRecorte.hidden = true;
+    document.body.classList.remove("modal-aberto");
+}
+
 function centralizarFoto() {
     nivelZoom = 1;
     deslocamentoX = 0;
     deslocamentoY = 0;
-
-    if (controleZoom) {
-        controleZoom.value = "1";
-    }
-
+    controleZoom.value = "1";
     desenharFotoEditada();
 }
 
-function abrirEditorFoto(arquivo) {
-    const novaUrl = URL.createObjectURL(arquivo);
-    const novaImagem = new Image();
+function descartarNovoRecorte() {
+    if (fotoRecortada && estadoConfirmado) {
+        nivelZoom = estadoConfirmado.nivelZoom;
+        deslocamentoX = estadoConfirmado.deslocamentoX;
+        deslocamentoY = estadoConfirmado.deslocamentoY;
+        controleZoom.value = String(nivelZoom);
+        desenharFotoEditada();
+    } else if (!fotoRecortada) {
+        liberarUrl(urlImagemOriginal);
+        urlImagemOriginal = null;
+        imagemEdicao = null;
+        campoFoto.value = "";
+    }
 
-    novaImagem.addEventListener("load", () => {
-        liberarUrlImagemEdicao();
+    fecharModalRecorte();
+}
 
-        urlImagemEdicao = novaUrl;
-        imagemEdicao = novaImagem;
-        arquivoFotoSelecionado = arquivo;
-        escalaBase = Math.max(
-            canvasFoto.width / novaImagem.naturalWidth,
-            canvasFoto.height / novaImagem.naturalHeight
-        );
+function carregarImagemParaRecorte(arquivo) {
+    const url = URL.createObjectURL(arquivo);
+    const imagem = new Image();
 
-        previewFoto.hidden = true;
-        canvasFoto.hidden = false;
-        controlesFoto.hidden = false;
+    imagem.addEventListener("load", () => {
+        liberarUrl(urlImagemOriginal);
+        liberarUrl(urlPreviewRecortada);
+
+        urlImagemOriginal = url;
+        urlPreviewRecortada = null;
+        fotoRecortada = null;
+        imagemEdicao = imagem;
+        botaoAjustarRecorte.hidden = true;
+        previewFoto.src = fotoPerfilAtualUrl;
         nomeArquivoFoto.textContent = arquivo.name;
+        escalaBase = Math.max(
+            canvasFoto.width / imagem.naturalWidth,
+            canvasFoto.height / imagem.naturalHeight
+        );
         centralizarFoto();
+        abrirModalRecorte();
     }, { once: true });
 
-    novaImagem.addEventListener("error", () => {
-        URL.revokeObjectURL(novaUrl);
+    imagem.addEventListener("error", () => {
+        URL.revokeObjectURL(url);
+        campoFoto.value = "";
         mostrarAvisoInterface(
             "Não foi possível abrir a foto",
             "Escolha outra imagem e tente novamente.",
@@ -142,31 +195,14 @@ function abrirEditorFoto(arquivo) {
         );
     }, { once: true });
 
-    novaImagem.src = novaUrl;
-}
-
-function encerrarEditorFoto(fotoUrl) {
-    liberarUrlImagemEdicao();
-    arquivoFotoSelecionado = null;
-    imagemEdicao = null;
-    campoFoto.value = "";
-    canvasFoto.hidden = true;
-    controlesFoto.hidden = true;
-    previewFoto.hidden = false;
-    previewFoto.src = fotoUrl || "img/avatar-padrao.svg";
-    nomeArquivoFoto.textContent = "Nenhuma nova foto selecionada";
+    imagem.src = url;
 }
 
 function gerarFotoRecortada() {
     return new Promise((resolve, reject) => {
-        if (!imagemEdicao || !canvasFoto) {
-            resolve(null);
-            return;
-        }
-
         canvasFoto.toBlob(blob => {
             if (!blob) {
-                reject(new Error("Não foi possível preparar a foto para envio."));
+                reject(new Error("Não foi possível gerar o recorte da foto."));
                 return;
             }
 
@@ -175,28 +211,73 @@ function gerarFotoRecortada() {
     });
 }
 
+async function confirmarRecorte() {
+    try {
+        botaoConfirmarRecorte.disabled = true;
+        botaoConfirmarRecorte.textContent = "Preparando...";
+
+        const blob = await gerarFotoRecortada();
+
+        liberarUrl(urlPreviewRecortada);
+        fotoRecortada = blob;
+        urlPreviewRecortada = URL.createObjectURL(blob);
+        previewFoto.src = urlPreviewRecortada;
+        botaoAjustarRecorte.hidden = false;
+        nomeArquivoFoto.textContent = "Recorte pronto para salvar";
+        estadoConfirmado = {
+            nivelZoom,
+            deslocamentoX,
+            deslocamentoY
+        };
+        fecharModalRecorte();
+    } catch (erro) {
+        mostrarAvisoInterface("Não foi possível recortar", erro.message, "erro");
+    } finally {
+        botaoConfirmarRecorte.disabled = false;
+        botaoConfirmarRecorte.textContent = "Usar este recorte";
+    }
+}
+
+function limparEdicaoFoto() {
+    liberarUrl(urlImagemOriginal);
+    liberarUrl(urlPreviewRecortada);
+    urlImagemOriginal = null;
+    urlPreviewRecortada = null;
+    fotoRecortada = null;
+    imagemEdicao = null;
+    estadoConfirmado = null;
+    campoFoto.value = "";
+    botaoAjustarRecorte.hidden = true;
+    nomeArquivoFoto.textContent = "Nenhuma nova foto selecionada";
+}
+
 function preencherFormulario(usuario) {
     campoNome.value = usuario.nome || "";
     campoSobrenome.value = usuario.sobrenome || "";
     campoEmail.value = usuario.email || "";
     campoTelefone.value = formatarTelefonePerfil(usuario.telefone);
     campoCpf.value = formatarCpfPerfil(usuario.cpf);
+    fotoPerfilAtualUrl = usuario.foto_url || "img/avatar-padrao.svg";
 
-    if (!imagemEdicao) {
-        previewFoto.src = usuario.foto_url || "img/avatar-padrao.svg";
+    if (!fotoRecortada) {
+        previewFoto.src = fotoPerfilAtualUrl;
     }
 
     const fotoHeader = document.querySelector(".foto-perfil-header");
     const nomeHeader = document.querySelector(".nome-usuario-header");
 
+    aplicarFallbackImagem(fotoHeader);
+
     if (fotoHeader) {
-        fotoHeader.src = usuario.foto_url || "img/avatar-padrao.svg";
+        fotoHeader.src = fotoPerfilAtualUrl;
     }
 
     if (nomeHeader) {
         nomeHeader.textContent = usuario.nome || "Perfil";
     }
 }
+
+aplicarFallbackImagem(previewFoto);
 
 campoTelefone?.addEventListener("input", () => {
     campoTelefone.value = formatarTelefonePerfil(campoTelefone.value);
@@ -223,7 +304,7 @@ campoFoto?.addEventListener("change", () => {
         return;
     }
 
-    abrirEditorFoto(arquivo);
+    carregarImagemParaRecorte(arquivo);
 });
 
 controleZoom?.addEventListener("input", () => {
@@ -232,6 +313,10 @@ controleZoom?.addEventListener("input", () => {
 });
 
 botaoCentralizarFoto?.addEventListener("click", centralizarFoto);
+botaoAjustarRecorte?.addEventListener("click", abrirModalRecorte);
+botaoConfirmarRecorte?.addEventListener("click", confirmarRecorte);
+botaoCancelarRecorte?.addEventListener("click", descartarNovoRecorte);
+botaoFecharModal?.addEventListener("click", descartarNovoRecorte);
 
 canvasFoto?.addEventListener("pointerdown", event => {
     if (!imagemEdicao) {
@@ -272,6 +357,12 @@ function finalizarArrasteFoto(event) {
 canvasFoto?.addEventListener("pointerup", finalizarArrasteFoto);
 canvasFoto?.addEventListener("pointercancel", finalizarArrasteFoto);
 
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !modalRecorte.hidden) {
+        descartarNovoRecorte();
+    }
+});
+
 formularioPerfil?.addEventListener("submit", async event => {
     event.preventDefault();
 
@@ -290,12 +381,11 @@ formularioPerfil?.addEventListener("submit", async event => {
     formData.append("email", campoEmail.value.trim());
     formData.append("telefone", somenteNumerosPerfil(campoTelefone.value));
 
-    try {
-        if (arquivoFotoSelecionado) {
-            const fotoRecortada = await gerarFotoRecortada();
-            formData.append("foto", fotoRecortada, "foto-perfil.jpg");
-        }
+    if (fotoRecortada) {
+        formData.append("foto", fotoRecortada, "foto-perfil.jpg");
+    }
 
+    try {
         botaoSalvar.disabled = true;
         botaoSalvar.textContent = "Salvando...";
 
@@ -319,7 +409,7 @@ formularioPerfil?.addEventListener("submit", async event => {
             throw new Error(dados.mensagem || "Não foi possível atualizar o perfil.");
         }
 
-        encerrarEditorFoto(dados.usuario.foto_url);
+        limparEdicaoFoto();
         preencherFormulario(dados.usuario);
         mostrarAvisoInterface("Perfil atualizado!", dados.mensagem);
     } catch (erro) {
@@ -334,7 +424,10 @@ formularioPerfil?.addEventListener("submit", async event => {
     }
 });
 
-window.addEventListener("beforeunload", liberarUrlImagemEdicao);
+window.addEventListener("beforeunload", () => {
+    liberarUrl(urlImagemOriginal);
+    liberarUrl(urlPreviewRecortada);
+});
 
 document.addEventListener("DOMContentLoaded", async () => {
     const usuario = await protegerPagina();

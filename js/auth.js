@@ -67,6 +67,12 @@ async function verificarUsuarioLogado() {
         }
 
         if (fotoPerfil) {
+            fotoPerfil.addEventListener("error", () => {
+                if (!fotoPerfil.src.endsWith("/img/avatar-padrao.svg")) {
+                    fotoPerfil.src = "img/avatar-padrao.svg";
+                }
+            });
+
             fotoPerfil.src = usuario.foto_url || "img/avatar-padrao.svg";
         }
 
