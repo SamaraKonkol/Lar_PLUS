@@ -1,3 +1,10 @@
+const temaLarPlus = document.createElement("link");
+temaLarPlus.rel = "stylesheet";
+temaLarPlus.href = "css/theme.css?v=20260830";
+temaLarPlus.dataset.larplusTheme = "true";
+
+document.head.appendChild(temaLarPlus);
+
 const estaEmDesenvolvimento =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
