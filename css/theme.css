@@ -1,0 +1,248 @@
+:root {
+    --petroleo: #164E63;
+    --petroleo-escuro: #103B4A;
+    --petroleo-claro: #2F7082;
+    --petroleo-suave: #DCE9EC;
+    --areia: #E8DCC8;
+    --areia-clara: #F3ECE1;
+    --fundo-quente: #F8F5EF;
+    --texto-lar: #263238;
+    --texto-secundario-lar: #68767C;
+    --borda-lar: #DED3C3;
+    --branco: #FFFFFF;
+    --roxo: var(--petroleo);
+    --roxo-claro: var(--petroleo-claro);
+    --roxo-hover: var(--petroleo-escuro);
+    --roxo-suave: var(--areia-clara);
+    --preto: #102D38;
+    --preto-secundario: #123744;
+    --azul-escuro: var(--petroleo-escuro);
+    --texto: var(--texto-lar);
+    --texto-secundario: var(--texto-secundario-lar);
+    --cinza: var(--texto-secundario-lar);
+    --cinza-escuro: #516168;
+    --cinza-claro: var(--fundo-quente);
+    --cinza-card: #FCFAF6;
+    --fundo: var(--fundo-quente);
+    --borda: var(--borda-lar);
+    --borda-escura: rgba(232, 220, 200, 0.26);
+    --sombra: 0 18px 48px rgba(16, 59, 74, 0.10);
+    --sombra-suave: 0 12px 35px rgba(16, 59, 74, 0.08);
+    --sombra-card: 0 18px 45px rgba(16, 59, 74, 0.11);
+}
+
+body {
+    color: var(--texto-lar);
+    background-color: var(--fundo-quente);
+}
+
+::selection {
+    color: #FFFFFF;
+    background: var(--petroleo);
+}
+
+.cabecalho {
+    border-color: rgba(232, 220, 200, 0.24) !important;
+}
+
+.hero,
+.busca-imoveis,
+.topo-dashboard,
+.cabecalho-dashboard,
+.pagina-cadastro-imovel .topo,
+.topo-pagina {
+    background-color: var(--petroleo-escuro);
+}
+
+.hero {
+    background:
+        radial-gradient(circle at 58% 40%, rgba(47, 112, 130, 0.40), transparent 31%),
+        radial-gradient(circle at 80% 45%, rgba(232, 220, 200, 0.10), transparent 38%),
+        linear-gradient(112deg, #0B2C37 0%, #103B4A 48%, #164E63 100%) !important;
+}
+
+.hero::after {
+    border-color: rgba(232, 220, 200, 0.12) !important;
+}
+
+.hero-conteudo h1 span,
+.menu-principal a:hover,
+.menu-principal a.ativo,
+.botao-favoritos:hover,
+.ver-mais,
+.criar-conta a,
+.possui-conta a,
+.link-voltar,
+.link-editar,
+.valor-destaque {
+    color: var(--areia) !important;
+}
+
+.menu-principal a::after,
+.numero,
+.barra-progresso-preenchida,
+.progresso-preenchido,
+.step.ativo,
+.etapa.ativa,
+.indicador-ativo {
+    background: var(--areia) !important;
+}
+
+.cadastrar,
+.proprietario,
+.botao-entrar,
+.botao-cadastrar,
+.botao-publicar,
+.botao-buscar,
+.botao-alugar,
+.confirmar-recorte,
+.botao-salvar,
+.botao-principal,
+.botao-detalhes,
+.criar-conta,
+button[type="submit"]:not(.botao-cancelar):not(.botao-secundario) {
+    color: #FFFFFF !important;
+    background: linear-gradient(135deg, var(--petroleo-claro), var(--petroleo)) !important;
+    box-shadow: 0 12px 28px rgba(22, 78, 99, 0.24) !important;
+}
+
+.cadastrar:hover,
+.proprietario:hover,
+.botao-entrar:hover,
+.botao-cadastrar:hover,
+.botao-publicar:hover,
+.botao-buscar:hover,
+.botao-alugar:hover,
+.confirmar-recorte:hover,
+.botao-salvar:hover,
+.botao-principal:hover,
+.botao-detalhes:hover,
+.criar-conta:hover,
+button[type="submit"]:not(.botao-cancelar):not(.botao-secundario):hover {
+    background: linear-gradient(135deg, var(--petroleo), var(--petroleo-escuro)) !important;
+    box-shadow: 0 15px 34px rgba(16, 59, 74, 0.30) !important;
+}
+
+.login:hover,
+.inquilino:hover,
+.botao-visita:hover,
+.botao-rascunho:hover,
+.botao-cancelar:hover,
+.botao-secundario:hover,
+.centralizar-modal:hover {
+    border-color: var(--areia) !important;
+    color: var(--areia) !important;
+    background: rgba(232, 220, 200, 0.08) !important;
+}
+
+.recursos,
+.como-funciona,
+.catalogo,
+.conteudo-dashboard,
+.conteudo-principal,
+.pagina-editar-perfil,
+main:not(.hero) {
+    background-color: var(--fundo-quente);
+}
+
+.card,
+.card-formulario,
+.card-dashboard,
+.card-imovel,
+.imovel-card,
+.painel-aluguel,
+.bloco-informacao,
+.formulario-card,
+.editar-perfil-card,
+.area-perfil,
+.dropdown-perfil,
+.modal-conteudo,
+.resumo-valores,
+.mensagem-vazia {
+    border-color: var(--borda-lar) !important;
+    box-shadow: var(--sombra-suave);
+}
+
+.recurso img,
+.etapa img,
+.icone-card,
+.icone-secao,
+.icone-campo,
+.avatar:not(img),
+.badge,
+.tag,
+.categoria.ativa,
+.filtro.ativo {
+    background: var(--areia-clara) !important;
+    color: var(--petroleo) !important;
+}
+
+.categoria.ativa,
+.filtro.ativo,
+input:focus,
+select:focus,
+textarea:focus,
+.campo:focus-within,
+.area-upload:hover,
+.documento-upload:hover {
+    border-color: var(--petroleo) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: 0 0 0 3px rgba(22, 78, 99, 0.10) !important;
+    outline: none;
+}
+
+.area-upload,
+.documento-upload,
+.mapa-falso,
+.resumo-valores,
+.dashboard-vazio,
+.aviso-valores {
+    border-color: var(--borda-lar) !important;
+    background-color: #FCFAF6 !important;
+}
+
+.preco,
+.preco-principal strong,
+.total-mensal strong,
+.valor-publicado strong,
+.card-imovel .valor,
+.imovel-card .valor,
+.destaque-valor {
+    color: var(--petroleo) !important;
+}
+
+.rodape {
+    border-color: rgba(232, 220, 200, 0.16) !important;
+    background: var(--petroleo-escuro) !important;
+    color: #F8F5EF !important;
+}
+
+.dropdown-perfil a:hover,
+.botao-logout:hover {
+    background: var(--areia-clara) !important;
+    color: var(--petroleo-escuro) !important;
+}
+
+.favorito.ativo,
+.botao-favorito.ativo,
+.botao-favoritar.ativo {
+    color: var(--petroleo) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--petroleo-claro);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--areia-clara);
+}
+
+@media (max-width: 768px) {
+    .cabecalho {
+        background-color: rgba(16, 59, 74, 0.96);
+    }
+}
