@@ -8,21 +8,21 @@
 }
 
 :root {
-    --roxo: #6d4aff;
-    --roxo-claro: #826aff;
-    --roxo-hover: #5936eb;
-    --roxo-suave: #f0edff;
+    --azul-destaque: #34779e;
+    --azul-destaque-claro: #5b93b4;
+    --azul-destaque-hover: #1d5b84;
+    --azul-destaque-suave: #dce9ef;
 
     --preto: #080810;
-    --azul-escuro: #101126;
+    --azul-escuro: #081927;
 
-    --branco: #ffffff;
+    --areia-base: #faf6ee;
 
-    --texto: #121422;
+    --texto: #081927;
     --texto-secundario: #707487;
 
-    --fundo: #f5f6fa;
-    --borda: #e7e8f0;
+    --fundo: #f7f0e5;
+    --borda: #ebdeca;
 
     --verde: #18a775;
     --verde-suave: #eaf9f3;
@@ -35,7 +35,7 @@
     --radius-grande: 22px;
 
     --sombra:
-        0 14px 38px rgba(24, 18, 68, 0.07);
+        0 14px 38px rgba(8, 25, 39, 0.07);
 }
 
 body {
@@ -44,7 +44,7 @@ body {
     background:
         radial-gradient(
             circle at 85% 10%,
-            rgba(109, 74, 255, 0.07),
+            rgba(52, 119, 158, 0.07),
             transparent 25%
         ),
         var(--fundo);
@@ -79,12 +79,12 @@ textarea {
     background:
         linear-gradient(
             90deg,
-            #101126,
-            #17182f
+            #081927,
+            #081927
         );
 
     border-bottom: 1px solid
-        rgba(130, 106, 255, 0.25);
+        rgba(91, 147, 180, 0.25);
 
     box-shadow:
         0 5px 20px
@@ -120,7 +120,7 @@ textarea {
 .menu-principal a {
     position: relative;
 
-    color: #ffffff;
+    color: #faf6ee;
 
     font-size: 14px;
     font-weight: 600;
@@ -129,7 +129,7 @@ textarea {
 }
 
 .menu-principal a:hover {
-    color: var(--roxo-claro);
+    color: var(--azul-destaque-claro);
 }
 
 .menu-principal a::after {
@@ -145,7 +145,7 @@ textarea {
 
     border-radius: 999px;
 
-    background: var(--roxo-claro);
+    background: var(--azul-destaque-claro);
 
     transition: width 0.2s ease;
 }
@@ -205,43 +205,43 @@ textarea {
 }
 
 .entrar:hover {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 }
 
 .cadastrar {
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            var(--roxo-claro),
-            var(--roxo)
+            var(--azul-destaque-claro),
+            var(--azul-destaque)
         );
 
     box-shadow:
         0 8px 20px
-        rgba(109, 74, 255, 0.22);
+        rgba(52, 119, 158, 0.22);
 }
 
 .cadastrar:hover {
     background:
         linear-gradient(
             135deg,
-            var(--roxo),
-            var(--roxo-hover)
+            var(--azul-destaque),
+            var(--azul-destaque-hover)
         );
 }
 
 .favoritos {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 }
 
 .favoritos:hover {
-    color: var(--branco);
+    color: var(--areia-clara);
 
-    background: var(--roxo);
+    background: var(--azul-destaque);
 }
 
 
@@ -274,26 +274,26 @@ textarea {
 }
 
 .perfil-header:hover {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 }
 
 .foto-perfil-header {
     width: 38px;
     height: 38px;
 
-    border: 2px solid #ded8ff;
+    border: 2px solid #dce9ef;
 
     border-radius: 50%;
 
     object-fit: cover;
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 }
 
 .nome-usuario-header {
-    color: #ffffff;
+    color: #faf6ee;
 
     font-size: 14px;
     font-weight: 600;
@@ -327,14 +327,14 @@ textarea {
 
     padding: 8px;
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     border: 1px solid var(--borda);
     border-radius: 14px;
 
     box-shadow:
         0 18px 45px
-        rgba(24, 18, 68, 0.14);
+        rgba(8, 25, 39, 0.14);
 
     z-index: 1000;
 }
@@ -370,9 +370,9 @@ textarea {
 }
 
 .dropdown-perfil a:hover {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 }
 
 .divisor-menu {
@@ -424,28 +424,28 @@ textarea {
 
     border-radius: var(--radius-grande);
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         radial-gradient(
             circle at 78% 30%,
-            rgba(139, 111, 255, 0.42),
+            rgba(91, 147, 180, 0.42),
             transparent 32%
         ),
         radial-gradient(
             circle at 95% 100%,
-            rgba(109, 74, 255, 0.25),
+            rgba(52, 119, 158, 0.25),
             transparent 30%
         ),
         linear-gradient(
             125deg,
-            #101126,
-            #23235e
+            #081927,
+            #103958
         );
 
     box-shadow:
         0 18px 45px
-        rgba(25, 21, 76, 0.16);
+        rgba(11, 41, 66, 0.16);
 }
 
 .subtitulo {
@@ -453,7 +453,7 @@ textarea {
 
     margin-bottom: 9px;
 
-    color: var(--roxo-claro);
+    color: var(--azul-destaque-claro);
 
     font-size: 12px;
     font-weight: 700;
@@ -464,13 +464,13 @@ textarea {
 }
 
 .boas-vindas .subtitulo {
-    color: #cfc7ff;
+    color: #cbdee7;
 }
 
 .boas-vindas h1 {
     margin-bottom: 9px;
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     font-size: 36px;
     line-height: 1.15;
@@ -499,9 +499,9 @@ textarea {
 
     padding: 0 21px;
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     border-radius: var(--radius-pequeno);
 
@@ -521,7 +521,7 @@ textarea {
 }
 
 .botao-publicar:hover {
-    background: #f2efff;
+    background: #dce9ef;
 
     transform: translateY(-2px);
 
@@ -556,7 +556,7 @@ textarea {
 
     padding: 24px;
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     border: 1px solid var(--borda);
     border-radius: var(--radius-medio);
@@ -583,8 +583,8 @@ textarea {
     background:
         linear-gradient(
             90deg,
-            var(--roxo),
-            var(--roxo-claro)
+            var(--azul-destaque),
+            var(--azul-destaque-claro)
         );
 
     opacity: 0;
@@ -595,11 +595,11 @@ textarea {
     transform: translateY(-4px);
 
     border-color:
-        rgba(109, 74, 255, 0.25);
+        rgba(52, 119, 158, 0.25);
 
     box-shadow:
         0 18px 42px
-        rgba(24, 18, 68, 0.1);
+        rgba(8, 25, 39, 0.1);
 }
 
 .card-resumo:hover::before {
@@ -631,7 +631,7 @@ textarea {
 
     margin-top: auto;
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-size: 13px;
     font-weight: 600;
@@ -640,7 +640,7 @@ textarea {
 }
 
 .card-resumo a:hover {
-    color: var(--roxo-hover);
+    color: var(--azul-destaque-hover);
 }
 
 
@@ -649,7 +649,7 @@ textarea {
 .secao-meus-imoveis {
     padding: 30px;
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     border: 1px solid var(--borda);
     border-radius: var(--radius-grande);
@@ -688,12 +688,12 @@ textarea {
 
     padding: 0 17px;
 
-    border: 1px solid #dcd6ff;
+    border: 1px solid #cbdee7;
     border-radius: var(--radius-pequeno);
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-size: 14px;
     font-weight: 600;
@@ -706,11 +706,11 @@ textarea {
 }
 
 .botao-secundario:hover {
-    color: var(--branco);
+    color: var(--areia-clara);
 
-    background: var(--roxo);
+    background: var(--azul-destaque);
 
-    border-color: var(--roxo);
+    border-color: var(--azul-destaque);
 
     transform: translateY(-1px);
 }
@@ -748,10 +748,10 @@ textarea {
 
     padding: 14px;
 
-    border: 1px solid #eff0f5;
+    border: 1px solid #ebdeca;
     border-radius: 14px;
 
-    background: #fdfdff;
+    background: #e7f0f4;
 
     transition:
         border-color 0.2s ease,
@@ -762,13 +762,13 @@ textarea {
 
 .imovel-dashboard:hover {
     border-color:
-        rgba(109, 74, 255, 0.25);
+        rgba(52, 119, 158, 0.25);
 
-    background: #fdfcff;
+    background: #e7f0f4;
 
     box-shadow:
         0 8px 24px
-        rgba(24, 18, 68, 0.07);
+        rgba(8, 25, 39, 0.07);
 
     transform: translateY(-1px);
 }
@@ -781,7 +781,7 @@ textarea {
 
     object-fit: cover;
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 }
 
 .imovel-dashboard-conteudo {
@@ -795,9 +795,9 @@ textarea {
 
     padding: 4px 8px;
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 
     border-radius: 999px;
 
@@ -824,7 +824,7 @@ textarea {
 }
 
 .imovel-dashboard-preco {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-size: 16px;
     font-weight: 700;
@@ -867,20 +867,20 @@ textarea {
 
 .botao-ver-imovel,
 .botao-editar-imovel {
-    border: 1px solid #ddd7ff;
+    border: 1px solid #dce9ef;
 
-    background: var(--roxo-suave);
+    background: var(--azul-destaque-suave);
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 }
 
 .botao-ver-imovel:hover,
 .botao-editar-imovel:hover {
-    color: var(--branco);
+    color: var(--areia-clara);
 
-    background: var(--roxo);
+    background: var(--azul-destaque);
 
-    border-color: var(--roxo);
+    border-color: var(--azul-destaque);
 
     transform: translateY(-1px);
 }
@@ -894,7 +894,7 @@ textarea {
 }
 
 .botao-excluir-imovel:hover {
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background: var(--vermelho);
 
@@ -911,14 +911,14 @@ textarea {
 
     text-align: center;
 
-    border: 1px dashed #cec6ff;
+    border: 1px dashed #cbdee7;
     border-radius: 14px;
 
     background:
         linear-gradient(
             135deg,
-            #faf9ff,
-            var(--roxo-suave)
+            #e7f0f4,
+            var(--azul-destaque-suave)
         );
 }
 
@@ -943,26 +943,26 @@ textarea {
 }
 
 .dashboard-vazio .botao-publicar {
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            var(--roxo-claro),
-            var(--roxo)
+            var(--azul-destaque-claro),
+            var(--azul-destaque)
         );
 
     box-shadow:
         0 8px 22px
-        rgba(109, 74, 255, 0.22);
+        rgba(52, 119, 158, 0.22);
 }
 
 .dashboard-vazio .botao-publicar:hover {
     background:
         linear-gradient(
             135deg,
-            var(--roxo),
-            var(--roxo-hover)
+            var(--azul-destaque),
+            var(--azul-destaque-hover)
         );
 }
 

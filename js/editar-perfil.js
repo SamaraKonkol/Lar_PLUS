@@ -18,7 +18,7 @@ const contextoFoto = canvasFoto?.getContext("2d");
 const controleZoom = document.getElementById("zoom-foto");
 const botaoCentralizarFoto = document.getElementById("botao-centralizar-foto");
 
-let fotoPerfilAtualUrl = "img/avatar-padrao.svg";
+let fotoPerfilAtualUrl = "img/avatar-padrao-azul.svg";
 let imagemEdicao = null;
 let urlImagemOriginal = null;
 let fotoRecortada = null;
@@ -65,8 +65,8 @@ function aplicarFallbackImagem(imagem) {
     }
 
     imagem.addEventListener("error", () => {
-        if (!imagem.src.endsWith("/img/avatar-padrao.svg")) {
-            imagem.src = "img/avatar-padrao.svg";
+        if (!imagem.src.endsWith("/img/avatar-padrao-azul.svg")) {
+            imagem.src = "img/avatar-padrao-azul.svg";
         }
     });
 }
@@ -105,7 +105,7 @@ function desenharFotoEditada() {
     const posicaoX = (canvasFoto.width - larguraDesenhada) / 2 + deslocamentoX;
     const posicaoY = (canvasFoto.height - alturaDesenhada) / 2 + deslocamentoY;
 
-    contextoFoto.fillStyle = "#f0edff";
+    contextoFoto.fillStyle = "#dce9ef";
     contextoFoto.fillRect(0, 0, canvasFoto.width, canvasFoto.height);
     contextoFoto.drawImage(
         imagemEdicao,
@@ -257,7 +257,7 @@ function preencherFormulario(usuario) {
     campoEmail.value = usuario.email || "";
     campoTelefone.value = formatarTelefonePerfil(usuario.telefone);
     campoCpf.value = formatarCpfPerfil(usuario.cpf);
-    fotoPerfilAtualUrl = usuario.foto_url || "img/avatar-padrao.svg";
+    fotoPerfilAtualUrl = usuario.foto_url || "img/avatar-padrao-azul.svg";
 
     if (!fotoRecortada) {
         previewFoto.src = fotoPerfilAtualUrl;

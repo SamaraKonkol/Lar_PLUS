@@ -8,9 +8,12 @@ const { inicializarBanco } = require("./database/database");
 const usuariosRoutes = require("./routes/usuarios.routes");
 const favoritosRoutes = require("./routes/favoritos.routes");
 const imoveisRoutes = require("./routes/imoveis.routes");
+const { apiLimiter } = require("./middlewares/rateLimit.middleware");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.set("trust proxy", 1);
 
 const origensPermitidas = new Set([
     "https://samarakonkol.github.io",
@@ -33,6 +36,8 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: "1mb" }));
+
+app.use("/api", apiLimiter);
 
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} ${req.method} ${req.originalUrl}`);

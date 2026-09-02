@@ -18,9 +18,9 @@ body {
     min-height: 100vh;
 
     font-family: "Inter", sans-serif;
-    color: #111321;
+    color: #081927;
 
-    background: #ffffff;
+    background: #faf6ee;
 }
 
 img {
@@ -48,20 +48,20 @@ button {
 ================================================== */
 
 :root {
-    --roxo: #6d4aff;
-    --roxo-claro: #846cff;
-    --roxo-hover: #5936eb;
-    --roxo-suave: #f1edff;
+    --azul-destaque: #34779e;
+    --azul-destaque-claro: #5b93b4;
+    --azul-destaque-hover: #1d5b84;
+    --azul-destaque-suave: #dce9ef;
 
     --preto: #080810;
-    --azul-escuro: #11132a;
+    --azul-escuro: #081927;
 
-    --branco: #ffffff;
+    --areia-base: #faf6ee;
 
-    --texto: #111321;
+    --texto: #081927;
     --texto-secundario: #6f7287;
 
-    --cinza-claro: #f7f7fb;
+    --cinza-claro: #f7f0e5;
     --borda: #e5e6ef;
 
     --radius-pequeno: 10px;
@@ -69,7 +69,7 @@ button {
     --radius-grande: 24px;
 
     --sombra:
-        0 24px 60px rgba(25, 18, 70, 0.13);
+        0 24px 60px rgba(8, 25, 39, 0.13);
 }
 
 /* ==================================================
@@ -82,7 +82,7 @@ button {
     display: grid;
     grid-template-columns: minmax(420px, 0.95fr) minmax(500px, 1.05fr);
 
-    background: var(--branco);
+    background: var(--areia-clara);
 }
 
 /* ==================================================
@@ -100,24 +100,24 @@ button {
 
     overflow: hidden;
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         radial-gradient(
             circle at 72% 42%,
-            rgba(109, 74, 255, 0.34),
+            rgba(52, 119, 158, 0.34),
             transparent 34%
         ),
         radial-gradient(
             circle at 30% 80%,
-            rgba(80, 64, 210, 0.2),
+            rgba(29, 91, 132, 0.2),
             transparent 36%
         ),
         linear-gradient(
             145deg,
             #05050d 0%,
-            #0a0b1a 53%,
-            #171951 100%
+            #081927 53%,
+            #0b2942 100%
         );
 }
 
@@ -133,7 +133,7 @@ button {
 
     border-radius: 50%;
 
-    background: rgba(109, 74, 255, 0.18);
+    background: rgba(52, 119, 158, 0.18);
     filter: blur(90px);
 }
 
@@ -147,7 +147,7 @@ button {
     width: 410px;
     height: 410px;
 
-    border: 1px solid rgba(123, 94, 255, 0.08);
+    border: 1px solid rgba(52, 119, 158, 0.08);
     border-radius: 50%;
 }
 
@@ -176,11 +176,11 @@ button {
     margin-bottom: 24px;
     padding: 8px 13px;
 
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(250, 246, 238, 0.1);
     border-radius: 999px;
 
-    color: #dcd8ff;
-    background: rgba(109, 74, 255, 0.1);
+    color: #dce9ef;
+    background: rgba(52, 119, 158, 0.1);
 
     font-size: 0.75rem;
     font-weight: 600;
@@ -218,7 +218,7 @@ button {
 
     padding-left: 34px;
 
-    color: #f4f4f8;
+    color: #f3ebdd;
 
     font-size: 0.92rem;
     line-height: 1.5;
@@ -239,8 +239,8 @@ button {
 
     border-radius: 50%;
 
-    color: var(--roxo-claro);
-    background: rgba(109, 74, 255, 0.16);
+    color: var(--azul-destaque-claro);
+    background: rgba(52, 119, 158, 0.16);
 
     font-size: 0.72rem;
     font-weight: 800;
@@ -270,8 +270,8 @@ button {
     background:
         linear-gradient(
             145deg,
-            #ffffff 0%,
-            #fafaff 100%
+            #faf6ee 0%,
+            #e7f0f4 100%
         );
 }
 
@@ -296,7 +296,7 @@ button {
 }
 
 .voltar:hover {
-    color: var(--roxo);
+    color: var(--azul-destaque);
     transform: translateX(-3px);
 }
 
@@ -354,7 +354,7 @@ button {
     outline: none;
 
     color: var(--texto);
-    background: var(--branco);
+    background: var(--areia-clara);
 
     transition:
         border-color 0.2s ease,
@@ -371,10 +371,10 @@ button {
 }
 
 .campo input:focus {
-    border-color: var(--roxo);
+    border-color: var(--azul-destaque);
 
     box-shadow:
-        0 0 0 4px rgba(109, 74, 255, 0.1);
+        0 0 0 4px rgba(52, 119, 158, 0.1);
 }
 
 .label-senha {
@@ -387,14 +387,14 @@ button {
 .label-senha a {
     margin-bottom: 9px;
 
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-size: 0.74rem;
     font-weight: 600;
 }
 
 .label-senha a:hover {
-    color: var(--roxo-hover);
+    color: var(--azul-destaque-hover);
 }
 
 .campo-senha {
@@ -429,8 +429,8 @@ button {
 }
 
 .mostrar-senha:hover {
-    color: var(--roxo);
-    background: var(--roxo-suave);
+    color: var(--azul-destaque);
+    background: var(--azul-destaque-suave);
 }
 
 .lembrar {
@@ -451,7 +451,7 @@ button {
     width: 16px;
     height: 16px;
 
-    accent-color: var(--roxo);
+    accent-color: var(--azul-destaque);
 }
 
 .botao-entrar {
@@ -460,20 +460,20 @@ button {
 
     border-radius: var(--radius-pequeno);
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            #8064ff,
-            #5d37ec
+            #34779e,
+            #1d5b84
         );
 
     font-size: 0.9rem;
     font-weight: 650;
 
     box-shadow:
-        0 12px 30px rgba(109, 74, 255, 0.24);
+        0 12px 30px rgba(52, 119, 158, 0.24);
 
     transition:
         transform 0.22s ease,
@@ -487,12 +487,12 @@ button {
     background:
         linear-gradient(
             135deg,
-            #8d75ff,
-            #6842f5
+            #5b93b4,
+            #34779e
         );
 
     box-shadow:
-        0 16px 36px rgba(109, 74, 255, 0.34);
+        0 16px 36px rgba(52, 119, 158, 0.34);
 }
 
 /* ==================================================
@@ -552,7 +552,7 @@ button {
     border-radius: var(--radius-pequeno);
 
     color: var(--texto);
-    background: var(--branco);
+    background: var(--areia-clara);
 
     font-size: 0.8rem;
     font-weight: 600;
@@ -568,10 +568,10 @@ button {
     transform: translateY(-2px);
 
     border-color: #ccc9dc;
-    background: #faf9ff;
+    background: #e7f0f4;
 
     box-shadow:
-        0 10px 25px rgba(30, 20, 75, 0.07);
+        0 10px 25px rgba(11, 41, 66, 0.07);
 }
 
 .icone-social {
@@ -583,7 +583,7 @@ button {
 
     border-radius: 50%;
 
-    color: var(--branco);
+    color: var(--areia-clara);
     background: var(--preto);
 
     font-size: 0.7rem;
@@ -605,13 +605,13 @@ button {
 }
 
 .criar-conta a {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-weight: 650;
 }
 
 .criar-conta a:hover {
-    color: var(--roxo-hover);
+    color: var(--azul-destaque-hover);
 }
 
 /* ==================================================

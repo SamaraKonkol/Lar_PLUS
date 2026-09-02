@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova senha | Lar+</title>
+    <link rel="stylesheet" href="css/login.css?v=20260902-2">
+</head>
+
+<body>
+    <main class="pagina-login">
+        <section class="lado-visual">
+            <a href="index.html" class="logo">
+                <img src="img/Lar_PLUS_azul.png" alt="Logo da Lar+">
+            </a>
+
+            <div class="conteudo-visual">
+                <span class="etiqueta">Proteção da conta</span>
+                <h1>Crie uma nova senha.</h1>
+                <p>Escolha uma senha forte e diferente das que você utiliza em outros serviços.</p>
+            </div>
+
+            <p class="texto-seguranca">O link funciona apenas uma vez.</p>
+        </section>
+
+        <section class="lado-formulario">
+            <div class="formulario-container">
+                <a href="login.html" class="voltar">← Voltar para o login</a>
+
+                <div class="titulo-formulario">
+                    <h2>Redefinir senha</h2>
+                    <p>A nova senha deve atender aos requisitos de segurança da Lar+.</p>
+                </div>
+
+                <form class="formulario-login" id="formulario-redefinicao">
+                    <div class="campo">
+                        <label for="senha">Nova senha</label>
+                        <input type="password" id="senha" name="senha" autocomplete="new-password" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="confirmar-senha">Confirmar nova senha</label>
+                        <input type="password" id="confirmar-senha" name="confirmarSenha"
+                            autocomplete="new-password" required>
+                    </div>
+
+                    <button type="submit" class="botao-entrar">Salvar nova senha</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js?v=20260902-2"></script>
+    <script src="js/redefinir-senha.js"></script>
+</body>
+
+</html>

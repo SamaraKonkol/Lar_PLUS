@@ -55,7 +55,7 @@
     overflow: hidden;
     border: 1px solid var(--borda);
     border-radius: 12px;
-    background: #f5f6fa;
+    background: #f7f0e5;
 }
 
 .preview-foto img {
@@ -72,7 +72,7 @@
     padding: 5px 8px;
     overflow: hidden;
     border-radius: 7px;
-    color: #ffffff;
+    color: #faf6ee;
     background: rgba(8, 8, 16, 0.72);
     font-size: 0.68rem;
     text-overflow: ellipsis;
@@ -81,12 +81,12 @@
 
 .area-upload.com-arquivos {
     min-height: 150px;
-    border-color: var(--roxo);
-    background: #faf8ff;
+    border-color: var(--azul-destaque);
+    background: #e7f0f4;
 }
 
 .area-upload.com-arquivos .icone-upload {
-    background: #e9e3ff;
+    background: #dce9ef;
 }
 
 @media (max-width: 900px) {
@@ -120,7 +120,7 @@
     height: 30px;
     border: 0;
     border-radius: 50%;
-    color: #ffffff;
+    color: #faf6ee;
     background: rgba(8, 8, 16, 0.78);
     font-size: 1.2rem;
     line-height: 1;
@@ -134,6 +134,6 @@
 }
 
 .botao-remover-foto:focus-visible {
-    outline: 3px solid rgba(111, 73, 214, 0.3);
+    outline: 3px solid rgba(29, 91, 132, 0.3);
     outline-offset: 2px;
 }

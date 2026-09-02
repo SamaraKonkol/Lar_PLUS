@@ -38,6 +38,12 @@ formulario?.addEventListener("submit", async event => {
         const dados = await resposta.json();
 
         if (!resposta.ok) {
+            if (dados.recuperarSenha) {
+                const email = encodeURIComponent(campoEmail.value.trim());
+                window.location.href = `recuperacao-senha.html?email=${email}`;
+                return;
+            }
+
             throw new Error(dados.mensagem || "E-mail ou senha inválidos.");
         }
 

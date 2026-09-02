@@ -1,34 +1,34 @@
 :root {
-    --petroleo: #164E63;
-    --petroleo-escuro: #103B4A;
-    --petroleo-claro: #2F7082;
-    --petroleo-suave: #DCE9EC;
+    --petroleo: #163F63;
+    --petroleo-escuro: #0B2942;
+    --petroleo-claro: #2E668E;
+    --petroleo-suave: #DCE9EF;
     --areia: #E8DCC8;
     --areia-clara: #F3ECE1;
     --fundo-quente: #F8F5EF;
-    --texto-lar: #263238;
-    --texto-secundario-lar: #68767C;
+    --texto-lar: #20242A;
+    --texto-secundario-lar: #62666D;
     --borda-lar: #DED3C3;
-    --branco: #FFFFFF;
-    --roxo: var(--petroleo);
-    --roxo-claro: var(--petroleo-claro);
-    --roxo-hover: var(--petroleo-escuro);
-    --roxo-suave: var(--areia-clara);
-    --preto: #102D38;
-    --preto-secundario: #123744;
+    --areia-base: #FAF6EE;
+    --azul-destaque: var(--petroleo);
+    --azul-destaque-claro: var(--petroleo-claro);
+    --azul-destaque-hover: var(--petroleo-escuro);
+    --azul-destaque-suave: var(--areia-clara);
+    --preto: #080810;
+    --preto-secundario: #081927;
     --azul-escuro: var(--petroleo-escuro);
     --texto: var(--texto-lar);
     --texto-secundario: var(--texto-secundario-lar);
     --cinza: var(--texto-secundario-lar);
-    --cinza-escuro: #516168;
+    --cinza-escuro: #50545B;
     --cinza-claro: var(--fundo-quente);
     --cinza-card: #FCFAF6;
     --fundo: var(--fundo-quente);
     --borda: var(--borda-lar);
     --borda-escura: rgba(232, 220, 200, 0.26);
-    --sombra: 0 18px 48px rgba(16, 59, 74, 0.10);
-    --sombra-suave: 0 12px 35px rgba(16, 59, 74, 0.08);
-    --sombra-card: 0 18px 45px rgba(16, 59, 74, 0.11);
+    --sombra: 0 18px 48px rgba(11, 41, 66, 0.10);
+    --sombra-suave: 0 12px 35px rgba(11, 41, 66, 0.08);
+    --sombra-card: 0 18px 45px rgba(11, 41, 66, 0.11);
 }
 
 body {
@@ -37,7 +37,7 @@ body {
 }
 
 ::selection {
-    color: #FFFFFF;
+    color: #faf6ee;
     background: var(--petroleo);
 }
 
@@ -49,16 +49,15 @@ body {
 .busca-imoveis,
 .topo-dashboard,
 .cabecalho-dashboard,
-.pagina-cadastro-imovel .topo,
-.topo-pagina {
+.pagina-cadastro-imovel .topo {
     background-color: var(--petroleo-escuro);
 }
 
 .hero {
     background:
-        radial-gradient(circle at 58% 40%, rgba(47, 112, 130, 0.40), transparent 31%),
+        radial-gradient(circle at 58% 40%, rgba(46, 102, 142, 0.40), transparent 31%),
         radial-gradient(circle at 80% 45%, rgba(232, 220, 200, 0.10), transparent 38%),
-        linear-gradient(112deg, #0B2C37 0%, #103B4A 48%, #164E63 100%) !important;
+        linear-gradient(112deg, #080810 0%, #0B2942 48%, #163F63 100%) !important;
 }
 
 .hero::after {
@@ -101,9 +100,9 @@ body {
 .botao-detalhes,
 .criar-conta,
 button[type="submit"]:not(.botao-cancelar):not(.botao-secundario) {
-    color: #FFFFFF !important;
+    color: #faf6ee !important;
     background: linear-gradient(135deg, var(--petroleo-claro), var(--petroleo)) !important;
-    box-shadow: 0 12px 28px rgba(22, 78, 99, 0.24) !important;
+    box-shadow: 0 12px 28px rgba(22, 63, 99, 0.24) !important;
 }
 
 .cadastrar:hover,
@@ -120,7 +119,7 @@ button[type="submit"]:not(.botao-cancelar):not(.botao-secundario) {
 .criar-conta:hover,
 button[type="submit"]:not(.botao-cancelar):not(.botao-secundario):hover {
     background: linear-gradient(135deg, var(--petroleo), var(--petroleo-escuro)) !important;
-    box-shadow: 0 15px 34px rgba(16, 59, 74, 0.30) !important;
+    box-shadow: 0 15px 34px rgba(11, 41, 66, 0.30) !important;
 }
 
 .login:hover,
@@ -191,7 +190,7 @@ textarea:focus,
 input:focus,
 select:focus,
 textarea:focus {
-    box-shadow: 0 0 0 3px rgba(22, 78, 99, 0.10) !important;
+    box-shadow: 0 0 0 3px rgba(22, 63, 99, 0.10) !important;
     outline: none;
 }
 
@@ -243,6 +242,6 @@ textarea:focus {
 
 @media (max-width: 768px) {
     .cabecalho {
-        background-color: rgba(16, 59, 74, 0.96);
+        background-color: rgba(11, 41, 66, 0.96);
     }
 }

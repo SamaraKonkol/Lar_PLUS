@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar senha | Lar+</title>
+    <link rel="stylesheet" href="css/login.css?v=20260902-2">
+</head>
+
+<body>
+    <main class="pagina-login">
+        <section class="lado-visual">
+            <a href="index.html" class="logo">
+                <img src="img/Lar_PLUS_azul.png" alt="Logo da Lar+">
+            </a>
+
+            <div class="conteudo-visual">
+                <span class="etiqueta">Recuperação segura</span>
+                <h1>Vamos recuperar seu acesso.</h1>
+                <p>Enviaremos um link de uso único para o e-mail cadastrado na Lar+.</p>
+            </div>
+
+            <p class="texto-seguranca">O link expira em 15 minutos.</p>
+        </section>
+
+        <section class="lado-formulario">
+            <div class="formulario-container">
+                <a href="login.html" class="voltar">← Voltar para o login</a>
+
+                <div class="titulo-formulario">
+                    <h2>Esqueci minha senha</h2>
+                    <p>Informe seu e-mail para receber o link de recuperação.</p>
+                </div>
+
+                <form class="formulario-login" id="formulario-recuperacao">
+                    <div class="campo">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com"
+                            autocomplete="email" required>
+                    </div>
+
+                    <button type="submit" class="botao-entrar">Enviar link</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js?v=20260902-2"></script>
+    <script src="js/recuperacao-senha.js"></script>
+</body>
+
+</html>

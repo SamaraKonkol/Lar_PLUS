@@ -13,8 +13,13 @@ const etapasProgresso = Array.from(document.querySelectorAll(".etapa-progresso")
 const linhasProgresso = Array.from(document.querySelectorAll(".linha-progresso"));
 
 function carregarEstilosAjustes() {
-    ["css/cadastrar-imovel-ajustes.css", "css/avisos.css"].forEach(href => {
-        if (document.querySelector(`link[href="${href}"]`)) {
+    [
+        "css/cadastrar-imovel-ajustes.css?v=20260902-2",
+        "css/avisos.css?v=20260902-2"
+    ].forEach(href => {
+        const caminho = href.split("?")[0];
+
+        if (document.querySelector(`link[href^="${caminho}"]`)) {
             return;
         }
 

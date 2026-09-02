@@ -68,12 +68,12 @@ async function verificarUsuarioLogado() {
 
         if (fotoPerfil) {
             fotoPerfil.addEventListener("error", () => {
-                if (!fotoPerfil.src.endsWith("/img/avatar-padrao.svg")) {
-                    fotoPerfil.src = "img/avatar-padrao.svg";
+                if (!fotoPerfil.src.endsWith("/img/avatar-padrao-azul.svg")) {
+                    fotoPerfil.src = "img/avatar-padrao-azul.svg";
                 }
             });
 
-            fotoPerfil.src = usuario.foto_url || "img/avatar-padrao.svg";
+            fotoPerfil.src = usuario.foto_url || "img/avatar-padrao-azul.svg";
         }
 
         if (nomeUsuario) {
@@ -88,13 +88,15 @@ async function verificarUsuarioLogado() {
 }
 
 function carregarEstilosAvisos() {
-    if (document.querySelector('link[href="css/avisos.css"]')) {
+    const hrefAvisos = "css/avisos.css?v=20260902-2";
+
+    if (document.querySelector('link[href^="css/avisos.css"]')) {
         return;
     }
 
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "css/avisos.css";
+    link.href = hrefAvisos;
     document.head.appendChild(link);
 }
 

@@ -14,12 +14,13 @@ const {
 } = require("../middlewares/autenticacao.middleware");
 
 const upload = require("../middlewares/upload.middleware");
+const { fotoLimiter } = require("../middlewares/rateLimit.middleware");
 
 const router = express.Router();
 
 router.get("/", listarImoveis);
 router.get("/meus", autenticarUsuario, listarMeusImoveis);
-router.get("/fotos/:fotoId", exibirFoto);
+router.get("/fotos/:fotoId", fotoLimiter, exibirFoto);
 router.get("/:id", buscarImovelPorId);
 
 router.post(

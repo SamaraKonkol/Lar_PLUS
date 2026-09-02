@@ -19,9 +19,9 @@ body {
     overflow-x: hidden;
 
     font-family: "Inter", sans-serif;
-    color: #121422;
+    color: #081927;
 
-    background: #f5f6fa;
+    background: #f7f0e5;
 }
 
 img {
@@ -69,20 +69,20 @@ textarea {
 ================================================== */
 
 :root {
-    --roxo: #6d4aff;
-    --roxo-claro: #846cff;
-    --roxo-hover: #5936eb;
-    --roxo-suave: #f1edff;
+    --azul-destaque: #34779e;
+    --azul-destaque-claro: #5b93b4;
+    --azul-destaque-hover: #1d5b84;
+    --azul-destaque-suave: #dce9ef;
 
     --preto: #080810;
-    --menu: #0c0d1b;
+    --menu: #081927;
 
-    --branco: #ffffff;
+    --areia-base: #faf6ee;
 
-    --texto: #121422;
+    --texto: #081927;
     --texto-secundario: #707487;
 
-    --fundo: #f5f6fa;
+    --fundo: #f7f0e5;
     --borda: #e5e7ef;
 
     --verde: #1aa876;
@@ -95,7 +95,7 @@ textarea {
     --radius-grande: 22px;
 
     --sombra:
-        0 14px 38px rgba(24, 18, 68, 0.07);
+        0 14px 38px rgba(8, 25, 39, 0.07);
 }
 
 /* ==================================================
@@ -127,18 +127,18 @@ textarea {
 
     overflow-y: auto;
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         radial-gradient(
             circle at 30% 25%,
-            rgba(109, 74, 255, 0.14),
+            rgba(52, 119, 158, 0.14),
             transparent 32%
         ),
         linear-gradient(
             180deg,
             #080914,
-            #0d0f25
+            #081927
         );
 }
 
@@ -196,23 +196,23 @@ textarea {
 }
 
 .navegacao-dashboard a:hover {
-    color: var(--branco);
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--areia-clara);
+    background: rgba(250, 246, 238, 0.05);
     transform: translateX(2px);
 }
 
 .navegacao-dashboard a.ativo {
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            rgba(125, 94, 255, 0.33),
-            rgba(91, 53, 235, 0.18)
+            rgba(52, 119, 158, 0.33),
+            rgba(29, 91, 132, 0.18)
         );
 
     box-shadow:
-        inset 3px 0 0 var(--roxo-claro);
+        inset 3px 0 0 var(--azul-destaque-claro);
 }
 
 .icone-menu {
@@ -222,7 +222,7 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    color: var(--roxo-claro);
+    color: var(--azul-destaque-claro);
 
     font-size: 0.9rem;
     font-weight: 700;
@@ -297,7 +297,7 @@ textarea {
 }
 
 .voltar:hover {
-    color: var(--roxo);
+    color: var(--azul-destaque);
     transform: translateX(-3px);
 }
 
@@ -331,13 +331,13 @@ textarea {
 
     border-radius: 12px;
 
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            #947fff,
-            #5c39ed
+            #5b93b4,
+            #1d5b84
         );
 
     font-size: 0.72rem;
@@ -370,7 +370,7 @@ textarea {
     border-radius: 10px;
 
     color: var(--texto);
-    background: var(--branco);
+    background: var(--areia-clara);
 
     font-size: 1.2rem;
 }
@@ -386,7 +386,7 @@ textarea {
     margin: 0 -32px 28px;
     padding: 14px 32px;
 
-    background: rgba(245, 246, 250, 0.92);
+    background: rgba(247, 240, 229, 0.92);
 
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -401,10 +401,10 @@ textarea {
     border: 1px solid var(--borda);
     border-radius: 18px;
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     box-shadow:
-        0 12px 30px rgba(24, 18, 68, 0.08);
+        0 12px 30px rgba(8, 25, 39, 0.08);
 }
 
 
@@ -427,7 +427,7 @@ textarea {
     border-radius: 50%;
 
     color: var(--texto-secundario);
-    background: var(--branco);
+    background: var(--areia-clara);
 
     font-size: 0.72rem;
     font-weight: 700;
@@ -453,22 +453,22 @@ textarea {
 }
 
 .etapa-progresso.ativa > span {
-    color: var(--branco);
-    border-color: var(--roxo);
+    color: var(--areia-clara);
+    border-color: var(--azul-destaque);
 
     background:
         linear-gradient(
             135deg,
-            #8268ff,
-            #5d38ed
+            #5b93b4,
+            #1d5b84
         );
 
     box-shadow:
-        0 7px 18px rgba(109, 74, 255, 0.23);
+        0 7px 18px rgba(52, 119, 158, 0.23);
 }
 
 .etapa-progresso.ativa strong {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 }
 
 .linha-progresso {
@@ -481,19 +481,19 @@ textarea {
 }
 
 .etapa-progresso.concluida > span {
-    color: var(--branco);
-    border-color: var(--roxo);
+    color: var(--areia-clara);
+    border-color: var(--azul-destaque);
 
     background:
         linear-gradient(
             135deg,
-            #8268ff,
-            #5d38ed
+            #5b93b4,
+            #1d5b84
         );
 }
 
 .etapa-progresso.concluida strong {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 }
 
 .etapa-progresso.concluida > span::before {
@@ -509,7 +509,7 @@ textarea {
 }
 
 .linha-progresso.concluida {
-    background: var(--roxo);
+    background: var(--azul-destaque);
 }
 
 /* ==================================================
@@ -530,7 +530,7 @@ textarea {
     border: 1px solid var(--borda);
     border-radius: var(--radius-medio);
 
-    background: var(--branco);
+    background: var(--areia-clara);
 
     box-shadow: var(--sombra);
 }
@@ -554,8 +554,8 @@ textarea {
 
     border-radius: 12px;
 
-    color: var(--roxo);
-    background: var(--roxo-suave);
+    color: var(--azul-destaque);
+    background: var(--azul-destaque-suave);
 
     font-size: 0.85rem;
     font-weight: 700;
@@ -611,7 +611,7 @@ textarea {
     border-radius: var(--radius-pequeno);
 
     color: var(--texto);
-    background: var(--branco);
+    background: var(--areia-clara);
 
     transition:
         border-color 0.2s ease,
@@ -646,10 +646,10 @@ textarea {
 .campo input:focus,
 .campo select:focus,
 .campo textarea:focus {
-    border-color: var(--roxo);
+    border-color: var(--azul-destaque);
 
     box-shadow:
-        0 0 0 4px rgba(109, 74, 255, 0.09);
+        0 0 0 4px rgba(52, 119, 158, 0.09);
 }
 
 .campo > small {
@@ -715,7 +715,7 @@ textarea {
     margin-top: 1px;
     flex-shrink: 0;
 
-    accent-color: var(--roxo);
+    accent-color: var(--azul-destaque);
 }
 
 /* ==================================================
@@ -800,7 +800,7 @@ textarea {
     border-radius: 10px;
 
     color: var(--texto-secundario);
-    background: #fdfdff;
+    background: #e7f0f4;
 
     font-size: 0.66rem;
 
@@ -816,16 +816,16 @@ textarea {
 .comodidade:hover {
     transform: translateY(-1px);
 
-    color: var(--roxo);
-    border-color: rgba(109, 74, 255, 0.3);
-    background: #faf8ff;
+    color: var(--azul-destaque);
+    border-color: rgba(52, 119, 158, 0.3);
+    background: #e7f0f4;
 }
 
 .comodidade input {
     width: 15px;
     height: 15px;
 
-    accent-color: var(--roxo);
+    accent-color: var(--azul-destaque);
 }
 
 /* ==================================================
@@ -855,7 +855,7 @@ textarea {
 .resumo-valores > div {
     padding: 17px;
 
-    background: var(--branco);
+    background: var(--areia-clara);
 }
 
 .resumo-valores span,
@@ -881,13 +881,13 @@ textarea {
     background:
         linear-gradient(
             135deg,
-            #f4f1ff,
-            #fbfaff
+            #e7f0f4,
+            #e7f0f4
         );
 }
 
 .resumo-valores .valor-publicado strong {
-    color: var(--roxo);
+    color: var(--azul-destaque);
 
     font-size: 1rem;
 }
@@ -919,8 +919,8 @@ textarea {
 
     border-radius: 50%;
 
-    color: var(--roxo);
-    background: var(--roxo-suave);
+    color: var(--azul-destaque);
+    background: var(--azul-destaque-suave);
 
     font-size: 0.55rem;
     font-weight: 700;
@@ -964,8 +964,8 @@ textarea {
     background:
         linear-gradient(
             145deg,
-            #fdfcff,
-            #f8f7fc
+            #e7f0f4,
+            #e7f0f4
         );
 
     cursor: pointer;
@@ -979,8 +979,8 @@ textarea {
 .area-upload:hover {
     transform: translateY(-2px);
 
-    border-color: var(--roxo);
-    background: #faf8ff;
+    border-color: var(--azul-destaque);
+    background: #e7f0f4;
 }
 
 .area-upload input {
@@ -998,8 +998,8 @@ textarea {
 
     border-radius: 14px;
 
-    color: var(--roxo);
-    background: var(--roxo-suave);
+    color: var(--azul-destaque);
+    background: var(--azul-destaque-suave);
 
     font-size: 1.2rem;
     font-weight: 700;
@@ -1038,10 +1038,10 @@ textarea {
 .dicas-fotos > div {
     padding: 15px;
 
-    border: 1px solid #eeeff4;
+    border: 1px solid #ebdeca;
     border-radius: 11px;
 
-    background: #fdfdff;
+    background: #e7f0f4;
 }
 
 .dicas-fotos strong {
@@ -1081,7 +1081,7 @@ textarea {
     border: 1px dashed #d9d7e5;
     border-radius: 12px;
 
-    background: #fdfdff;
+    background: #e7f0f4;
 
     cursor: pointer;
 
@@ -1094,8 +1094,8 @@ textarea {
 .documento-upload:hover {
     transform: translateY(-2px);
 
-    border-color: var(--roxo);
-    background: #faf8ff;
+    border-color: var(--azul-destaque);
+    background: #e7f0f4;
 }
 
 .documento-upload input {
@@ -1113,8 +1113,8 @@ textarea {
 
     border-radius: 10px;
 
-    color: var(--roxo);
-    background: var(--roxo-suave);
+    color: var(--azul-destaque);
+    background: var(--azul-destaque-suave);
 
     font-size: 1rem;
 }
@@ -1197,28 +1197,28 @@ textarea {
     border: 1px solid var(--borda);
 
     color: var(--texto);
-    background: var(--branco);
+    background: var(--areia-clara);
 }
 
 .botao-rascunho:hover {
     transform: translateY(-2px);
 
-    border-color: var(--roxo);
-    color: var(--roxo);
+    border-color: var(--azul-destaque);
+    color: var(--azul-destaque);
 }
 
 .botao-publicar {
-    color: var(--branco);
+    color: var(--areia-clara);
 
     background:
         linear-gradient(
             135deg,
-            #8064ff,
-            #5d37ec
+            #34779e,
+            #1d5b84
         );
 
     box-shadow:
-        0 12px 28px rgba(109, 74, 255, 0.23);
+        0 12px 28px rgba(52, 119, 158, 0.23);
 }
 
 .botao-publicar:hover {
@@ -1227,12 +1227,12 @@ textarea {
     background:
         linear-gradient(
             135deg,
-            #8d75ff,
-            #6842f5
+            #5b93b4,
+            #34779e
         );
 
     box-shadow:
-        0 16px 34px rgba(109, 74, 255, 0.33);
+        0 16px 34px rgba(52, 119, 158, 0.33);
 }
 
 /* ==================================================

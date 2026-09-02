@@ -108,6 +108,30 @@ async function inicializarBanco() {
             criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             UNIQUE (usuario_id, imovel_id)
         );
+
+        CREATE TABLE IF NOT EXISTS tentativas_login (
+            email TEXT NOT NULL,
+            ip TEXT NOT NULL,
+            quantidade INTEGER NOT NULL DEFAULT 0,
+            bloqueado_ate TIMESTAMPTZ,
+            atualizado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            PRIMARY KEY (email, ip)
+        );
+
+        CREATE TABLE IF NOT EXISTS recuperacoes_senha (
+            id SERIAL PRIMARY KEY,
+            usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+            token_hash TEXT NOT NULL UNIQUE,
+            expira_em TIMESTAMPTZ NOT NULL,
+            usado_em TIMESTAMPTZ,
+            criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_recuperacoes_senha_usuario
+        ON recuperacoes_senha (usuario_id);
+
+        CREATE INDEX IF NOT EXISTS idx_recuperacoes_senha_expiracao
+        ON recuperacoes_senha (expira_em);
     `);
 
     console.log("PostgreSQL pronto!");
