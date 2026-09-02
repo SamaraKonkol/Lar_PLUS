@@ -1,6 +1,6 @@
 const temaLarPlus = document.createElement("link");
 temaLarPlus.rel = "stylesheet";
-temaLarPlus.href = "css/theme.css?v=20260902-3";
+temaLarPlus.href = "css/theme.css?v=20260902-4";
 temaLarPlus.dataset.larplusTheme = "true";
 
 document.head.appendChild(temaLarPlus);
