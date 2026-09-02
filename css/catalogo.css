@@ -527,6 +527,24 @@ select {
     color: var(--azul-destaque);
 }
 
+.categoria.ativa {
+    background: transparent !important;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(46, 102, 142, 0.48);
+}
+
+.categoria.ativa::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -7px;
+    left: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--azul-destaque);
+    box-shadow: 0 0 9px rgba(46, 102, 142, 0.7);
+}
+
 /* ==================================================
    CATÁLOGO
 ================================================== */

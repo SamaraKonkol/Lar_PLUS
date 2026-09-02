@@ -169,9 +169,7 @@ main:not(.hero) {
 .icone-campo,
 .avatar:not(img),
 .badge,
-.tag,
-.categoria.ativa,
-.filtro.ativo {
+.tag {
     background: var(--areia-clara) !important;
     color: var(--petroleo) !important;
 }
