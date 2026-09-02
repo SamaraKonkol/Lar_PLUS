@@ -227,78 +227,49 @@ button {
     min-height: 710px;
     padding:
         135px 4%
-        30px;
+        60px;
 
-    display: grid;
-    grid-template-columns: minmax(420px, 0.82fr) minmax(650px, 1.35fr);
+    display: flex;
     align-items: center;
-    gap: 24px;
 
     overflow: hidden;
 
     color: var(--areia-clara);
-
-    background:
-        radial-gradient(
-            circle at 58% 40%,
-            rgba(29, 91, 132, 0.33),
-            transparent 31%
-        ),
-        radial-gradient(
-            circle at 80% 45%,
-            rgba(29, 91, 132, 0.22),
-            transparent 38%
-        ),
-        linear-gradient(
-            112deg,
-            #05050d 0%,
-            #081927 48%,
-            #081927 100%
-        );
+    background: #0B2942;
 }
 
-.hero::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    pointer-events: none;
-
+body .hero {
     background:
         linear-gradient(
-            to right,
-            rgba(0, 0, 0, 0.32),
-            transparent 52%
-        );
+            115deg,
+            #080810 0%,
+            #0B2942 100%
+        ) !important;
 }
 
+.hero::before,
 .hero::after {
-    content: "";
-
-    position: absolute;
-    left: 30%;
-    bottom: -160px;
-
-    width: 560px;
-    height: 560px;
-
-    border: 1px solid rgba(52, 119, 158, 0.08);
-    border-radius: 50%;
-
-    pointer-events: none;
+    display: none;
+    content: none;
 }
 
 .hero-conteudo {
     position: relative;
     z-index: 3;
 
-    align-self: center;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.15fr)
+        minmax(360px, 0.85fr);
+    align-items: center;
+    gap: clamp(56px, 8vw, 150px);
 }
 
 .hero-conteudo h1 {
-    max-width: 620px;
-    margin-bottom: 22px;
+    max-width: 760px;
+    margin-bottom: 0;
 
     color: var(--areia-clara);
 
@@ -319,11 +290,19 @@ button {
     color: var(--azul-destaque);
 }
 
-.hero-conteudo > p {
+.hero-detalhes {
+    max-width: 600px;
+    padding-left: clamp(0px, 1.5vw, 24px);
+    justify-self: end;
+
+    border-left: 1px solid rgba(232, 220, 200, 0.20);
+}
+
+.hero-detalhes > p {
     max-width: 575px;
     margin-bottom: 30px;
 
-    color: #c7c8d3;
+    color: rgba(248, 245, 239, 0.84);
 
     font-size: 1.08rem;
     line-height: 1.6;
@@ -1081,10 +1060,11 @@ button {
         gap: 28px;
     }
 
-    .hero {
+    .hero-conteudo {
         grid-template-columns:
-            minmax(380px, 0.9fr)
-            minmax(570px, 1.2fr);
+            minmax(0, 1.1fr)
+            minmax(340px, 0.9fr);
+        gap: 52px;
     }
 
     .hero-conteudo h1 {
@@ -1140,9 +1120,7 @@ button {
     .hero {
         min-height: auto;
         padding-top: 125px;
-
-        grid-template-columns: 1fr;
-        gap: 20px;
+        padding-bottom: 60px;
 
         text-align: center;
     }
@@ -1150,10 +1128,22 @@ button {
     .hero-conteudo {
         max-width: 760px;
         margin: 0 auto;
+
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 30px;
+    }
+
+    .hero-detalhes {
+        max-width: 680px;
+        padding-left: 0;
+        justify-self: center;
+
+        border-left: none;
     }
 
     .hero-conteudo h1,
-    .hero-conteudo > p {
+    .hero-detalhes > p {
         margin-left: auto;
         margin-right: auto;
     }
@@ -1259,7 +1249,7 @@ button {
         font-size: clamp(2.7rem, 8vw, 4.2rem);
     }
 
-    .hero-conteudo > p {
+    .hero-detalhes > p {
         font-size: 1rem;
     }
 
@@ -1354,7 +1344,7 @@ button {
         letter-spacing: -0.045em;
     }
 
-    .hero-conteudo > p {
+    .hero-detalhes > p {
         margin-bottom: 26px;
 
         font-size: 0.94rem;
