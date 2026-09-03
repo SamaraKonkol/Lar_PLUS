@@ -16,6 +16,7 @@ function formatarTipoDashboard(tipo) {
 function criarCardImovel(imovel) {
     const artigo = document.createElement("article");
     artigo.className = "imovel-dashboard";
+    artigo.dataset.status = imovel.status;
 
     const imagem = document.createElement("img");
     imagem.className = "imovel-dashboard-imagem";
@@ -44,7 +45,11 @@ function criarCardImovel(imovel) {
     preco.className = "imovel-dashboard-preco";
     preco.textContent = formatarPrecoDashboard(imovel.valor);
 
-    conteudo.append(tipo, titulo, localizacao, preco);
+    const status = document.createElement("span");
+    status.className = "imovel-dashboard-status";
+    status.textContent = imovel.status === "inativo" ? "Anúncio inativo" : "Anúncio ativo";
+
+    conteudo.append(tipo, titulo, localizacao, preco, status);
 
     const acoes = document.createElement("div");
     acoes.className = "acoes-imovel";
@@ -55,13 +60,14 @@ function criarCardImovel(imovel) {
     editar.textContent = "Editar";
     editar.dataset.id = imovel.id;
 
-    const excluir = document.createElement("button");
-    excluir.type = "button";
-    excluir.className = "botao-excluir-imovel";
-    excluir.textContent = "Excluir";
-    excluir.dataset.id = imovel.id;
+    const alternarStatus = document.createElement("button");
+    alternarStatus.type = "button";
+    alternarStatus.className = "botao-status-imovel botao-excluir-imovel";
+    alternarStatus.dataset.id = imovel.id;
+    alternarStatus.dataset.status = imovel.status;
+    alternarStatus.textContent = imovel.status === "inativo" ? "Reativar" : "Desativar";
 
-    acoes.append(editar, excluir);
+    acoes.append(editar, alternarStatus);
     artigo.append(imagem, conteudo, acoes);
 
     return artigo;
@@ -146,19 +152,23 @@ async function carregarMeusImoveis(token) {
     }
 }
 
-async function excluirImovelDashboard(id, token) {
-    const confirmou = window.confirm("Deseja realmente excluir este imóvel? Esta ação não poderá ser desfeita.");
+async function alterarStatusDashboard(id, statusAtual, token) {
+    const novoStatus = statusAtual === "inativo" ? "disponivel" : "inativo";
+    const acao = novoStatus === "inativo" ? "desativar" : "reativar";
+    const confirmou = window.confirm(`Deseja ${acao} este anúncio?`);
 
     if (!confirmou) {
         return;
     }
 
     try {
-        const resposta = await fetch(`${API_URL}/api/imoveis/${id}`, {
-            method: "DELETE",
+        const resposta = await fetch(`${API_URL}/api/imoveis/${id}/status`, {
+            method: "PATCH",
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ status: novoStatus })
         });
 
         const dados = await resposta.json();
@@ -170,19 +180,19 @@ async function excluirImovelDashboard(id, token) {
         }
 
         if (!resposta.ok) {
-            throw new Error(dados.erro || "Não foi possível excluir o imóvel.");
+            throw new Error(dados.erro || "Não foi possível alterar o status do anúncio.");
         }
 
         mostrarAvisoInterface(
-            "Imóvel excluído",
-            "O anúncio foi removido da sua conta."
+            novoStatus === "inativo" ? "Anúncio desativado" : "Anúncio reativado",
+            dados.mensagem
         );
 
         await carregarMeusImoveis(token);
     } catch (erro) {
-        console.error("Erro ao excluir imóvel:", erro);
+        console.error("Erro ao alterar status do imóvel:", erro);
         mostrarAvisoInterface(
-            "Não foi possível excluir",
+            "Não foi possível alterar o anúncio",
             erro.message,
             "erro"
         );
@@ -210,9 +220,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 document.addEventListener("click", async event => {
-    const botaoExcluir = event.target.closest(".botao-excluir-imovel");
+    const botaoStatus = event.target.closest(".botao-status-imovel");
 
-    if (botaoExcluir) {
+    if (botaoStatus) {
         const token = obterToken();
 
         if (!token) {
@@ -220,7 +230,11 @@ document.addEventListener("click", async event => {
             return;
         }
 
-        await excluirImovelDashboard(botaoExcluir.dataset.id, token);
+        await alterarStatusDashboard(
+            botaoStatus.dataset.id,
+            botaoStatus.dataset.status,
+            token
+        );
         return;
     }
 
