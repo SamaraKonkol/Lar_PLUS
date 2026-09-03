@@ -15,6 +15,11 @@ const {
 } = require("../controllers/imoveisEdicao.controller");
 
 const {
+    adicionarFotos,
+    removerFoto
+} = require("../controllers/imoveisFotos.controller");
+
+const {
     autenticarUsuario
 } = require("../middlewares/autenticacao.middleware");
 
@@ -41,7 +46,15 @@ router.post(
     criarImovel
 );
 
+router.post(
+    "/:id/fotos",
+    autenticarUsuario,
+    upload.array("fotos", 10),
+    adicionarFotos
+);
+
 router.put("/:id", autenticarUsuario, express.json(), atualizarImovel);
+router.delete("/:id/fotos/:fotoId", autenticarUsuario, removerFoto);
 router.delete("/:id", autenticarUsuario, excluirImovel);
 
 module.exports = router;
