@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar imóvel | Lar+</title>
-    <link rel="stylesheet" href="css/editar-imovel.css?v=20260903-1">
+    <link rel="stylesheet" href="css/editar-imovel.css?v=20260903-2">
 </head>
 <body>
     <header class="topo-edicao">
@@ -43,6 +43,26 @@
                     <label>Valor *<input id="valor" type="number" min="0.01" step="0.01" required></label>
                 </div>
                 <label>Descrição *<textarea id="descricao" required maxlength="1500"></textarea></label>
+            </section>
+
+            <section class="card-edicao">
+                <div class="cabecalho-card-fotos">
+                    <div>
+                        <h2>Fotos do imóvel</h2>
+                        <p>Você pode manter até 10 fotos publicadas.</p>
+                    </div>
+                    <span id="contador-fotos" class="contador-fotos">0/10</span>
+                </div>
+
+                <div id="galeria-edicao" class="galeria-edicao"></div>
+
+                <label class="adicionar-fotos">
+                    <span>Adicionar novas fotos</span>
+                    <input id="novas-fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                    <small>JPG, PNG ou WEBP. O total do anúncio não pode ultrapassar 10 fotos.</small>
+                </label>
+
+                <button id="enviar-fotos" class="botao-fotos" type="button">Adicionar fotos selecionadas</button>
             </section>
 
             <section class="card-edicao">
@@ -118,6 +138,6 @@
 
     <script src="js/api.js?v=20260902-2"></script>
     <script src="js/auth.js?v=20260829-3"></script>
-    <script src="js/editar-imovel.js?v=20260903-1"></script>
+    <script src="js/editar-imovel.js?v=20260903-2"></script>
 </body>
 </html>
