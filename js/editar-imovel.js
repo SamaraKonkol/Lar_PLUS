@@ -1,8 +1,13 @@
 const estadoEdicao = document.getElementById("estado-edicao");
 const formularioEdicao = document.getElementById("form-editar-imovel");
 const botaoSalvar = document.getElementById("salvar-edicao");
+const galeriaEdicao = document.getElementById("galeria-edicao");
+const contadorFotos = document.getElementById("contador-fotos");
+const inputNovasFotos = document.getElementById("novas-fotos");
+const botaoEnviarFotos = document.getElementById("enviar-fotos");
 const paramsEdicao = new URLSearchParams(window.location.search);
 const imovelId = paramsEdicao.get("id");
+let fotosAtuais = [];
 
 function campo(id) {
     return document.getElementById(id);
@@ -30,6 +35,52 @@ function normalizarData(valor) {
     }
 
     return String(valor).slice(0, 10);
+}
+
+function atualizarContadorFotos() {
+    if (contadorFotos) {
+        contadorFotos.textContent = `${fotosAtuais.length}/10`;
+    }
+}
+
+function renderizarGaleria() {
+    if (!galeriaEdicao) {
+        return;
+    }
+
+    galeriaEdicao.innerHTML = "";
+    atualizarContadorFotos();
+
+    if (fotosAtuais.length === 0) {
+        const vazio = document.createElement("p");
+        vazio.className = "galeria-vazia";
+        vazio.textContent = "Este imóvel ainda não possui fotos publicadas.";
+        galeriaEdicao.appendChild(vazio);
+        return;
+    }
+
+    fotosAtuais.forEach((foto, indice) => {
+        const item = document.createElement("div");
+        item.className = "foto-edicao";
+
+        const imagem = document.createElement("img");
+        imagem.src = foto.foto_url;
+        imagem.alt = `Foto ${indice + 1} do imóvel`;
+
+        const ordem = document.createElement("span");
+        ordem.className = "ordem-foto";
+        ordem.textContent = String(indice + 1);
+
+        const remover = document.createElement("button");
+        remover.type = "button";
+        remover.className = "remover-foto";
+        remover.dataset.fotoId = foto.id;
+        remover.setAttribute("aria-label", `Remover foto ${indice + 1}`);
+        remover.textContent = "×";
+
+        item.append(imagem, ordem, remover);
+        galeriaEdicao.appendChild(item);
+    });
 }
 
 function preencherFormulario(imovel) {
@@ -70,6 +121,9 @@ function preencherFormulario(imovel) {
     document.querySelectorAll('[name="comodidade"]').forEach(input => {
         input.checked = selecionadas.has(input.value);
     });
+
+    fotosAtuais = Array.isArray(imovel.fotos) ? imovel.fotos : [];
+    renderizarGaleria();
 }
 
 function valor(id) {
@@ -117,6 +171,15 @@ function montarPayload() {
     };
 }
 
+function mostrarMensagem(titulo, mensagem, tipo = "sucesso") {
+    if (typeof mostrarAvisoInterface === "function") {
+        mostrarAvisoInterface(titulo, mensagem, tipo);
+        return;
+    }
+
+    window.alert(mensagem);
+}
+
 async function carregarImovel() {
     const usuario = await protegerPagina();
 
@@ -158,6 +221,106 @@ async function carregarImovel() {
     }
 }
 
+async function adicionarFotosSelecionadas() {
+    const arquivos = Array.from(inputNovasFotos?.files || []);
+
+    if (arquivos.length === 0) {
+        mostrarMensagem("Nenhuma foto selecionada", "Escolha pelo menos uma foto para adicionar.", "erro");
+        return;
+    }
+
+    if (fotosAtuais.length + arquivos.length > 10) {
+        mostrarMensagem(
+            "Limite de fotos",
+            `Você pode adicionar no máximo ${Math.max(0, 10 - fotosAtuais.length)} foto(s) neste anúncio.`,
+            "erro"
+        );
+        return;
+    }
+
+    const formData = new FormData();
+    arquivos.forEach(arquivo => formData.append("fotos", arquivo));
+    const textoOriginal = botaoEnviarFotos.textContent;
+
+    try {
+        botaoEnviarFotos.disabled = true;
+        botaoEnviarFotos.textContent = "Enviando...";
+
+        const resposta = await fetch(`${API_URL}/api/imoveis/${imovelId}/fotos`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${obterToken()}`
+            },
+            body: formData
+        });
+
+        const dados = await resposta.json();
+
+        if (resposta.status === 401 || resposta.status === 403) {
+            removerToken();
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!resposta.ok) {
+            throw new Error(dados.erro || "Não foi possível adicionar as fotos.");
+        }
+
+        fotosAtuais.push(...(dados.fotos || []));
+        inputNovasFotos.value = "";
+        renderizarGaleria();
+        mostrarMensagem("Fotos atualizadas", dados.mensagem || "Fotos adicionadas com sucesso.");
+    } catch (erro) {
+        mostrarMensagem("Não foi possível adicionar", erro.message, "erro");
+    } finally {
+        botaoEnviarFotos.disabled = false;
+        botaoEnviarFotos.textContent = textoOriginal;
+    }
+}
+
+async function removerFoto(fotoId) {
+    if (fotosAtuais.length <= 1) {
+        mostrarMensagem("Mantenha uma foto", "O imóvel precisa ter pelo menos uma foto publicada.", "erro");
+        return;
+    }
+
+    const confirmou = window.confirm("Deseja remover esta foto do anúncio?");
+
+    if (!confirmou) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${API_URL}/api/imoveis/${imovelId}/fotos/${fotoId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${obterToken()}`
+            }
+        });
+
+        const dados = await resposta.json();
+
+        if (resposta.status === 401 || resposta.status === 403) {
+            removerToken();
+            window.location.href = "login.html";
+            return;
+        }
+
+        if (!resposta.ok) {
+            throw new Error(dados.erro || "Não foi possível remover a foto.");
+        }
+
+        fotosAtuais = fotosAtuais
+            .filter(foto => String(foto.id) !== String(fotoId))
+            .map((foto, indice) => ({ ...foto, ordem: indice + 1 }));
+
+        renderizarGaleria();
+        mostrarMensagem("Foto removida", dados.mensagem || "A foto foi removida do anúncio.");
+    } catch (erro) {
+        mostrarMensagem("Não foi possível remover", erro.message, "erro");
+    }
+}
+
 async function salvarEdicao(event) {
     event.preventDefault();
 
@@ -192,19 +355,13 @@ async function salvarEdicao(event) {
             throw new Error(dados.erro || "Não foi possível salvar as alterações.");
         }
 
-        if (typeof mostrarAvisoInterface === "function") {
-            mostrarAvisoInterface("Imóvel atualizado", "As alterações foram salvas com sucesso.");
-        }
+        mostrarMensagem("Imóvel atualizado", "As alterações foram salvas com sucesso.");
 
         setTimeout(() => {
             window.location.href = "dashboard.html";
         }, 900);
     } catch (erro) {
-        if (typeof mostrarAvisoInterface === "function") {
-            mostrarAvisoInterface("Não foi possível salvar", erro.message, "erro");
-        } else {
-            window.alert(erro.message);
-        }
+        mostrarMensagem("Não foi possível salvar", erro.message, "erro");
     } finally {
         botaoSalvar.disabled = false;
         botaoSalvar.textContent = textoOriginal;
@@ -212,4 +369,12 @@ async function salvarEdicao(event) {
 }
 
 formularioEdicao?.addEventListener("submit", salvarEdicao);
+botaoEnviarFotos?.addEventListener("click", adicionarFotosSelecionadas);
+galeriaEdicao?.addEventListener("click", event => {
+    const botao = event.target.closest(".remover-foto");
+
+    if (botao) {
+        removerFoto(botao.dataset.fotoId);
+    }
+});
 document.addEventListener("DOMContentLoaded", carregarImovel);
