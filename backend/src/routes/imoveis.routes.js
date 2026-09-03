@@ -27,6 +27,13 @@ const {
     autenticarUsuario
 } = require("../middlewares/autenticacao.middleware");
 
+const {
+    validarIdImovel,
+    validarIdFoto,
+    validarDadosImovel,
+    validarStatusImovel
+} = require("../middlewares/imoveis.middleware");
+
 const upload = require("../middlewares/upload.middleware");
 const { fotoLimiter } = require("../middlewares/rateLimit.middleware");
 
@@ -34,9 +41,9 @@ const router = express.Router();
 
 router.get("/", listarImoveis);
 router.get("/meus", autenticarUsuario, listarMeusImoveis);
-router.get("/fotos/:fotoId", fotoLimiter, exibirFoto);
-router.get("/:id/edicao", autenticarUsuario, buscarImovelParaEdicao);
-router.get("/:id", buscarImovelPorId);
+router.get("/fotos/:fotoId", validarIdFoto, fotoLimiter, exibirFoto);
+router.get("/:id/edicao", autenticarUsuario, validarIdImovel, buscarImovelParaEdicao);
+router.get("/:id", validarIdImovel, buscarImovelPorId);
 
 router.post(
     "/",
@@ -47,19 +54,44 @@ router.post(
         { name: "comprovante_propriedade", maxCount: 1 },
         { name: "iptu_documento", maxCount: 1 }
     ]),
+    validarDadosImovel,
     criarImovel
 );
 
 router.post(
     "/:id/fotos",
     autenticarUsuario,
+    validarIdImovel,
     upload.array("fotos", 10),
     adicionarFotos
 );
 
-router.put("/:id", autenticarUsuario, express.json(), atualizarImovel);
-router.patch("/:id/status", autenticarUsuario, express.json(), alterarStatusImovel);
-router.delete("/:id/fotos/:fotoId", autenticarUsuario, removerFoto);
-router.delete("/:id", autenticarUsuario, excluirImovel);
+router.put(
+    "/:id",
+    autenticarUsuario,
+    validarIdImovel,
+    express.json(),
+    validarDadosImovel,
+    atualizarImovel
+);
+
+router.patch(
+    "/:id/status",
+    autenticarUsuario,
+    validarIdImovel,
+    express.json(),
+    validarStatusImovel,
+    alterarStatusImovel
+);
+
+router.delete(
+    "/:id/fotos/:fotoId",
+    autenticarUsuario,
+    validarIdImovel,
+    validarIdFoto,
+    removerFoto
+);
+
+router.delete("/:id", autenticarUsuario, validarIdImovel, excluirImovel);
 
 module.exports = router;
