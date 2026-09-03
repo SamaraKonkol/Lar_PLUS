@@ -26,6 +26,10 @@ function listaComodidades(valor) {
     }
 }
 
+function urlFotoPublica(req, fotoId) {
+    return `${req.protocol}://${req.get("host")}/api/imoveis/fotos/${fotoId}`;
+}
+
 async function buscarImovelParaEdicao(req, res) {
     try {
         const resultado = await db.query(`
@@ -58,18 +62,30 @@ async function buscarImovelParaEdicao(req, res) {
             });
         }
 
-        const comodidades = await db.query(`
-            SELECT nome
-            FROM imoveis_comodidades
-            WHERE imovel_id = $1
-            ORDER BY nome ASC
-        `, [req.params.id]);
+        const [comodidades, fotos] = await Promise.all([
+            db.query(`
+                SELECT nome
+                FROM imoveis_comodidades
+                WHERE imovel_id = $1
+                ORDER BY nome ASC
+            `, [req.params.id]),
+            db.query(`
+                SELECT id, ordem
+                FROM imoveis_fotos
+                WHERE imovel_id = $1
+                ORDER BY ordem ASC, id ASC
+            `, [req.params.id])
+        ]);
 
         return res.status(200).json({
             sucesso: true,
             imovel: {
                 ...imovel,
-                comodidades: comodidades.rows.map(item => item.nome)
+                comodidades: comodidades.rows.map(item => item.nome),
+                fotos: fotos.rows.map(foto => ({
+                    ...foto,
+                    foto_url: urlFotoPublica(req, foto.id)
+                }))
             }
         });
     } catch (erro) {
