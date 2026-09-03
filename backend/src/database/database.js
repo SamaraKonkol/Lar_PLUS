@@ -1,4 +1,5 @@
 const { Pool } = require("pg");
+const { executarMigrations } = require("./migrations");
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
@@ -133,6 +134,8 @@ async function inicializarBanco() {
         CREATE INDEX IF NOT EXISTS idx_recuperacoes_senha_expiracao
         ON recuperacoes_senha (expira_em);
     `);
+
+    await executarMigrations(pool);
 
     console.log("PostgreSQL pronto!");
 }
