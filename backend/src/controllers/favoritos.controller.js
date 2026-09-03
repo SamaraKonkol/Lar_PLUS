@@ -5,13 +5,17 @@ async function adicionarFavorito(req, res) {
         const usuario_id = req.usuario.id;
         const { imovel_id } = req.params;
 
-        const imovel = await db.query(
-            "SELECT id FROM imoveis WHERE id = $1",
-            [imovel_id]
-        );
+        const imovel = await db.query(`
+            SELECT id
+            FROM imoveis
+            WHERE id = $1 AND status = 'disponivel'
+        `, [imovel_id]);
 
         if (imovel.rowCount === 0) {
-            return res.status(404).json({ erro: "Imóvel não encontrado." });
+            return res.status(404).json({
+                sucesso: false,
+                erro: "Imóvel não encontrado ou anúncio indisponível."
+            });
         }
 
         const favoritoExistente = await db.query(`
@@ -21,7 +25,10 @@ async function adicionarFavorito(req, res) {
         `, [usuario_id, imovel_id]);
 
         if (favoritoExistente.rowCount > 0) {
-            return res.status(409).json({ erro: "Este imóvel já está nos favoritos." });
+            return res.status(409).json({
+                sucesso: false,
+                erro: "Este imóvel já está nos favoritos."
+            });
         }
 
         await db.query(`
@@ -34,8 +41,18 @@ async function adicionarFavorito(req, res) {
             mensagem: "Imóvel adicionado aos favoritos!"
         });
     } catch (erro) {
-        console.error(erro);
-        return res.status(500).json({ erro: "Erro ao adicionar favorito." });
+        if (erro.code === "23505") {
+            return res.status(409).json({
+                sucesso: false,
+                erro: "Este imóvel já está nos favoritos."
+            });
+        }
+
+        console.error("Erro ao adicionar favorito:", erro);
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Erro ao adicionar favorito."
+        });
     }
 }
 
@@ -50,7 +67,10 @@ async function removerFavorito(req, res) {
         `, [usuario_id, imovel_id]);
 
         if (resultado.rowCount === 0) {
-            return res.status(404).json({ erro: "Favorito não encontrado." });
+            return res.status(404).json({
+                sucesso: false,
+                erro: "Favorito não encontrado."
+            });
         }
 
         return res.json({
@@ -58,8 +78,11 @@ async function removerFavorito(req, res) {
             mensagem: "Imóvel removido dos favoritos."
         });
     } catch (erro) {
-        console.error(erro);
-        return res.status(500).json({ erro: "Erro ao remover favorito." });
+        console.error("Erro ao remover favorito:", erro);
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Erro ao remover favorito."
+        });
     }
 }
 
@@ -78,6 +101,7 @@ async function listarFavoritos(req, res) {
             FROM favoritos fav
             INNER JOIN imoveis i ON i.id = fav.imovel_id
             WHERE fav.usuario_id = $1
+              AND i.status = 'disponivel'
             ORDER BY fav.criado_em DESC
         `, [req.usuario.id]);
 
@@ -88,10 +112,16 @@ async function listarFavoritos(req, res) {
                 : null
         }));
 
-        return res.json({ sucesso: true, favoritos });
+        return res.json({
+            sucesso: true,
+            favoritos
+        });
     } catch (erro) {
-        console.error(erro);
-        return res.status(500).json({ erro: "Erro ao buscar favoritos." });
+        console.error("Erro ao buscar favoritos:", erro);
+        return res.status(500).json({
+            sucesso: false,
+            erro: "Erro ao buscar favoritos."
+        });
     }
 }
 
