@@ -10,6 +10,11 @@ const {
 } = require("../controllers/imoveisController");
 
 const {
+    buscarImovelParaEdicao,
+    atualizarImovel
+} = require("../controllers/imoveisEdicao.controller");
+
+const {
     autenticarUsuario
 } = require("../middlewares/autenticacao.middleware");
 
@@ -21,6 +26,7 @@ const router = express.Router();
 router.get("/", listarImoveis);
 router.get("/meus", autenticarUsuario, listarMeusImoveis);
 router.get("/fotos/:fotoId", fotoLimiter, exibirFoto);
+router.get("/:id/edicao", autenticarUsuario, buscarImovelParaEdicao);
 router.get("/:id", buscarImovelPorId);
 
 router.post(
@@ -35,6 +41,7 @@ router.post(
     criarImovel
 );
 
+router.put("/:id", autenticarUsuario, express.json(), atualizarImovel);
 router.delete("/:id", autenticarUsuario, excluirImovel);
 
 module.exports = router;
