@@ -227,9 +227,6 @@ document.addEventListener("click", async event => {
     const botaoEditar = event.target.closest(".botao-editar-imovel");
 
     if (botaoEditar) {
-        mostrarAvisoInterface(
-            "Edição de imóvel",
-            "Esta função ainda está em desenvolvimento."
-        );
+        window.location.href = `editar-imovel.html?id=${encodeURIComponent(botaoEditar.dataset.id)}`;
     }
 });
