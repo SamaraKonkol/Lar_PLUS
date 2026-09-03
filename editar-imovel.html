@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar imóvel | Lar+</title>
+    <link rel="stylesheet" href="css/editar-imovel.css?v=20260903-1">
+</head>
+<body>
+    <header class="topo-edicao">
+        <a href="dashboard.html" class="voltar">← Voltar ao dashboard</a>
+        <div>
+            <span class="etiqueta">Gerenciamento</span>
+            <h1>Editar imóvel</h1>
+            <p>Atualize as informações do anúncio sem perder as fotos já publicadas.</p>
+        </div>
+    </header>
+
+    <main class="pagina-edicao">
+        <div id="estado-edicao" class="estado-edicao">Carregando imóvel...</div>
+
+        <form id="form-editar-imovel" class="form-edicao" hidden>
+            <section class="card-edicao">
+                <h2>Informações principais</h2>
+                <div class="grade dois">
+                    <label>Título *<input id="titulo" required maxlength="120"></label>
+                    <label>Tipo *
+                        <select id="tipo" required>
+                            <option value="casa">Casa</option>
+                            <option value="apartamento">Apartamento</option>
+                            <option value="kitnet">Kitnet</option>
+                            <option value="comercial">Comercial</option>
+                            <option value="terreno">Terreno</option>
+                            <option value="sitio">Sítio</option>
+                        </select>
+                    </label>
+                    <label>Finalidade *
+                        <select id="finalidade" required>
+                            <option value="aluguel">Aluguel</option>
+                            <option value="venda">Venda</option>
+                        </select>
+                    </label>
+                    <label>Valor *<input id="valor" type="number" min="0.01" step="0.01" required></label>
+                </div>
+                <label>Descrição *<textarea id="descricao" required maxlength="1500"></textarea></label>
+            </section>
+
+            <section class="card-edicao">
+                <h2>Localização</h2>
+                <div class="grade tres">
+                    <label>CEP<input id="cep"></label>
+                    <label>Estado<input id="estado" maxlength="2"></label>
+                    <label>Cidade *<input id="cidade" required></label>
+                    <label>Bairro *<input id="bairro" required></label>
+                    <label class="span-dois">Endereço *<input id="endereco" required></label>
+                    <label>Número<input id="numero"></label>
+                    <label class="span-dois">Complemento<input id="complemento"></label>
+                </div>
+                <label class="check"><input id="ocultar_numero" type="checkbox"> Ocultar número no anúncio público</label>
+            </section>
+
+            <section class="card-edicao">
+                <h2>Características</h2>
+                <div class="grade quatro">
+                    <label>Quartos<input id="quartos" type="number" min="0"></label>
+                    <label>Suítes<input id="suites" type="number" min="0"></label>
+                    <label>Banheiros<input id="banheiros" type="number" min="0"></label>
+                    <label>Vagas<input id="vagas" type="number" min="0"></label>
+                    <label>Área total (m²)<input id="area" type="number" min="0" step="0.01"></label>
+                    <label>Área construída (m²)<input id="area_construida" type="number" min="0" step="0.01"></label>
+                </div>
+            </section>
+
+            <section class="card-edicao">
+                <h2>Valores</h2>
+                <div class="grade tres">
+                    <label>Condomínio<input id="condominio" type="number" min="0" step="0.01"></label>
+                    <label>IPTU<input id="iptu" type="number" min="0" step="0.01"></label>
+                    <label>Seguro<input id="seguro" type="number" min="0" step="0.01"></label>
+                    <label>Financiamento<input id="financiamento" type="number" min="0" step="0.01"></label>
+                    <label>Reserva (%)<input id="reserva_percentual" type="number" min="0" step="0.01"></label>
+                </div>
+            </section>
+
+            <section class="card-edicao">
+                <h2>Regras</h2>
+                <div class="grade dois">
+                    <label>Disponibilidade<input id="disponibilidade" type="date"></label>
+                    <label>Contrato mínimo (meses)<input id="contrato_minimo" type="number" min="0"></label>
+                </div>
+                <label>Regras adicionais<textarea id="regras_adicionais"></textarea></label>
+                <div class="checks">
+                    <label class="check"><input id="aceita_animais" type="checkbox"> Aceita animais</label>
+                    <label class="check"><input id="aceita_criancas" type="checkbox"> Aceita crianças</label>
+                    <label class="check"><input id="permite_fumar" type="checkbox"> Permite fumar</label>
+                    <label class="check"><input id="entrada_imediata" type="checkbox"> Entrada imediata</label>
+                </div>
+            </section>
+
+            <section class="card-edicao">
+                <h2>Comodidades</h2>
+                <div class="checks comodidades">
+                    <label class="check"><input type="checkbox" name="comodidade" value="ar-condicionado"> Ar-condicionado</label>
+                    <label class="check"><input type="checkbox" name="comodidade" value="churrasqueira"> Churrasqueira</label>
+                    <label class="check"><input type="checkbox" name="comodidade" value="piscina"> Piscina</label>
+                    <label class="check"><input type="checkbox" name="comodidade" value="elevador"> Elevador</label>
+                    <label class="check"><input type="checkbox" name="comodidade" value="mobiliado"> Mobiliado</label>
+                    <label class="check"><input type="checkbox" name="comodidade" value="portaria"> Portaria</label>
+                </div>
+            </section>
+
+            <div class="acoes-edicao">
+                <a href="dashboard.html" class="botao-secundario">Cancelar</a>
+                <button id="salvar-edicao" type="submit">Salvar alterações</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="js/api.js?v=20260902-2"></script>
+    <script src="js/auth.js?v=20260829-3"></script>
+    <script src="js/editar-imovel.js?v=20260903-1"></script>
+</body>
+</html>
