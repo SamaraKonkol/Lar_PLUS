@@ -20,6 +20,10 @@ const {
 } = require("../controllers/imoveisFotos.controller");
 
 const {
+    alterarStatusImovel
+} = require("../controllers/imoveisStatus.controller");
+
+const {
     autenticarUsuario
 } = require("../middlewares/autenticacao.middleware");
 
@@ -54,6 +58,7 @@ router.post(
 );
 
 router.put("/:id", autenticarUsuario, express.json(), atualizarImovel);
+router.patch("/:id/status", autenticarUsuario, express.json(), alterarStatusImovel);
 router.delete("/:id/fotos/:fotoId", autenticarUsuario, removerFoto);
 router.delete("/:id", autenticarUsuario, excluirImovel);
 
