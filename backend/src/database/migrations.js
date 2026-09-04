@@ -53,7 +53,7 @@ const migrations = [
                     ) THEN
                         ALTER TABLE imoveis
                         ADD CONSTRAINT chk_imoveis_valor_positivo
-                        CHECK (valor > 0);
+                        CHECK (valor > 0) NOT VALID;
                     END IF;
 
                     IF NOT EXISTS (
